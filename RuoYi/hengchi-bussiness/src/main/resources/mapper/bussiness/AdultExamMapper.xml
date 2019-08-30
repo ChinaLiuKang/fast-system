@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bussiness.mapper.AdultExamMapper">
+    
+    <resultMap type="AdultExam" id="AdultExamResult">
+        <result property="adultId"    column="adult_id"    />
+        <result property="adultTeacher"    column="adult_teacher"    />
+        <result property="adultName"    column="adult_name"    />
+        <result property="adultSex"    column="adult_sex"    />
+        <result property="adultNation"    column="adult_nation"    />
+        <result property="adultIdnumber"    column="adult_idnumber"    />
+        <result property="adultLevel"    column="adult_level"    />
+        <result property="adultType"    column="adult_type"    />
+        <result property="adultSchool"    column="adult_school"    />
+        <result property="adultMajor"    column="adult_major"    />
+        <result property="adultGrade"    column="adult_grade"    />
+        <result property="adultAccount"    column="adult_account"    />
+        <result property="adultExamNumber"    column="adult_exam_number"    />
+        <result property="adultStudentNumber"    column="adult_student_number"    />
+        <result property="adultAddScore"    column="adult_add_score"    />
+        <result property="adultChargeStandard"    column="adult_charge_standard"    />
+        <result property="adultOneyearCharge"    column="adult_oneyear_charge"    />
+        <result property="adultTwoyearCharge"    column="adult_twoyear_charge"    />
+        <result property="adultChargeDetail"    column="adult_charge_detail"    />
+        <result property="adultEnroll"    column="adult_enroll"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectAdultExamVo">
+        select adult_id, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
+    </sql>
+
+    <select id="selectAdultExamList" parameterType="AdultExam" resultMap="AdultExamResult">
+        <include refid="selectAdultExamVo"/>
+        <where>  
+            <if test="adultTeacher != null  and adultTeacher != ''"> and adult_teacher = #{adultTeacher}</if>
+            <if test="adultName != null  and adultName != ''"> and adult_name like concat('%', #{adultName}, '%')</if>
+            <if test="adultSex != null and adultSex !=''"> and adult_sex = #{adultSex}</if>
+            <if test="adultNation != null  and adultNation != ''"> and adult_nation = #{adultNation}</if>
+            <if test="adultIdnumber != null  and adultIdnumber != ''"> and adult_idnumber = #{adultIdnumber}</if>
+            <if test="adultLevel != null  and adultLevel != ''"> and adult_level = #{adultLevel}</if>
+            <if test="adultType != null  and adultType != ''"> and adult_type = #{adultType}</if>
+            <if test="adultSchool != null  and adultSchool != ''"> and adult_school = #{adultSchool}</if>
+            <if test="adultMajor != null  and adultMajor != ''"> and adult_major = #{adultMajor}</if>
+            <if test="adultGrade != null  and adultGrade != ''"> and adult_grade = #{adultGrade}</if>
+            <if test="adultAccount != null  and adultAccount != ''"> and adult_account = #{adultAccount}</if>
+            <if test="adultExamNumber != null  and adultExamNumber != ''"> and adult_exam_number = #{adultExamNumber}</if>
+            <if test="adultStudentNumber != null  and adultStudentNumber != ''"> and adult_student_number = #{adultStudentNumber}</if>
+            <if test="adultAddScore != null "> and adult_add_score = #{adultAddScore}</if>
+            <if test="adultChargeStandard != null "> and adult_charge_standard = #{adultChargeStandard}</if>
+            <if test="adultOneyearCharge != null "> and adult_oneyear_charge = #{adultOneyearCharge}</if>
+            <if test="adultTwoyearCharge != null "> and adult_twoyear_charge = #{adultTwoyearCharge}</if>
+            <if test="adultChargeDetail != null  and adultChargeDetail != ''"> and adult_charge_detail = #{adultChargeDetail}</if>
+            <if test="adultEnroll != null  and adultEnroll != ''"> and adult_enroll = #{adultEnroll}</if>
+        </where>
+    </select>
+    
+    <select id="selectAdultExamById" parameterType="Long" resultMap="AdultExamResult">
+        <include refid="selectAdultExamVo"/>
+        where adult_id = #{adultId}
+    </select>
+        
+    <insert id="insertAdultExam" parameterType="AdultExam">
+        insert into sm_adult_exam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adultId != null ">adult_id,</if>
+            <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher,</if>
+            <if test="adultName != null  and adultName != ''">adult_name,</if>
+            <if test="adultSex != null and adultSex !=''">adult_sex,</if>
+            <if test="adultNation != null  and adultNation != ''">adult_nation,</if>
+            <if test="adultIdnumber != null  and adultIdnumber != ''">adult_idnumber,</if>
+            <if test="adultLevel != null  and adultLevel != ''">adult_level,</if>
+            <if test="adultType != null  and adultType != ''">adult_type,</if>
+            <if test="adultSchool != null  and adultSchool != ''">adult_school,</if>
+            <if test="adultMajor != null  and adultMajor != ''">adult_major,</if>
+            <if test="adultGrade != null  and adultGrade != ''">adult_grade,</if>
+            <if test="adultAccount != null  and adultAccount != ''">adult_account,</if>
+            <if test="adultExamNumber != null  and adultExamNumber != ''">adult_exam_number,</if>
+            <if test="adultStudentNumber != null  and adultStudentNumber != ''">adult_student_number,</if>
+            <if test="adultAddScore != null ">adult_add_score,</if>
+            <if test="adultChargeStandard != null ">adult_charge_standard,</if>
+            <if test="adultOneyearCharge != null ">adult_oneyear_charge,</if>
+            <if test="adultTwoyearCharge != null ">adult_twoyear_charge,</if>
+            <if test="adultChargeDetail != null  and adultChargeDetail != ''">adult_charge_detail,</if>
+            <if test="adultEnroll != null  and adultEnroll != ''">adult_enroll,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adultId != null ">#{adultId},</if>
+            <if test="adultTeacher != null  and adultTeacher != ''">#{adultTeacher},</if>
+            <if test="adultName != null  and adultName != ''">#{adultName},</if>
+            <if test="adultSex != null and adultSex !=''">#{adultSex},</if>
+            <if test="adultNation != null  and adultNation != ''">#{adultNation},</if>
+            <if test="adultIdnumber != null  and adultIdnumber != ''">#{adultIdnumber},</if>
+            <if test="adultLevel != null  and adultLevel != ''">#{adultLevel},</if>
+            <if test="adultType != null  and adultType != ''">#{adultType},</if>
+            <if test="adultSchool != null  and adultSchool != ''">#{adultSchool},</if>
+            <if test="adultMajor != null  and adultMajor != ''">#{adultMajor},</if>
+            <if test="adultGrade != null  and adultGrade != ''">#{adultGrade},</if>
+            <if test="adultAccount != null  and adultAccount != ''">#{adultAccount},</if>
+            <if test="adultExamNumber != null  and adultExamNumber != ''">#{adultExamNumber},</if>
+            <if test="adultStudentNumber != null  and adultStudentNumber != ''">#{adultStudentNumber},</if>
+            <if test="adultAddScore != null ">#{adultAddScore},</if>
+            <if test="adultChargeStandard != null ">#{adultChargeStandard},</if>
+            <if test="adultOneyearCharge != null ">#{adultOneyearCharge},</if>
+            <if test="adultTwoyearCharge != null ">#{adultTwoyearCharge},</if>
+            <if test="adultChargeDetail != null  and adultChargeDetail != ''">#{adultChargeDetail},</if>
+            <if test="adultEnroll != null  and adultEnroll != ''">#{adultEnroll},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAdultExam" parameterType="AdultExam">
+        update sm_adult_exam
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher = #{adultTeacher},</if>
+            <if test="adultName != null  and adultName != ''">adult_name = #{adultName},</if>
+            <if test="adultSex != null and adultSex !=''">adult_sex = #{adultSex},</if>
+            <if test="adultNation != null  and adultNation != ''">adult_nation = #{adultNation},</if>
+            <if test="adultIdnumber != null  and adultIdnumber != ''">adult_idnumber = #{adultIdnumber},</if>
+            <if test="adultLevel != null  and adultLevel != ''">adult_level = #{adultLevel},</if>
+            <if test="adultType != null  and adultType != ''">adult_type = #{adultType},</if>
+            <if test="adultSchool != null  and adultSchool != ''">adult_school = #{adultSchool},</if>
+            <if test="adultMajor != null  and adultMajor != ''">adult_major = #{adultMajor},</if>
+            <if test="adultGrade != null  and adultGrade != ''">adult_grade = #{adultGrade},</if>
+            <if test="adultAccount != null  and adultAccount != ''">adult_account = #{adultAccount},</if>
+            <if test="adultExamNumber != null  and adultExamNumber != ''">adult_exam_number = #{adultExamNumber},</if>
+            <if test="adultStudentNumber != null  and adultStudentNumber != ''">adult_student_number = #{adultStudentNumber},</if>
+            <if test="adultAddScore != null ">adult_add_score = #{adultAddScore},</if>
+            <if test="adultChargeStandard != null ">adult_charge_standard = #{adultChargeStandard},</if>
+            <if test="adultOneyearCharge != null ">adult_oneyear_charge = #{adultOneyearCharge},</if>
+            <if test="adultTwoyearCharge != null ">adult_twoyear_charge = #{adultTwoyearCharge},</if>
+            <if test="adultChargeDetail != null  and adultChargeDetail != ''">adult_charge_detail = #{adultChargeDetail},</if>
+            <if test="adultEnroll != null  and adultEnroll != ''">adult_enroll = #{adultEnroll},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where adult_id = #{adultId}
+    </update>
+
+    <delete id="deleteAdultExamById" parameterType="Long">
+        delete from sm_adult_exam where adult_id = #{adultId}
+    </delete>
+
+    <delete id="deleteAdultExamByIds" parameterType="String">
+        delete from sm_adult_exam where adult_id in 
+        <foreach item="adultId" collection="array" open="(" separator="," close=")">
+            #{adultId}
+        </foreach>
+    </delete>
+    
+</mapper>

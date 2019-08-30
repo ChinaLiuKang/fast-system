@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改远程教育')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-education-edit" th:object="${distanceEducation}">
+            <input name="distanceId" th:field="*{distanceId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">招生老师：</label>
+                <div class="col-sm-8">
+                    <input name="distanceTeacher" th:field="*{distanceTeacher}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">函授点：</label>
+                <div class="col-sm-8">
+                    <input name="distancePoints" th:field="*{distancePoints}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">姓名：</label>
+                <div class="col-sm-8">
+                    <input name="distanceName" th:field="*{distanceName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                    <select name="distanceSex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{distanceSex}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">民族：</label>
+                <div class="col-sm-8">
+                    <input name="distanceNation" th:field="*{distanceNation}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">身份证号码：</label>
+                <div class="col-sm-8">
+                    <input name="distanceIdnumber" th:field="*{distanceIdnumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">层次：</label>
+                <div class="col-sm-8">
+                    <select name="distanceLevel" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_level')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{distanceLevel}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报读学校：</label>
+                <div class="col-sm-8">
+                    <select name="distanceSchool" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_school')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{distanceSchool}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报读专业：</label>
+                <div class="col-sm-8">
+                    <select name="distanceMajor" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_major')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{distanceMajor}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">期数：</label>
+                <div class="col-sm-8">
+                    <input name="distancePeriods" th:field="*{distancePeriods}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学号：</label>
+                <div class="col-sm-8">
+                    <input name="distanceStudentNumber" th:field="*{distanceStudentNumber}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总学费：</label>
+                <div class="col-sm-8">
+                    <input name="distanceTotalCharge" th:field="*{distanceTotalCharge}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第一年缴费：</label>
+                <div class="col-sm-8">
+                    <input name="distanceOneyearCharge" th:field="*{distanceOneyearCharge}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第二年缴费：</label>
+                <div class="col-sm-8">
+                    <input name="distanceTwoyearCharge" th:field="*{distanceTwoyearCharge}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">缴费情况：</label>
+                <div class="col-sm-8">
+                    <select name="distanceChargeDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_charge')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{distanceChargeDetail}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">录取情况：</label>
+                <div class="col-sm-8">
+                    <select name="distanceEnroll" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_detail')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{distanceEnroll}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注信息：</label>
+                <div class="col-sm-8">
+                    <textarea name="remark" class="form-control" th:field="*{remark}"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "bussiness/education";
+        $("#form-education-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-education-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

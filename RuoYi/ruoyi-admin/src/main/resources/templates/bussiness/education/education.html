@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('远程教育列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <p>招生老师：</p>
+                                <input type="text" name="distanceTeacher"/>
+                            </li>
+                            <li>
+                                <p>函授点：</p>
+                                <input type="text" name="distancePoints"/>
+                            </li>
+                            <li>
+                                <p>姓名：</p>
+                                <input type="text" name="distanceName"/>
+                            </li>
+                            <li>
+                                <p>性别：</p>
+                                <select name="distanceSex" th:with="type=${@dict.getType('sys_user_sex')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>民族：</p>
+                                <input type="text" name="distanceNation"/>
+                            </li>
+                            <li>
+                                <p>身份证号码：</p>
+                                <input type="text" name="distanceIdnumber"/>
+                            </li>
+                            <li>
+                                <p>层次：</p>
+                                <select name="distanceLevel" th:with="type=${@dict.getType('sys_edu_level')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>报读学校：</p>
+                                <select name="distanceSchool" th:with="type=${@dict.getType('sys_edu_school')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>报读专业：</p>
+                                <select name="distanceMajor" th:with="type=${@dict.getType('sys_edu_major')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>学号：</p>
+                                <input type="text" name="distanceStudentNumber"/>
+                            </li>
+                            <li>
+                                <p>总学费：</p>
+                                <input type="text" name="distanceTotalCharge"/>
+                            </li>
+                            <li>
+                                <p>第一年缴费：</p>
+                                <input type="text" name="distanceOneyearCharge"/>
+                            </li>
+                            <li>
+                                <p>第二年缴费：</p>
+                                <input type="text" name="distanceTwoyearCharge"/>
+                            </li>
+                            <li>
+                                <p>缴费情况：</p>
+                                <select name="distanceChargeDetail" th:with="type=${@dict.getType('sys_edu_charge')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>录取情况：</p>
+                                <select name="distanceEnroll" th:with="type=${@dict.getType('sys_edu_detail')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="bussiness:education:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="bussiness:education:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bussiness:education:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:education:import">
+                    <i class="fa fa-upload"></i> 导入
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bussiness:education:export">
+                    <i class="fa fa-download"></i> 导出
+                 </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('bussiness:education:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('bussiness:education:remove')}]];
+        var distanceSexDatas = [[${@dict.getType('sys_user_sex')}]];
+        var distanceLevelDatas = [[${@dict.getType('sys_edu_level')}]];
+        var distanceSchoolDatas = [[${@dict.getType('sys_edu_school')}]];
+        var distanceMajorDatas = [[${@dict.getType('sys_edu_major')}]];
+        var distanceChargeDetailDatas = [[${@dict.getType('sys_edu_charge')}]];
+        var distanceEnrollDatas = [[${@dict.getType('sys_edu_detail')}]];
+        var prefix = ctx + "bussiness/education";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                importUrl: prefix + "/importData",
+                importTemplateUrl: prefix + "/importTemplate",
+                modalName: "远程教育",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'distanceId', 
+                    title : '主键编号',
+                    visible: false
+                },
+                {
+                    field : 'distanceTeacher', 
+                    title : '招生老师'
+                },
+                {
+                    field : 'distancePoints', 
+                    title : '函授点'
+                },
+                {
+                    field : 'distanceName', 
+                    title : '姓名'
+                },
+                {
+                    field : 'distanceSex', 
+                    title : '性别',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(distanceSexDatas, value);
+                    }
+                },
+                {
+                    field : 'distanceNation', 
+                    title : '民族'
+                },
+                {
+                    field : 'distanceIdnumber', 
+                    title : '身份证号码'
+                },
+                {
+                    field : 'distanceLevel', 
+                    title : '层次',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(distanceLevelDatas, value);
+                    }
+                },
+                {
+                    field : 'distanceSchool', 
+                    title : '报读学校',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(distanceSchoolDatas, value);
+                    }
+                },
+                {
+                    field : 'distanceMajor', 
+                    title : '报读专业',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(distanceMajorDatas, value);
+                    }
+                },
+                {
+                    field : 'distancePeriods', 
+                    title : '期数'
+                },
+                {
+                    field : 'distanceStudentNumber', 
+                    title : '学号'
+                },
+                {
+                    field : 'distanceTotalCharge', 
+                    title : '总学费'
+                },
+                {
+                    field : 'distanceOneyearCharge', 
+                    title : '第一年缴费'
+                },
+                {
+                    field : 'distanceTwoyearCharge', 
+                    title : '第二年缴费'
+                },
+                {
+                    field : 'distanceChargeDetail', 
+                    title : '缴费情况',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(distanceChargeDetailDatas, value);
+                    }
+                },
+                {
+                    field : 'distanceEnroll', 
+                    title : '录取情况',
+                    formatter: function(value, row, index) {
+                       return $.table.selectDictLabel(distanceEnrollDatas, value);
+                    }
+                },
+                {
+                    field : 'remark', 
+                    title : '备注信息'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.distanceId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.distanceId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+<!-- 导入区域 -->
+<script id="importTpl" type="text/template">
+    <form enctype="multipart/form-data" class="mt20 mb10">
+        <div class="col-xs-offset-1">
+            <input type="file" id="file" name="file"/>
+            <div class="mt10 pt5">
+                 导入远程教育
+                &nbsp;	<a onclick="$.table.importTemplate()" class="btn btn-default btn-xs"><i class="fa fa-file-excel-o"></i> 下载模板</a>
+            </div>
+            <font color="red" class="pull-left mt10">
+                提示：仅允许导入“xls”或“xlsx”格式文件！
+            </font>
+        </div>
+    </form>
+</script>
+</html>

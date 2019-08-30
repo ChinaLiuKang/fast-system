@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增成考信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-adultexam-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">招生老师：</label>
+                <div class="col-sm-8">
+                    <input name="adultTeacher" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">姓名：</label>
+                <div class="col-sm-8">
+                    <input name="adultName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                    <select name="adultSex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">民族：</label>
+                <div class="col-sm-8">
+                    <input name="adultNation" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">身份证号：</label>
+                <div class="col-sm-8">
+                    <input name="adultIdnumber" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">层次：</label>
+                <div class="col-sm-8">
+                    <select name="adultLevel" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_level')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">类别：</label>
+                <div class="col-sm-8">
+                    <select name="adultType" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报读学校：</label>
+                <div class="col-sm-8">
+                    <select name="adultSchool" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_school')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">报读专业：</label>
+                <div class="col-sm-8">
+                    <select name="adultMajor" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_major')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">年级：</label>
+                <div class="col-sm-8">
+                    <input name="adultGrade" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">账户名：</label>
+                <div class="col-sm-8">
+                    <input name="adultAccount" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">准考证号：</label>
+                <div class="col-sm-8">
+                    <input name="adultExamNumber" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">考生号：</label>
+                <div class="col-sm-8">
+                    <input name="adultStudentNumber" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">总加分：</label>
+                <div class="col-sm-8">
+                    <input name="adultAddScore" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">收费标准：</label>
+                <div class="col-sm-8">
+                    <input name="adultChargeStandard" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第一年缴费：</label>
+                <div class="col-sm-8">
+                    <input name="adultOneyearCharge" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第二年缴费：</label>
+                <div class="col-sm-8">
+                    <input name="adultTwoyearCharge" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">缴费情况：</label>
+                <div class="col-sm-8">
+                    <select name="adultChargeDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_charge')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">录取情况：</label>
+                <div class="col-sm-8">
+                    <select name="adultEnroll" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_detail')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">备注信息：</label>
+                <div class="col-sm-8">
+                   <textarea name="remark" class="form-control"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "bussiness/adultexam"
+        $("#form-adultexam-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-adultexam-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bussiness.mapper.DistanceEducationMapper">
+    
+    <resultMap type="DistanceEducation" id="DistanceEducationResult">
+        <result property="distanceId"    column="distance_id"    />
+        <result property="distanceTeacher"    column="distance_teacher"    />
+        <result property="distancePoints"    column="distance_points"    />
+        <result property="distanceName"    column="distance_name"    />
+        <result property="distanceSex"    column="distance_sex"    />
+        <result property="distanceNation"    column="distance_nation"    />
+        <result property="distanceIdnumber"    column="distance_idnumber"    />
+        <result property="distanceLevel"    column="distance_level"    />
+        <result property="distanceSchool"    column="distance_school"    />
+        <result property="distanceMajor"    column="distance_major"    />
+        <result property="distancePeriods"    column="distance_periods"    />
+        <result property="distanceStudentNumber"    column="distance_student_number"    />
+        <result property="distanceTotalCharge"    column="distance_total_charge"    />
+        <result property="distanceOneyearCharge"    column="distance_oneyear_charge"    />
+        <result property="distanceTwoyearCharge"    column="distance_twoyear_charge"    />
+        <result property="distanceChargeDetail"    column="distance_charge_detail"    />
+        <result property="distanceEnroll"    column="distance_enroll"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectDistanceEducationVo">
+        select distance_id, distance_teacher, distance_points, distance_name, distance_sex, distance_nation, distance_idnumber, distance_level, distance_school, distance_major, distance_periods, distance_student_number, distance_total_charge, distance_oneyear_charge, distance_twoyear_charge, distance_charge_detail, distance_enroll, remark, create_time, update_time from sm_distance_education
+    </sql>
+
+    <select id="selectDistanceEducationList" parameterType="DistanceEducation" resultMap="DistanceEducationResult">
+        <include refid="selectDistanceEducationVo"/>
+        <where>  
+            <if test="distanceTeacher != null  and distanceTeacher != ''"> and distance_teacher = #{distanceTeacher}</if>
+            <if test="distancePoints != null  and distancePoints != ''"> and distance_points = #{distancePoints}</if>
+            <if test="distanceName != null  and distanceName != ''"> and distance_name like concat('%', #{distanceName}, '%')</if>
+            <if test="distanceSex != null and distanceSex !='' "> and distance_sex = #{distanceSex}</if>
+            <if test="distanceNation != null  and distanceNation != ''"> and distance_nation = #{distanceNation}</if>
+            <if test="distanceIdnumber != null  and distanceIdnumber != ''"> and distance_idnumber = #{distanceIdnumber}</if>
+            <if test="distanceLevel != null  and distanceLevel != ''"> and distance_level = #{distanceLevel}</if>
+            <if test="distanceSchool != null  and distanceSchool != ''"> and distance_school = #{distanceSchool}</if>
+            <if test="distanceMajor != null  and distanceMajor != ''"> and distance_major = #{distanceMajor}</if>
+            <if test="distancePeriods != null  and distancePeriods != ''"> and distance_periods = #{distancePeriods}</if>
+            <if test="distanceStudentNumber != null  and distanceStudentNumber != ''"> and distance_student_number = #{distanceStudentNumber}</if>
+            <if test="distanceTotalCharge != null "> and distance_total_charge = #{distanceTotalCharge}</if>
+            <if test="distanceOneyearCharge != null "> and distance_oneyear_charge = #{distanceOneyearCharge}</if>
+            <if test="distanceTwoyearCharge != null "> and distance_twoyear_charge = #{distanceTwoyearCharge}</if>
+            <if test="distanceChargeDetail != null  and distanceChargeDetail != ''"> and distance_charge_detail = #{distanceChargeDetail}</if>
+            <if test="distanceEnroll != null  and distanceEnroll != ''"> and distance_enroll = #{distanceEnroll}</if>
+        </where>
+    </select>
+    
+    <select id="selectDistanceEducationById" parameterType="Long" resultMap="DistanceEducationResult">
+        <include refid="selectDistanceEducationVo"/>
+        where distance_id = #{distanceId}
+    </select>
+        
+    <insert id="insertDistanceEducation" parameterType="DistanceEducation">
+        insert into sm_distance_education
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="distanceId != null ">distance_id,</if>
+            <if test="distanceTeacher != null  and distanceTeacher != ''">distance_teacher,</if>
+            <if test="distancePoints != null  and distancePoints != ''">distance_points,</if>
+            <if test="distanceName != null  and distanceName != ''">distance_name,</if>
+            <if test="distanceSex != null and distanceSex !=''">distance_sex,</if>
+            <if test="distanceNation != null  and distanceNation != ''">distance_nation,</if>
+            <if test="distanceIdnumber != null  and distanceIdnumber != ''">distance_idnumber,</if>
+            <if test="distanceLevel != null  and distanceLevel != ''">distance_level,</if>
+            <if test="distanceSchool != null  and distanceSchool != ''">distance_school,</if>
+            <if test="distanceMajor != null  and distanceMajor != ''">distance_major,</if>
+            <if test="distancePeriods != null  and distancePeriods != ''">distance_periods,</if>
+            <if test="distanceStudentNumber != null  and distanceStudentNumber != ''">distance_student_number,</if>
+            <if test="distanceTotalCharge != null ">distance_total_charge,</if>
+            <if test="distanceOneyearCharge != null ">distance_oneyear_charge,</if>
+            <if test="distanceTwoyearCharge != null ">distance_twoyear_charge,</if>
+            <if test="distanceChargeDetail != null  and distanceChargeDetail != ''">distance_charge_detail,</if>
+            <if test="distanceEnroll != null  and distanceEnroll != ''">distance_enroll,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="distanceId != null ">#{distanceId},</if>
+            <if test="distanceTeacher != null  and distanceTeacher != ''">#{distanceTeacher},</if>
+            <if test="distancePoints != null  and distancePoints != ''">#{distancePoints},</if>
+            <if test="distanceName != null  and distanceName != ''">#{distanceName},</if>
+            <if test="distanceSex != null and distanceSex !=''">#{distanceSex},</if>
+            <if test="distanceNation != null  and distanceNation != ''">#{distanceNation},</if>
+            <if test="distanceIdnumber != null  and distanceIdnumber != ''">#{distanceIdnumber},</if>
+            <if test="distanceLevel != null  and distanceLevel != ''">#{distanceLevel},</if>
+            <if test="distanceSchool != null  and distanceSchool != ''">#{distanceSchool},</if>
+            <if test="distanceMajor != null  and distanceMajor != ''">#{distanceMajor},</if>
+            <if test="distancePeriods != null  and distancePeriods != ''">#{distancePeriods},</if>
+            <if test="distanceStudentNumber != null  and distanceStudentNumber != ''">#{distanceStudentNumber},</if>
+            <if test="distanceTotalCharge != null ">#{distanceTotalCharge},</if>
+            <if test="distanceOneyearCharge != null ">#{distanceOneyearCharge},</if>
+            <if test="distanceTwoyearCharge != null ">#{distanceTwoyearCharge},</if>
+            <if test="distanceChargeDetail != null  and distanceChargeDetail != ''">#{distanceChargeDetail},</if>
+            <if test="distanceEnroll != null  and distanceEnroll != ''">#{distanceEnroll},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDistanceEducation" parameterType="DistanceEducation">
+        update sm_distance_education
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="distanceTeacher != null  and distanceTeacher != ''">distance_teacher = #{distanceTeacher},</if>
+            <if test="distancePoints != null  and distancePoints != ''">distance_points = #{distancePoints},</if>
+            <if test="distanceName != null  and distanceName != ''">distance_name = #{distanceName},</if>
+            <if test="distanceSex != null and distanceSex !=''">distance_sex = #{distanceSex},</if>
+            <if test="distanceNation != null  and distanceNation != ''">distance_nation = #{distanceNation},</if>
+            <if test="distanceIdnumber != null  and distanceIdnumber != ''">distance_idnumber = #{distanceIdnumber},</if>
+            <if test="distanceLevel != null  and distanceLevel != ''">distance_level = #{distanceLevel},</if>
+            <if test="distanceSchool != null  and distanceSchool != ''">distance_school = #{distanceSchool},</if>
+            <if test="distanceMajor != null  and distanceMajor != ''">distance_major = #{distanceMajor},</if>
+            <if test="distancePeriods != null  and distancePeriods != ''">distance_periods = #{distancePeriods},</if>
+            <if test="distanceStudentNumber != null  and distanceStudentNumber != ''">distance_student_number = #{distanceStudentNumber},</if>
+            <if test="distanceTotalCharge != null ">distance_total_charge = #{distanceTotalCharge},</if>
+            <if test="distanceOneyearCharge != null ">distance_oneyear_charge = #{distanceOneyearCharge},</if>
+            <if test="distanceTwoyearCharge != null ">distance_twoyear_charge = #{distanceTwoyearCharge},</if>
+            <if test="distanceChargeDetail != null  and distanceChargeDetail != ''">distance_charge_detail = #{distanceChargeDetail},</if>
+            <if test="distanceEnroll != null  and distanceEnroll != ''">distance_enroll = #{distanceEnroll},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where distance_id = #{distanceId}
+    </update>
+
+    <delete id="deleteDistanceEducationById" parameterType="Long">
+        delete from sm_distance_education where distance_id = #{distanceId}
+    </delete>
+
+    <delete id="deleteDistanceEducationByIds" parameterType="String">
+        delete from sm_distance_education where distance_id in 
+        <foreach item="distanceId" collection="array" open="(" separator="," close=")">
+            #{distanceId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bussiness.mapper.SelfExamMapper">
+    
+    <resultMap type="SelfExam" id="SelfExamResult">
+        <result property="selfId"    column="self_id"    />
+        <result property="selfTeacher"    column="self_teacher"    />
+        <result property="selfName"    column="self_name"    />
+        <result property="selfSex"    column="self_sex"    />
+        <result property="selfNation"    column="self_nation"    />
+        <result property="selfIdnumber"    column="self_idnumber"    />
+        <result property="selfLevel"    column="self_level"    />
+        <result property="selfType"    column="self_type"    />
+        <result property="selfSchool"    column="self_school"    />
+        <result property="selfMajor"    column="self_major"    />
+        <result property="selfStudentNumber"    column="self_student_number"    />
+        <result property="selfTotalCharge"    column="self_total_charge"    />
+        <result property="selfOneyearCharge"    column="self_oneyear_charge"    />
+        <result property="selfTwoyearCharge"    column="self_twoyear_charge"    />
+        <result property="selfChargeDetail"    column="self_charge_detail"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSelfExamVo">
+        select self_id, self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
+    </sql>
+
+    <select id="selectSelfExamList" parameterType="SelfExam" resultMap="SelfExamResult">
+        <include refid="selectSelfExamVo"/>
+        <where>  
+            <if test="selfTeacher != null  and selfTeacher != ''"> and self_teacher = #{selfTeacher}</if>
+            <if test="selfName != null  and selfName != ''"> and self_name like concat('%', #{selfName}, '%')</if>
+            <if test="selfSex != null and selfSex != ''"> and self_sex = #{selfSex}</if>
+            <if test="selfNation != null  and selfNation != ''"> and self_nation = #{selfNation}</if>
+            <if test="selfIdnumber != null  and selfIdnumber != ''"> and self_idnumber = #{selfIdnumber}</if>
+            <if test="selfLevel != null  and selfLevel != ''"> and self_level = #{selfLevel}</if>
+            <if test="selfType != null  and selfType != ''"> and self_type = #{selfType}</if>
+            <if test="selfSchool != null  and selfSchool != ''"> and self_school = #{selfSchool}</if>
+            <if test="selfMajor != null  and selfMajor != ''"> and self_major = #{selfMajor}</if>
+            <if test="selfStudentNumber != null  and selfStudentNumber != ''"> and self_student_number = #{selfStudentNumber}</if>
+            <if test="selfTotalCharge != null "> and self_total_charge = #{selfTotalCharge}</if>
+            <if test="selfOneyearCharge != null "> and self_oneyear_charge = #{selfOneyearCharge}</if>
+            <if test="selfTwoyearCharge != null "> and self_twoyear_charge = #{selfTwoyearCharge}</if>
+            <if test="selfChargeDetail != null  and selfChargeDetail != ''"> and self_charge_detail = #{selfChargeDetail}</if>
+        </where>
+    </select>
+    
+    <select id="selectSelfExamById" parameterType="Long" resultMap="SelfExamResult">
+        <include refid="selectSelfExamVo"/>
+        where self_id = #{selfId}
+    </select>
+        
+    <insert id="insertSelfExam" parameterType="SelfExam">
+        insert into sm_self_exam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="selfId != null ">self_id,</if>
+            <if test="selfTeacher != null  and selfTeacher != ''">self_teacher,</if>
+            <if test="selfName != null  and selfName != ''">self_name,</if>
+            <if test="selfSex != null and selfSex != ''">self_sex,</if>
+            <if test="selfNation != null  and selfNation != ''">self_nation,</if>
+            <if test="selfIdnumber != null  and selfIdnumber != ''">self_idnumber,</if>
+            <if test="selfLevel != null  and selfLevel != ''">self_level,</if>
+            <if test="selfType != null  and selfType != ''">self_type,</if>
+            <if test="selfSchool != null  and selfSchool != ''">self_school,</if>
+            <if test="selfMajor != null  and selfMajor != ''">self_major,</if>
+            <if test="selfStudentNumber != null  and selfStudentNumber != ''">self_student_number,</if>
+            <if test="selfTotalCharge != null ">self_total_charge,</if>
+            <if test="selfOneyearCharge != null ">self_oneyear_charge,</if>
+            <if test="selfTwoyearCharge != null ">self_twoyear_charge,</if>
+            <if test="selfChargeDetail != null  and selfChargeDetail != ''">self_charge_detail,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="selfId != null ">#{selfId},</if>
+            <if test="selfTeacher != null  and selfTeacher != ''">#{selfTeacher},</if>
+            <if test="selfName != null  and selfName != ''">#{selfName},</if>
+            <if test="selfSex != null and selfSex != ''">#{selfSex},</if>
+            <if test="selfNation != null  and selfNation != ''">#{selfNation},</if>
+            <if test="selfIdnumber != null  and selfIdnumber != ''">#{selfIdnumber},</if>
+            <if test="selfLevel != null  and selfLevel != ''">#{selfLevel},</if>
+            <if test="selfType != null  and selfType != ''">#{selfType},</if>
+            <if test="selfSchool != null  and selfSchool != ''">#{selfSchool},</if>
+            <if test="selfMajor != null  and selfMajor != ''">#{selfMajor},</if>
+            <if test="selfStudentNumber != null  and selfStudentNumber != ''">#{selfStudentNumber},</if>
+            <if test="selfTotalCharge != null ">#{selfTotalCharge},</if>
+            <if test="selfOneyearCharge != null ">#{selfOneyearCharge},</if>
+            <if test="selfTwoyearCharge != null ">#{selfTwoyearCharge},</if>
+            <if test="selfChargeDetail != null  and selfChargeDetail != ''">#{selfChargeDetail},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSelfExam" parameterType="SelfExam">
+        update sm_self_exam
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="selfTeacher != null  and selfTeacher != ''">self_teacher = #{selfTeacher},</if>
+            <if test="selfName != null  and selfName != ''">self_name = #{selfName},</if>
+            <if test="selfSex != null and selfSex != ''">self_sex = #{selfSex},</if>
+            <if test="selfNation != null  and selfNation != ''">self_nation = #{selfNation},</if>
+            <if test="selfIdnumber != null  and selfIdnumber != ''">self_idnumber = #{selfIdnumber},</if>
+            <if test="selfLevel != null  and selfLevel != ''">self_level = #{selfLevel},</if>
+            <if test="selfType != null  and selfType != ''">self_type = #{selfType},</if>
+            <if test="selfSchool != null  and selfSchool != ''">self_school = #{selfSchool},</if>
+            <if test="selfMajor != null  and selfMajor != ''">self_major = #{selfMajor},</if>
+            <if test="selfStudentNumber != null  and selfStudentNumber != ''">self_student_number = #{selfStudentNumber},</if>
+            <if test="selfTotalCharge != null ">self_total_charge = #{selfTotalCharge},</if>
+            <if test="selfOneyearCharge != null ">self_oneyear_charge = #{selfOneyearCharge},</if>
+            <if test="selfTwoyearCharge != null ">self_twoyear_charge = #{selfTwoyearCharge},</if>
+            <if test="selfChargeDetail != null  and selfChargeDetail != ''">self_charge_detail = #{selfChargeDetail},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where self_id = #{selfId}
+    </update>
+
+    <delete id="deleteSelfExamById" parameterType="Long">
+        delete from sm_self_exam where self_id = #{selfId}
+    </delete>
+
+    <delete id="deleteSelfExamByIds" parameterType="String">
+        delete from sm_self_exam where self_id in 
+        <foreach item="selfId" collection="array" open="(" separator="," close=")">
+            #{selfId}
+        </foreach>
+    </delete>
+    
+</mapper>

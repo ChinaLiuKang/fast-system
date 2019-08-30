@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bussiness.mapper.CenterMiddleMapper">
+    
+    <resultMap type="CenterMiddle" id="CenterMiddleResult">
+        <result property="centerId"    column="center_id"    />
+        <result property="centerTeacher"    column="center_teacher"    />
+        <result property="centerName"    column="center_name"    />
+        <result property="centerSex"    column="center_sex"    />
+        <result property="centerNation"    column="center_nation"    />
+        <result property="centerIdnumber"    column="center_idnumber"    />
+        <result property="centerLevel"    column="center_level"    />
+        <result property="centerSchool"    column="center_school"    />
+        <result property="centerMajor"    column="center_major"    />
+        <result property="centerTime"    column="center_time"    />
+        <result property="centerTotalCharge"    column="center_total_charge"    />
+        <result property="centerChargeDetail"    column="center_charge_detail"    />
+        <result property="centerCertificateNumber"    column="center_certificate_number"    />
+        <result property="centerGraduateDetail"    column="center_graduate_detail"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCenterMiddleVo">
+        select center_id, center_teacher, center_name, center_sex, center_nation, center_idnumber, center_level, center_school, center_major, center_time, center_total_charge, center_charge_detail, center_certificate_number, center_graduate_detail, remark, create_time, update_time from sm_center_middle
+    </sql>
+
+    <select id="selectCenterMiddleList" parameterType="CenterMiddle" resultMap="CenterMiddleResult">
+        <include refid="selectCenterMiddleVo"/>
+        <where>  
+            <if test="centerTeacher != null  and centerTeacher != ''"> and center_teacher = #{centerTeacher}</if>
+            <if test="centerName != null  and centerName != ''"> and center_name like concat('%', #{centerName}, '%')</if>
+            <if test="centerSex != null and centerSex !='' "> and center_sex = #{centerSex}</if>
+            <if test="centerNation != null  and centerNation != ''"> and center_nation = #{centerNation}</if>
+            <if test="centerIdnumber != null  and centerIdnumber != ''"> and center_idnumber = #{centerIdnumber}</if>
+            <if test="centerLevel != null  and centerLevel != ''"> and center_level = #{centerLevel}</if>
+            <if test="centerSchool != null  and centerSchool != ''"> and center_school = #{centerSchool}</if>
+            <if test="centerMajor != null  and centerMajor != ''"> and center_major = #{centerMajor}</if>
+            <if test="centerTime != null  and centerTime != ''"> and center_time = #{centerTime}</if>
+            <if test="centerTotalCharge != null "> and center_total_charge = #{centerTotalCharge}</if>
+            <if test="centerChargeDetail != null  and centerChargeDetail != ''"> and center_charge_detail = #{centerChargeDetail}</if>
+            <if test="centerCertificateNumber != null  and centerCertificateNumber != ''"> and center_certificate_number = #{centerCertificateNumber}</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''"> and center_graduate_detail = #{centerGraduateDetail}</if>
+        </where>
+    </select>
+    
+    <select id="selectCenterMiddleById" parameterType="Long" resultMap="CenterMiddleResult">
+        <include refid="selectCenterMiddleVo"/>
+        where center_id = #{centerId}
+    </select>
+        
+    <insert id="insertCenterMiddle" parameterType="CenterMiddle">
+        insert into sm_center_middle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="centerId != null ">center_id,</if>
+            <if test="centerTeacher != null  and centerTeacher != ''">center_teacher,</if>
+            <if test="centerName != null  and centerName != ''">center_name,</if>
+            <if test="centerSex != null and centerSex !=''">center_sex,</if>
+            <if test="centerNation != null  and centerNation != ''">center_nation,</if>
+            <if test="centerIdnumber != null  and centerIdnumber != ''">center_idnumber,</if>
+            <if test="centerLevel != null  and centerLevel != ''">center_level,</if>
+            <if test="centerSchool != null  and centerSchool != ''">center_school,</if>
+            <if test="centerMajor != null  and centerMajor != ''">center_major,</if>
+            <if test="centerTime != null  and centerTime != ''">center_time,</if>
+            <if test="centerTotalCharge != null ">center_total_charge,</if>
+            <if test="centerChargeDetail != null  and centerChargeDetail != ''">center_charge_detail,</if>
+            <if test="centerCertificateNumber != null  and centerCertificateNumber != ''">center_certificate_number,</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">center_graduate_detail,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="centerId != null ">#{centerId},</if>
+            <if test="centerTeacher != null  and centerTeacher != ''">#{centerTeacher},</if>
+            <if test="centerName != null  and centerName != ''">#{centerName},</if>
+            <if test="centerSex != null and centerSex !='' ">#{centerSex},</if>
+            <if test="centerNation != null  and centerNation != ''">#{centerNation},</if>
+            <if test="centerIdnumber != null  and centerIdnumber != ''">#{centerIdnumber},</if>
+            <if test="centerLevel != null  and centerLevel != ''">#{centerLevel},</if>
+            <if test="centerSchool != null  and centerSchool != ''">#{centerSchool},</if>
+            <if test="centerMajor != null  and centerMajor != ''">#{centerMajor},</if>
+            <if test="centerTime != null  and centerTime != ''">#{centerTime},</if>
+            <if test="centerTotalCharge != null ">#{centerTotalCharge},</if>
+            <if test="centerChargeDetail != null  and centerChargeDetail != ''">#{centerChargeDetail},</if>
+            <if test="centerCertificateNumber != null  and centerCertificateNumber != ''">#{centerCertificateNumber},</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">#{centerGraduateDetail},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCenterMiddle" parameterType="CenterMiddle">
+        update sm_center_middle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="centerTeacher != null  and centerTeacher != ''">center_teacher = #{centerTeacher},</if>
+            <if test="centerName != null  and centerName != ''">center_name = #{centerName},</if>
+            <if test="centerSex != null and centerSex !=''">center_sex = #{centerSex},</if>
+            <if test="centerNation != null  and centerNation != ''">center_nation = #{centerNation},</if>
+            <if test="centerIdnumber != null  and centerIdnumber != ''">center_idnumber = #{centerIdnumber},</if>
+            <if test="centerLevel != null  and centerLevel != ''">center_level = #{centerLevel},</if>
+            <if test="centerSchool != null  and centerSchool != ''">center_school = #{centerSchool},</if>
+            <if test="centerMajor != null  and centerMajor != ''">center_major = #{centerMajor},</if>
+            <if test="centerTime != null  and centerTime != ''">center_time = #{centerTime},</if>
+            <if test="centerTotalCharge != null ">center_total_charge = #{centerTotalCharge},</if>
+            <if test="centerChargeDetail != null  and centerChargeDetail != ''">center_charge_detail = #{centerChargeDetail},</if>
+            <if test="centerCertificateNumber != null  and centerCertificateNumber != ''">center_certificate_number = #{centerCertificateNumber},</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">center_graduate_detail = #{centerGraduateDetail},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where center_id = #{centerId}
+    </update>
+
+    <delete id="deleteCenterMiddleById" parameterType="Long">
+        delete from sm_center_middle where center_id = #{centerId}
+    </delete>
+
+    <delete id="deleteCenterMiddleByIds" parameterType="String">
+        delete from sm_center_middle where center_id in 
+        <foreach item="centerId" collection="array" open="(" separator="," close=")">
+            #{centerId}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bussiness.mapper.JobCertificateMapper">
+    
+    <resultMap type="JobCertificate" id="JobCertificateResult">
+        <result property="jobId"    column="job_id"    />
+        <result property="jobTeacher"    column="job_teacher"    />
+        <result property="jobName"    column="job_name"    />
+        <result property="jobSex"    column="job_sex"    />
+        <result property="jobNation"    column="job_nation"    />
+        <result property="jobIdnumber"    column="job_idnumber"    />
+        <result property="jobOutdept"    column="job_outdept"    />
+        <result property="jobTypework"    column="job_typework"    />
+        <result property="jobIntime"    column="job_intime"    />
+        <result property="jobTotalCharge"    column="job_total_charge"    />
+        <result property="jobChargeDetail"    column="job_charge_detail"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectJobCertificateVo">
+        select job_id, job_teacher, job_name, job_sex, job_nation, job_idnumber, job_outdept, job_typework, job_intime, job_total_charge, job_charge_detail, remark, create_time, update_time from sm_job_certificate
+    </sql>
+
+    <select id="selectJobCertificateList" parameterType="JobCertificate" resultMap="JobCertificateResult">
+        <include refid="selectJobCertificateVo"/>
+        <where>  
+            <if test="jobTeacher != null  and jobTeacher != ''"> and job_teacher = #{jobTeacher}</if>
+            <if test="jobName != null  and jobName != ''"> and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="jobSex != null and jobSex!=''"> and job_sex = #{jobSex}</if>
+            <if test="jobNation != null  and jobNation != ''"> and job_nation = #{jobNation}</if>
+            <if test="jobIdnumber != null  and jobIdnumber != ''"> and job_idnumber = #{jobIdnumber}</if>
+            <if test="jobOutdept != null  and jobOutdept != ''"> and job_outdept = #{jobOutdept}</if>
+            <if test="jobTypework != null  and jobTypework != ''"> and job_typework = #{jobTypework}</if>
+            <if test="jobIntime != null "> and job_intime = #{jobIntime}</if>
+            <if test="jobTotalCharge != null "> and job_total_charge = #{jobTotalCharge}</if>
+            <if test="jobChargeDetail != null  and jobChargeDetail != ''"> and job_charge_detail = #{jobChargeDetail}</if>
+        </where>
+    </select>
+    
+    <select id="selectJobCertificateById" parameterType="Long" resultMap="JobCertificateResult">
+        <include refid="selectJobCertificateVo"/>
+        where job_id = #{jobId}
+    </select>
+        
+    <insert id="insertJobCertificate" parameterType="JobCertificate">
+        insert into sm_job_certificate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null ">job_id,</if>
+            <if test="jobTeacher != null  and jobTeacher != ''">job_teacher,</if>
+            <if test="jobName != null  and jobName != ''">job_name,</if>
+            <if test="jobSex != null and jobSex!=''">job_sex,</if>
+            <if test="jobNation != null  and jobNation != ''">job_nation,</if>
+            <if test="jobIdnumber != null  and jobIdnumber != ''">job_idnumber,</if>
+            <if test="jobOutdept != null  and jobOutdept != ''">job_outdept,</if>
+            <if test="jobTypework != null  and jobTypework != ''">job_typework,</if>
+            <if test="jobIntime != null ">job_intime,</if>
+            <if test="jobTotalCharge != null ">job_total_charge,</if>
+            <if test="jobChargeDetail != null  and jobChargeDetail != ''">job_charge_detail,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null ">#{jobId},</if>
+            <if test="jobTeacher != null  and jobTeacher != ''">#{jobTeacher},</if>
+            <if test="jobName != null  and jobName != ''">#{jobName},</if>
+            <if test="jobSex != null and jobSex!=''">#{jobSex},</if>
+            <if test="jobNation != null  and jobNation != ''">#{jobNation},</if>
+            <if test="jobIdnumber != null  and jobIdnumber != ''">#{jobIdnumber},</if>
+            <if test="jobOutdept != null  and jobOutdept != ''">#{jobOutdept},</if>
+            <if test="jobTypework != null  and jobTypework != ''">#{jobTypework},</if>
+            <if test="jobIntime != null ">#{jobIntime},</if>
+            <if test="jobTotalCharge != null ">#{jobTotalCharge},</if>
+            <if test="jobChargeDetail != null  and jobChargeDetail != ''">#{jobChargeDetail},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateJobCertificate" parameterType="JobCertificate">
+        update sm_job_certificate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobTeacher != null  and jobTeacher != ''">job_teacher = #{jobTeacher},</if>
+            <if test="jobName != null  and jobName != ''">job_name = #{jobName},</if>
+            <if test="jobSex != null and jobSex!=''">job_sex = #{jobSex},</if>
+            <if test="jobNation != null  and jobNation != ''">job_nation = #{jobNation},</if>
+            <if test="jobIdnumber != null  and jobIdnumber != ''">job_idnumber = #{jobIdnumber},</if>
+            <if test="jobOutdept != null  and jobOutdept != ''">job_outdept = #{jobOutdept},</if>
+            <if test="jobTypework != null  and jobTypework != ''">job_typework = #{jobTypework},</if>
+            <if test="jobIntime != null ">job_intime = #{jobIntime},</if>
+            <if test="jobTotalCharge != null ">job_total_charge = #{jobTotalCharge},</if>
+            <if test="jobChargeDetail != null  and jobChargeDetail != ''">job_charge_detail = #{jobChargeDetail},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where job_id = #{jobId}
+    </update>
+
+    <delete id="deleteJobCertificateById" parameterType="Long">
+        delete from sm_job_certificate where job_id = #{jobId}
+    </delete>
+
+    <delete id="deleteJobCertificateByIds" parameterType="String">
+        delete from sm_job_certificate where job_id in 
+        <foreach item="jobId" collection="array" open="(" separator="," close=")">
+            #{jobId}
+        </foreach>
+    </delete>
+    
+</mapper>
