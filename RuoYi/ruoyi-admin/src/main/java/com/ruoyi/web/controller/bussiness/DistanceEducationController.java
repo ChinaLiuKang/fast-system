@@ -9,6 +9,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,16 @@ public class DistanceEducationController extends BaseController
     public TableDataInfo list(DistanceEducation distanceEducation)
     {
         startPage();
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                distanceEducation.setUserId(currentUser.getUserId());
+            }
+        }
         List<DistanceEducation> list = distanceEducationService.selectDistanceEducationList(distanceEducation);
         return getDataTable(list);
     }
@@ -61,6 +73,16 @@ public class DistanceEducationController extends BaseController
     @ResponseBody
     public AjaxResult export(DistanceEducation distanceEducation)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                distanceEducation.setUserId(currentUser.getUserId());
+            }
+        }
         List<DistanceEducation> list = distanceEducationService.selectDistanceEducationList(distanceEducation);
         ExcelUtil<DistanceEducation> util = new ExcelUtil<DistanceEducation>(DistanceEducation.class);
         return util.exportExcel(list, "远程教育");
@@ -84,6 +106,16 @@ public class DistanceEducationController extends BaseController
     @ResponseBody
     public AjaxResult addSave(DistanceEducation distanceEducation)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                distanceEducation.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(distanceEducationService.insertDistanceEducation(distanceEducation));
     }
 
@@ -107,6 +139,16 @@ public class DistanceEducationController extends BaseController
     @ResponseBody
     public AjaxResult editSave(DistanceEducation distanceEducation)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                distanceEducation.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(distanceEducationService.updateDistanceEducation(distanceEducation));
     }
 
@@ -143,6 +185,16 @@ public class DistanceEducationController extends BaseController
     {
         ExcelUtil<DistanceEducation> util = new ExcelUtil<DistanceEducation>(DistanceEducation.class);
         List<DistanceEducation> distanceEducationList = util.importExcel(file.getInputStream());
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                distanceEducationList.stream().forEach(distanceEducation -> {distanceEducation.setUserId(currentUser.getUserId());});
+            }
+        }
         String message = distanceEducationService.importDistance(distanceEducationList);
         return AjaxResult.success(message);
     }

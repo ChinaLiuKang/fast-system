@@ -74,7 +74,17 @@ public class SelfExam extends BaseEntity
     @Excel(name = "缴费情况")
     private String selfChargeDetail;
 
-    public void setSelfId(Long selfId) 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setSelfId(Long selfId)
     {
         this.selfId = selfId;
     }
@@ -211,25 +221,23 @@ public class SelfExam extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("selfId", getSelfId())
-            .append("selfTeacher", getSelfTeacher())
-            .append("selfName", getSelfName())
-            .append("selfSex", getSelfSex())
-            .append("selfNation", getSelfNation())
-            .append("selfIdnumber", getSelfIdnumber())
-            .append("selfLevel", getSelfLevel())
-            .append("selfType", getSelfType())
-            .append("selfSchool", getSelfSchool())
-            .append("selfMajor", getSelfMajor())
-            .append("selfStudentNumber", getSelfStudentNumber())
-            .append("selfTotalCharge", getSelfTotalCharge())
-            .append("selfOneyearCharge", getSelfOneyearCharge())
-            .append("selfTwoyearCharge", getSelfTwoyearCharge())
-            .append("selfChargeDetail", getSelfChargeDetail())
-            .append("remark", getRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "SelfExam{" +
+                "selfId=" + selfId +
+                ", selfTeacher='" + selfTeacher + '\'' +
+                ", selfName='" + selfName + '\'' +
+                ", selfSex='" + selfSex + '\'' +
+                ", selfNation='" + selfNation + '\'' +
+                ", selfIdnumber='" + selfIdnumber + '\'' +
+                ", selfLevel='" + selfLevel + '\'' +
+                ", selfType='" + selfType + '\'' +
+                ", selfSchool='" + selfSchool + '\'' +
+                ", selfMajor='" + selfMajor + '\'' +
+                ", selfStudentNumber='" + selfStudentNumber + '\'' +
+                ", selfTotalCharge=" + selfTotalCharge +
+                ", selfOneyearCharge=" + selfOneyearCharge +
+                ", selfTwoyearCharge=" + selfTwoyearCharge +
+                ", selfChargeDetail='" + selfChargeDetail + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }

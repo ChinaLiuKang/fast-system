@@ -59,7 +59,17 @@ public class JobCertificate extends BaseEntity
     @Excel(name = "缴费情况")
     private String jobChargeDetail;
 
-    public void setJobId(Long jobId) 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setJobId(Long jobId)
     {
         this.jobId = jobId;
     }
@@ -161,21 +171,19 @@ public class JobCertificate extends BaseEntity
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("jobId", getJobId())
-            .append("jobTeacher", getJobTeacher())
-            .append("jobName", getJobName())
-            .append("jobSex", getJobSex())
-            .append("jobNation", getJobNation())
-            .append("jobIdnumber", getJobIdnumber())
-            .append("jobOutdept", getJobOutdept())
-            .append("jobTypework", getJobTypework())
-            .append("jobIntime", getJobIntime())
-            .append("jobTotalCharge", getJobTotalCharge())
-            .append("jobChargeDetail", getJobChargeDetail())
-            .append("remark", getRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "JobCertificate{" +
+                "jobId=" + jobId +
+                ", jobTeacher='" + jobTeacher + '\'' +
+                ", jobName='" + jobName + '\'' +
+                ", jobSex='" + jobSex + '\'' +
+                ", jobNation='" + jobNation + '\'' +
+                ", jobIdnumber='" + jobIdnumber + '\'' +
+                ", jobOutdept='" + jobOutdept + '\'' +
+                ", jobTypework='" + jobTypework + '\'' +
+                ", jobIntime=" + jobIntime +
+                ", jobTotalCharge=" + jobTotalCharge +
+                ", jobChargeDetail='" + jobChargeDetail + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }

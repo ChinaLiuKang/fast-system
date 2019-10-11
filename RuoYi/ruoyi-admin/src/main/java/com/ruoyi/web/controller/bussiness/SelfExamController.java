@@ -8,6 +8,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +50,16 @@ public class SelfExamController extends BaseController
     public TableDataInfo list(SelfExam selfExam)
     {
         startPage();
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                selfExam.setUserId(currentUser.getUserId());
+            }
+        }
         List<SelfExam> list = selfExamService.selectSelfExamList(selfExam);
         return getDataTable(list);
     }
@@ -60,6 +72,16 @@ public class SelfExamController extends BaseController
     @ResponseBody
     public AjaxResult export(SelfExam selfExam)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                selfExam.setUserId(currentUser.getUserId());
+            }
+        }
         List<SelfExam> list = selfExamService.selectSelfExamList(selfExam);
         ExcelUtil<SelfExam> util = new ExcelUtil<SelfExam>(SelfExam.class);
         return util.exportExcel(list, "自学考试");
@@ -83,6 +105,16 @@ public class SelfExamController extends BaseController
     @ResponseBody
     public AjaxResult addSave(SelfExam selfExam)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                selfExam.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(selfExamService.insertSelfExam(selfExam));
     }
 
@@ -106,6 +138,16 @@ public class SelfExamController extends BaseController
     @ResponseBody
     public AjaxResult editSave(SelfExam selfExam)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                selfExam.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(selfExamService.updateSelfExam(selfExam));
     }
 
@@ -141,8 +183,18 @@ public class SelfExamController extends BaseController
     public AjaxResult importData(MultipartFile file) throws Exception
     {
         ExcelUtil<SelfExam> util = new ExcelUtil<SelfExam>(SelfExam.class);
-        List<SelfExam> jobCertificateList = util.importExcel(file.getInputStream());
-        String message = selfExamService.importSelfExam(jobCertificateList);
+        List<SelfExam> selfExamList = util.importExcel(file.getInputStream());
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                selfExamList.stream().forEach(selfExam -> {selfExam.setUserId(currentUser.getUserId());});
+            }
+        }
+        String message = selfExamService.importSelfExam(selfExamList);
         return AjaxResult.success(message);
     }
 }

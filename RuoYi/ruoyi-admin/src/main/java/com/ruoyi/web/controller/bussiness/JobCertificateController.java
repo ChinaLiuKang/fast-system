@@ -8,6 +8,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +50,16 @@ public class JobCertificateController extends BaseController
     public TableDataInfo list(JobCertificate jobCertificate)
     {
         startPage();
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                jobCertificate.setUserId(currentUser.getUserId());
+            }
+        }
         List<JobCertificate> list = jobCertificateService.selectJobCertificateList(jobCertificate);
         return getDataTable(list);
     }
@@ -60,6 +72,16 @@ public class JobCertificateController extends BaseController
     @ResponseBody
     public AjaxResult export(JobCertificate jobCertificate)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                jobCertificate.setUserId(currentUser.getUserId());
+            }
+        }
         List<JobCertificate> list = jobCertificateService.selectJobCertificateList(jobCertificate);
         ExcelUtil<JobCertificate> util = new ExcelUtil<JobCertificate>(JobCertificate.class);
         return util.exportExcel(list, "职业资格证");
@@ -83,6 +105,16 @@ public class JobCertificateController extends BaseController
     @ResponseBody
     public AjaxResult addSave(JobCertificate jobCertificate)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                jobCertificate.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(jobCertificateService.insertJobCertificate(jobCertificate));
     }
 
@@ -106,6 +138,16 @@ public class JobCertificateController extends BaseController
     @ResponseBody
     public AjaxResult editSave(JobCertificate jobCertificate)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                jobCertificate.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(jobCertificateService.updateJobCertificate(jobCertificate));
     }
 
@@ -142,6 +184,17 @@ public class JobCertificateController extends BaseController
     {
         ExcelUtil<JobCertificate> util = new ExcelUtil<JobCertificate>(JobCertificate.class);
         List<JobCertificate> jobCertificateList = util.importExcel(file.getInputStream());
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                jobCertificateList.stream().forEach(jobCertificate -> {jobCertificate.setUserId(currentUser.getUserId());});
+            }
+        }
+
         String message = jobCertificateService.importCertificate(jobCertificateList);
         return AjaxResult.success(message);
     }

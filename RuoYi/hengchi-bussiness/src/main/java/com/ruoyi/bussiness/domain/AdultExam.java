@@ -94,7 +94,17 @@ public class AdultExam extends BaseEntity
     @Excel(name = "录取情况")
     private String adultEnroll;
 
-    public void setAdultId(Long adultId) 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setAdultId(Long adultId)
     {
         this.adultId = adultId;
     }
@@ -275,32 +285,31 @@ public class AdultExam extends BaseEntity
         return adultEnroll;
     }
 
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("adultId", getAdultId())
-            .append("adultTeacher", getAdultTeacher())
-            .append("adultName", getAdultName())
-            .append("adultSex", getAdultSex())
-            .append("adultNation", getAdultNation())
-            .append("adultIdnumber", getAdultIdnumber())
-            .append("adultLevel", getAdultLevel())
-            .append("adultType", getAdultType())
-            .append("adultSchool", getAdultSchool())
-            .append("adultMajor", getAdultMajor())
-            .append("adultGrade", getAdultGrade())
-            .append("adultAccount", getAdultAccount())
-            .append("adultExamNumber", getAdultExamNumber())
-            .append("adultStudentNumber", getAdultStudentNumber())
-            .append("adultAddScore", getAdultAddScore())
-            .append("adultChargeStandard", getAdultChargeStandard())
-            .append("adultOneyearCharge", getAdultOneyearCharge())
-            .append("adultTwoyearCharge", getAdultTwoyearCharge())
-            .append("adultChargeDetail", getAdultChargeDetail())
-            .append("adultEnroll", getAdultEnroll())
-            .append("remark", getRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "AdultExam{" +
+                "adultId=" + adultId +
+                ", adultTeacher='" + adultTeacher + '\'' +
+                ", adultName='" + adultName + '\'' +
+                ", adultSex='" + adultSex + '\'' +
+                ", adultNation='" + adultNation + '\'' +
+                ", adultIdnumber='" + adultIdnumber + '\'' +
+                ", adultLevel='" + adultLevel + '\'' +
+                ", adultType='" + adultType + '\'' +
+                ", adultSchool='" + adultSchool + '\'' +
+                ", adultMajor='" + adultMajor + '\'' +
+                ", adultGrade='" + adultGrade + '\'' +
+                ", adultAccount='" + adultAccount + '\'' +
+                ", adultExamNumber='" + adultExamNumber + '\'' +
+                ", adultStudentNumber='" + adultStudentNumber + '\'' +
+                ", adultAddScore=" + adultAddScore +
+                ", adultChargeStandard=" + adultChargeStandard +
+                ", adultOneyearCharge=" + adultOneyearCharge +
+                ", adultTwoyearCharge=" + adultTwoyearCharge +
+                ", adultChargeDetail='" + adultChargeDetail + '\'' +
+                ", adultEnroll='" + adultEnroll + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }

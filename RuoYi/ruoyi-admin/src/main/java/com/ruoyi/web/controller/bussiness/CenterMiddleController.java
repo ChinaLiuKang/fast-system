@@ -8,6 +8,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +50,16 @@ public class CenterMiddleController extends BaseController
     public TableDataInfo list(CenterMiddle centerMiddle)
     {
         startPage();
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                centerMiddle.setUserId(currentUser.getUserId());
+            }
+        }
         List<CenterMiddle> list = centerMiddleService.selectCenterMiddleList(centerMiddle);
         return getDataTable(list);
     }
@@ -60,6 +72,16 @@ public class CenterMiddleController extends BaseController
     @ResponseBody
     public AjaxResult export(CenterMiddle centerMiddle)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                centerMiddle.setUserId(currentUser.getUserId());
+            }
+        }
         List<CenterMiddle> list = centerMiddleService.selectCenterMiddleList(centerMiddle);
         ExcelUtil<CenterMiddle> util = new ExcelUtil<CenterMiddle>(CenterMiddle.class);
         return util.exportExcel(list, "中央电中");
@@ -83,6 +105,16 @@ public class CenterMiddleController extends BaseController
     @ResponseBody
     public AjaxResult addSave(CenterMiddle centerMiddle)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                centerMiddle.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(centerMiddleService.insertCenterMiddle(centerMiddle));
     }
 
@@ -106,6 +138,16 @@ public class CenterMiddleController extends BaseController
     @ResponseBody
     public AjaxResult editSave(CenterMiddle centerMiddle)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                centerMiddle.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(centerMiddleService.updateCenterMiddle(centerMiddle));
     }
 
@@ -143,6 +185,16 @@ public class CenterMiddleController extends BaseController
     {
         ExcelUtil<CenterMiddle> util = new ExcelUtil<CenterMiddle>(CenterMiddle.class);
         List<CenterMiddle> userList = util.importExcel(file.getInputStream());
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                userList.stream().forEach(centerMiddle -> centerMiddle.setUserId(currentUser.getUserId()));
+            }
+        }
         String message = centerMiddleService.importCenterMiddle(userList);
         return AjaxResult.success(message);
     }

@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.bussiness.mapper.CenterMiddleMapper">
     
     <resultMap type="CenterMiddle" id="CenterMiddleResult">
+        <result property="userId" column="user_id"/>
         <result property="centerId"    column="center_id"    />
         <result property="centerTeacher"    column="center_teacher"    />
         <result property="centerName"    column="center_name"    />
@@ -25,12 +26,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCenterMiddleVo">
-        select center_id, center_teacher, center_name, center_sex, center_nation, center_idnumber, center_level, center_school, center_major, center_time, center_total_charge, center_charge_detail, center_certificate_number, center_graduate_detail, remark, create_time, update_time from sm_center_middle
+        select user_id,center_id, center_teacher, center_name, center_sex, center_nation, center_idnumber, center_level, center_school, center_major, center_time, center_total_charge, center_charge_detail, center_certificate_number, center_graduate_detail, remark, create_time, update_time from sm_center_middle
     </sql>
 
     <select id="selectCenterMiddleList" parameterType="CenterMiddle" resultMap="CenterMiddleResult">
         <include refid="selectCenterMiddleVo"/>
-        <where>  
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
             <if test="centerTeacher != null  and centerTeacher != ''"> and center_teacher = #{centerTeacher}</if>
             <if test="centerName != null  and centerName != ''"> and center_name like concat('%', #{centerName}, '%')</if>
             <if test="centerSex != null and centerSex !='' "> and center_sex = #{centerSex}</if>
@@ -55,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertCenterMiddle" parameterType="CenterMiddle">
         insert into sm_center_middle
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">user_id,</if>
             <if test="centerId != null ">center_id,</if>
             <if test="centerTeacher != null  and centerTeacher != ''">center_teacher,</if>
             <if test="centerName != null  and centerName != ''">center_name,</if>
@@ -74,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">#{userId},</if>
             <if test="centerId != null ">#{centerId},</if>
             <if test="centerTeacher != null  and centerTeacher != ''">#{centerTeacher},</if>
             <if test="centerName != null  and centerName != ''">#{centerName},</if>
@@ -97,6 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateCenterMiddle" parameterType="CenterMiddle">
         update sm_center_middle
         <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="centerTeacher != null  and centerTeacher != ''">center_teacher = #{centerTeacher},</if>
             <if test="centerName != null  and centerName != ''">center_name = #{centerName},</if>
             <if test="centerSex != null and centerSex !=''">center_sex = #{centerSex},</if>

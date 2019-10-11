@@ -5,6 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.ruoyi.bussiness.mapper.AdultExamMapper">
     
     <resultMap type="AdultExam" id="AdultExamResult">
+        <result property="userId" column="user_id" />
         <result property="adultId"    column="adult_id"    />
         <result property="adultTeacher"    column="adult_teacher"    />
         <result property="adultName"    column="adult_name"    />
@@ -31,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAdultExamVo">
-        select adult_id, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
+        select user_id,adult_id, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
     </sql>
 
     <select id="selectAdultExamList" parameterType="AdultExam" resultMap="AdultExamResult">
@@ -56,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="adultTwoyearCharge != null "> and adult_twoyear_charge = #{adultTwoyearCharge}</if>
             <if test="adultChargeDetail != null  and adultChargeDetail != ''"> and adult_charge_detail = #{adultChargeDetail}</if>
             <if test="adultEnroll != null  and adultEnroll != ''"> and adult_enroll = #{adultEnroll}</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
         </where>
     </select>
     
@@ -67,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertAdultExam" parameterType="AdultExam">
         insert into sm_adult_exam
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">user_id,</if>
             <if test="adultId != null ">adult_id,</if>
             <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher,</if>
             <if test="adultName != null  and adultName != ''">adult_name,</if>
@@ -92,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
             <if test="adultId != null ">#{adultId},</if>
             <if test="adultTeacher != null  and adultTeacher != ''">#{adultTeacher},</if>
             <if test="adultName != null  and adultName != ''">#{adultName},</if>
@@ -121,6 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateAdultExam" parameterType="AdultExam">
         update sm_adult_exam
         <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
             <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher = #{adultTeacher},</if>
             <if test="adultName != null  and adultName != ''">adult_name = #{adultName},</if>
             <if test="adultSex != null and adultSex !=''">adult_sex = #{adultSex},</if>

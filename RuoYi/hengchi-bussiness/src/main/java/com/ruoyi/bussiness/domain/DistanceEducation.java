@@ -82,7 +82,17 @@ public class DistanceEducation extends BaseEntity
     @Excel(name = "录取情况")
     private String distanceEnroll;
 
-    public void setDistanceId(Long distanceId) 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setDistanceId(Long distanceId)
     {
         this.distanceId = distanceId;
     }
@@ -236,29 +246,28 @@ public class DistanceEducation extends BaseEntity
         return distanceEnroll;
     }
 
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("distanceId", getDistanceId())
-            .append("distanceTeacher", getDistanceTeacher())
-            .append("distancePoints", getDistancePoints())
-            .append("distanceName", getDistanceName())
-            .append("distanceSex", getDistanceSex())
-            .append("distanceNation", getDistanceNation())
-            .append("distanceIdnumber", getDistanceIdnumber())
-            .append("distanceLevel", getDistanceLevel())
-            .append("distanceSchool", getDistanceSchool())
-            .append("distanceMajor", getDistanceMajor())
-            .append("distancePeriods", getDistancePeriods())
-            .append("distanceStudentNumber", getDistanceStudentNumber())
-            .append("distanceTotalCharge", getDistanceTotalCharge())
-            .append("distanceOneyearCharge", getDistanceOneyearCharge())
-            .append("distanceTwoyearCharge", getDistanceTwoyearCharge())
-            .append("distanceChargeDetail", getDistanceChargeDetail())
-            .append("distanceEnroll", getDistanceEnroll())
-            .append("remark", getRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "DistanceEducation{" +
+                "distanceId=" + distanceId +
+                ", distanceTeacher='" + distanceTeacher + '\'' +
+                ", distancePoints='" + distancePoints + '\'' +
+                ", distanceName='" + distanceName + '\'' +
+                ", distanceSex='" + distanceSex + '\'' +
+                ", distanceNation='" + distanceNation + '\'' +
+                ", distanceIdnumber='" + distanceIdnumber + '\'' +
+                ", distanceLevel='" + distanceLevel + '\'' +
+                ", distanceSchool='" + distanceSchool + '\'' +
+                ", distanceMajor='" + distanceMajor + '\'' +
+                ", distancePeriods='" + distancePeriods + '\'' +
+                ", distanceStudentNumber='" + distanceStudentNumber + '\'' +
+                ", distanceTotalCharge=" + distanceTotalCharge +
+                ", distanceOneyearCharge=" + distanceOneyearCharge +
+                ", distanceTwoyearCharge=" + distanceTwoyearCharge +
+                ", distanceChargeDetail='" + distanceChargeDetail + '\'' +
+                ", distanceEnroll='" + distanceEnroll + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }

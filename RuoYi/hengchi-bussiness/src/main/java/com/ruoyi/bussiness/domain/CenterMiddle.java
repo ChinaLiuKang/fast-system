@@ -70,7 +70,17 @@ public class CenterMiddle extends BaseEntity
     @Excel(name = "毕业情况")
     private String centerGraduateDetail;
 
-    public void setCenterId(Long centerId) 
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setCenterId(Long centerId)
     {
         this.centerId = centerId;
     }
@@ -197,26 +207,25 @@ public class CenterMiddle extends BaseEntity
         return centerGraduateDetail;
     }
 
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("centerId", getCenterId())
-            .append("centerTeacher", getCenterTeacher())
-            .append("centerName", getCenterName())
-            .append("centerSex", getCenterSex())
-            .append("centerNation", getCenterNation())
-            .append("centerIdnumber", getCenterIdnumber())
-            .append("centerLevel", getCenterLevel())
-            .append("centerSchool", getCenterSchool())
-            .append("centerMajor", getCenterMajor())
-            .append("centerTime", getCenterTime())
-            .append("centerTotalCharge", getCenterTotalCharge())
-            .append("centerChargeDetail", getCenterChargeDetail())
-            .append("centerCertificateNumber", getCenterCertificateNumber())
-            .append("centerGraduateDetail", getCenterGraduateDetail())
-            .append("remark", getRemark())
-            .append("createTime", getCreateTime())
-            .append("updateTime", getUpdateTime())
-            .toString();
+        return "CenterMiddle{" +
+                "centerId=" + centerId +
+                ", centerTeacher='" + centerTeacher + '\'' +
+                ", centerName='" + centerName + '\'' +
+                ", centerSex='" + centerSex + '\'' +
+                ", centerNation='" + centerNation + '\'' +
+                ", centerIdnumber='" + centerIdnumber + '\'' +
+                ", centerLevel='" + centerLevel + '\'' +
+                ", centerSchool='" + centerSchool + '\'' +
+                ", centerMajor='" + centerMajor + '\'' +
+                ", centerTime='" + centerTime + '\'' +
+                ", centerTotalCharge=" + centerTotalCharge +
+                ", centerChargeDetail='" + centerChargeDetail + '\'' +
+                ", centerCertificateNumber='" + centerCertificateNumber + '\'' +
+                ", centerGraduateDetail='" + centerGraduateDetail + '\'' +
+                ", userId=" + userId +
+                '}';
     }
 }

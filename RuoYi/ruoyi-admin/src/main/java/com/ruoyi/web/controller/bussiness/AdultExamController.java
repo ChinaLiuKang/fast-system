@@ -8,6 +8,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.system.domain.SysUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,6 +50,16 @@ public class AdultExamController extends BaseController
     public TableDataInfo list(AdultExam adultExam)
     {
         startPage();
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                adultExam.setUserId(currentUser.getUserId());
+            }
+        }
         List<AdultExam> list = adultExamService.selectAdultExamList(adultExam);
         return getDataTable(list);
     }
@@ -60,6 +72,16 @@ public class AdultExamController extends BaseController
     @ResponseBody
     public AjaxResult export(AdultExam adultExam)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                adultExam.setUserId(currentUser.getUserId());
+            }
+        }
         List<AdultExam> list = adultExamService.selectAdultExamList(adultExam);
         ExcelUtil<AdultExam> util = new ExcelUtil<AdultExam>(AdultExam.class);
         return util.exportExcel(list, "成考信息");
@@ -86,6 +108,16 @@ public class AdultExamController extends BaseController
     {
         ExcelUtil<AdultExam> util = new ExcelUtil<AdultExam>(AdultExam.class);
         List<AdultExam> userList = util.importExcel(file.getInputStream());
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                userList.stream().forEach(e->{e.setUserId(currentUser.getUserId());});
+            }
+        }
         String message = adultExamService.importAdultExam(userList);
         return AjaxResult.success(message);
     }
@@ -108,6 +140,16 @@ public class AdultExamController extends BaseController
     @ResponseBody
     public AjaxResult addSave(AdultExam adultExam)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                adultExam.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(adultExamService.insertAdultExam(adultExam));
     }
 
@@ -131,6 +173,16 @@ public class AdultExamController extends BaseController
     @ResponseBody
     public AjaxResult editSave(AdultExam adultExam)
     {
+        // 获取当前的用户
+        SysUser currentUser = ShiroUtils.getSysUser();
+        if (currentUser != null)
+        {
+            // 如果不是超级管理员
+            if (!currentUser.isAdmin())
+            {
+                adultExam.setUserId(currentUser.getUserId());
+            }
+        }
         return toAjax(adultExamService.updateAdultExam(adultExam));
     }
 
