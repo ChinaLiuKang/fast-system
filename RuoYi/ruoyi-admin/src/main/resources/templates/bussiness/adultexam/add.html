@@ -6,6 +6,14 @@
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-adultexam-add">
+            <div class="form-group" th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('isupdate') == ''}">
+                <label class="col-sm-3 control-label">操作人：</label>
+                <div class="col-sm-8">
+                    <select name="userId" class="form-control m-b" th:with="type=${@user.getAllUser()}">
+                        <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">招生老师：</label>
                 <div class="col-sm-8">
@@ -77,7 +85,7 @@
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">账户名：</label>
+                <label class="col-sm-3 control-label">学号：</label>
                 <div class="col-sm-8">
                     <input name="adultAccount" class="form-control" type="text">
                 </div>
@@ -100,7 +108,8 @@
                     <input name="adultAddScore" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            <div th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
+            <div class="form-group">
                 <label class="col-sm-3 control-label">收费标准：</label>
                 <div class="col-sm-8">
                     <input name="adultChargeStandard" class="form-control" type="text">
@@ -118,7 +127,8 @@
                     <input name="adultTwoyearCharge" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">    
+            </div>
+            <div class="form-group">
                 <label class="col-sm-3 control-label">缴费情况：</label>
                 <div class="col-sm-8">
                     <select name="adultChargeDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_charge')}">

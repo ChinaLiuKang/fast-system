@@ -18,6 +18,9 @@ public class DistanceEducation extends BaseEntity
     /** 主键编号 */
     private Long distanceId;
 
+    @Excel(name= "操作人")
+    String userName;
+
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String distanceTeacher;
@@ -82,7 +85,29 @@ public class DistanceEducation extends BaseEntity
     @Excel(name = "录取情况")
     private String distanceEnroll;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
     private Long userId;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Long getUserId() {
         return userId;
@@ -246,7 +271,6 @@ public class DistanceEducation extends BaseEntity
         return distanceEnroll;
     }
 
-
     @Override
     public String toString() {
         return "DistanceEducation{" +
@@ -267,6 +291,7 @@ public class DistanceEducation extends BaseEntity
                 ", distanceTwoyearCharge=" + distanceTwoyearCharge +
                 ", distanceChargeDetail='" + distanceChargeDetail + '\'' +
                 ", distanceEnroll='" + distanceEnroll + '\'' +
+                ", remark='" + remark + '\'' +
                 ", userId=" + userId +
                 '}';
     }

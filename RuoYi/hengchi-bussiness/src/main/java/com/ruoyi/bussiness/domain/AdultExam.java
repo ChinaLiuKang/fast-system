@@ -15,6 +15,9 @@ public class AdultExam extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
+
+    @Excel(name= "操作人")
+    String userName;
     /** 主键编号 */
     private Long adultId;
 
@@ -59,7 +62,7 @@ public class AdultExam extends BaseEntity
     private String adultGrade;
 
     /** 账户名 */
-    @Excel(name = "账户名")
+    @Excel(name = "学号")
     private String adultAccount;
 
     /** 准考证号 */
@@ -94,7 +97,29 @@ public class AdultExam extends BaseEntity
     @Excel(name = "录取情况")
     private String adultEnroll;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
     private Long userId;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Long getUserId() {
         return userId;
@@ -285,7 +310,6 @@ public class AdultExam extends BaseEntity
         return adultEnroll;
     }
 
-
     @Override
     public String toString() {
         return "AdultExam{" +
@@ -309,6 +333,7 @@ public class AdultExam extends BaseEntity
                 ", adultTwoyearCharge=" + adultTwoyearCharge +
                 ", adultChargeDetail='" + adultChargeDetail + '\'' +
                 ", adultEnroll='" + adultEnroll + '\'' +
+                ", remark='" + remark + '\'' +
                 ", userId=" + userId +
                 '}';
     }

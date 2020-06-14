@@ -29,10 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="userName"  column="user_name"></result>
     </resultMap>
 
     <sql id="selectAdultExamVo">
-        select user_id,adult_id, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
+        select user_id,user_name,adult_id, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
     </sql>
 
     <select id="selectAdultExamList" parameterType="AdultExam" resultMap="AdultExamResult">
@@ -70,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sm_adult_exam
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId !=null">user_id,</if>
+            <if test="userName !=null">user_name,</if>
             <if test="adultId != null ">adult_id,</if>
             <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher,</if>
             <if test="adultName != null  and adultName != ''">adult_name,</if>
@@ -96,6 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null ">#{userId},</if>
+            <if test="userName !=null">#{userName},</if>
             <if test="adultId != null ">#{adultId},</if>
             <if test="adultTeacher != null  and adultTeacher != ''">#{adultTeacher},</if>
             <if test="adultName != null  and adultName != ''">#{adultName},</if>
@@ -126,6 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update sm_adult_exam
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
             <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher = #{adultTeacher},</if>
             <if test="adultName != null  and adultName != ''">adult_name = #{adultName},</if>
             <if test="adultSex != null and adultSex !=''">adult_sex = #{adultSex},</if>

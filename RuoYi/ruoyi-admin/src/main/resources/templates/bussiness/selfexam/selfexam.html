@@ -10,6 +10,13 @@
                 <form id="formId">
                     <div class="select-list">
                         <ul>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('isupdate') == ''}">
+                                <p>操作人：</p>
+                                <select name="userId" th:with="type=${@user.getAllUser()}">
+                                    <option value="">所有</option>
+                                    <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+                                </select>
+                            </li>
                             <li>
                                 <p>招生老师：</p>
                                 <input type="text" name="selfTeacher"/>
@@ -65,15 +72,15 @@
                                 <p>考生号：</p>
                                 <input type="text" name="selfStudentNumber"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>总费用：</p>
                                 <input type="text" name="selfTotalCharge"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>第一年缴费：</p>
                                 <input type="text" name="selfOneyearCharge"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>第二年缴费：</p>
                                 <input type="text" name="selfTwoyearCharge"/>
                             </li>
@@ -103,7 +110,7 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bussiness:selfexam:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:adultexam:import">
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="bussiness:adultexam:import">
                     <i class="fa fa-upload"></i> 导入
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bussiness:selfexam:export">
@@ -126,7 +133,8 @@
         var selfMajorDatas = [[${@dict.getType('sys_edu_major')}]];
         var selfChargeDetailDatas = [[${@dict.getType('sys_edu_charge')}]];
         var prefix = ctx + "bussiness/selfexam";
-
+        var hasRole1 = [[${@permission.hasRole('admin')}]];
+        var hasRole2 = [[${@permission.hasRole('showFee')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -137,6 +145,18 @@
                 importUrl: prefix + "/importData",
                 importTemplateUrl: prefix + "/importTemplate",
                 modalName: "自学考试",
+                onLoadSuccess: function () {
+                    if(hasRole2=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'selfTotalCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'selfOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'selfTwoyearCharge');
+                    }
+                    if(hasRole1==""){
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'selfTotalCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'selfOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'selfTwoyearCharge');
+                    }
+                },
                 columns: [{
                     checkbox: true
                 },
@@ -145,6 +165,10 @@
                     title : '主键编号',
                     visible: false
                 },
+                    {
+                        field:'userName',
+                        title:'操作人',
+                    },
                 {
                     field : 'selfTeacher', 
                     title : '招生老师'

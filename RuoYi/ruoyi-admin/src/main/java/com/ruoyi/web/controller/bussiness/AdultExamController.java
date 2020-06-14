@@ -10,6 +10,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysConfigService;
+import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,6 +36,12 @@ public class AdultExamController extends BaseController
 
     @Autowired
     private IAdultExamService adultExamService;
+
+    @Autowired
+    private ISysConfigService iSysConfigService;
+
+    @Autowired
+    private ISysUserService userService;
 
     @RequiresPermissions("bussiness:adultexam:view")
     @GetMapping()
@@ -54,10 +63,21 @@ public class AdultExamController extends BaseController
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null)
         {
+            Long userId = adultExam.getUserId();
             // 如果不是超级管理员
             if (!currentUser.isAdmin())
             {
                 adultExam.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if(count>0){
+                adultExam.setUserId(null);
+            }
+            if(userId!=null && count>0){
+                adultExam.setUserId(userId);
             }
         }
         List<AdultExam> list = adultExamService.selectAdultExamList(adultExam);
@@ -76,10 +96,21 @@ public class AdultExamController extends BaseController
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null)
         {
+            Long userId = adultExam.getUserId();
             // 如果不是超级管理员
             if (!currentUser.isAdmin())
             {
                 adultExam.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if(count>0){
+                adultExam.setUserId(null);
+            }
+            if(userId!=null && count>0){
+                adultExam.setUserId(userId);
             }
         }
         List<AdultExam> list = adultExamService.selectAdultExamList(adultExam);
@@ -140,15 +171,15 @@ public class AdultExamController extends BaseController
     @ResponseBody
     public AjaxResult addSave(AdultExam adultExam)
     {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                adultExam.setUserId(currentUser.getUserId());
-            }
+        //设置操作人名称
+        if(adultExam.getUserId() == null){
+            SysUser currentUser = ShiroUtils.getSysUser();
+            adultExam.setUserId(currentUser.getUserId());
+            adultExam.setUserName(currentUser.getUserName());
+        }else{
+            //没有设置操作人取当前人
+            SysUser sysUser = userService.selectUserById(adultExam.getUserId());
+            adultExam.setUserName(sysUser.getUserName());
         }
         return toAjax(adultExamService.insertAdultExam(adultExam));
     }
@@ -173,15 +204,10 @@ public class AdultExamController extends BaseController
     @ResponseBody
     public AjaxResult editSave(AdultExam adultExam)
     {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                adultExam.setUserId(currentUser.getUserId());
-            }
+        // 修改操作人
+        if(adultExam.getUserId()!=null){
+            SysUser sysUser = userService.selectUserById(adultExam.getUserId());
+            adultExam.setUserName(sysUser.getUserName());
         }
         return toAjax(adultExamService.updateAdultExam(adultExam));
     }

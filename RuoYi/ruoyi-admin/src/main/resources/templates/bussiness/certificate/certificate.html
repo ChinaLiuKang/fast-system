@@ -10,6 +10,13 @@
                 <form id="formId">
                     <div class="select-list">
                         <ul>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('isupdate') == ''}">
+                                <p>操作人：</p>
+                                <select name="userId" th:with="type=${@user.getAllUser()}">
+                                    <option value="">所有</option>
+                                    <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+                                </select>
+                            </li>
                             <li>
                                 <p>招生老师：</p>
                                 <input type="text" name="jobTeacher"/>
@@ -50,7 +57,7 @@
                                 <span>-</span>
                                 <input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endJobIntime]"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>总费用：</p>
                                 <input type="text" name="jobTotalCharge"/>
                             </li>
@@ -80,7 +87,7 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bussiness:certificate:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:certificate:import">
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="bussiness:certificate:import">
                     <i class="fa fa-upload"></i> 导入
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bussiness:certificate:export">
@@ -100,7 +107,8 @@
         var jobTypeworkDatas = [[${@dict.getType('sys_edu_work')}]];
         var jobChargeDetailDatas = [[${@dict.getType('sys_edu_charge')}]];
         var prefix = ctx + "bussiness/certificate";
-
+        var hasRole1 = [[${@permission.hasRole('admin')}]];
+        var hasRole2 = [[${@permission.hasRole('showFee')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -111,6 +119,14 @@
                 importUrl: prefix + "/importData",
                 importTemplateUrl: prefix + "/importTemplate",
                 modalName: "职业资格证",
+                onLoadSuccess: function () {
+                    if(hasRole2=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'jobTotalCharge');
+                    }
+                    if(hasRole1==""){
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'jobTotalCharge');
+                    }
+                },
                 columns: [{
                     checkbox: true
                 },
@@ -119,6 +135,10 @@
                     title : '主键编号',
                     visible: false
                 },
+                    {
+                        field:'userName',
+                        title:'操作人',
+                    },
                 {
                     field : 'jobTeacher', 
                     title : '招生老师'

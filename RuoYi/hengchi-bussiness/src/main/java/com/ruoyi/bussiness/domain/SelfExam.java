@@ -18,6 +18,9 @@ public class SelfExam extends BaseEntity
     /** 主键编号 */
     private Long selfId;
 
+    @Excel(name= "操作人")
+    String userName;
+
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String selfTeacher;
@@ -74,7 +77,19 @@ public class SelfExam extends BaseEntity
     @Excel(name = "缴费情况")
     private String selfChargeDetail;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
     private Long userId;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Long getUserId() {
         return userId;
@@ -220,6 +235,16 @@ public class SelfExam extends BaseEntity
     }
 
     @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @Override
     public String toString() {
         return "SelfExam{" +
                 "selfId=" + selfId +
@@ -237,6 +262,7 @@ public class SelfExam extends BaseEntity
                 ", selfOneyearCharge=" + selfOneyearCharge +
                 ", selfTwoyearCharge=" + selfTwoyearCharge +
                 ", selfChargeDetail='" + selfChargeDetail + '\'' +
+                ", remark='" + remark + '\'' +
                 ", userId=" + userId +
                 '}';
     }

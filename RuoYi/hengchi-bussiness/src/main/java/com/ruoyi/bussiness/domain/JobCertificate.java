@@ -19,6 +19,9 @@ public class JobCertificate extends BaseEntity
     /** 主键编号 */
     private Long jobId;
 
+    @Excel(name= "操作人")
+    String userName;
+
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String jobTeacher;
@@ -59,7 +62,19 @@ public class JobCertificate extends BaseEntity
     @Excel(name = "缴费情况")
     private String jobChargeDetail;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
     private Long userId;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Long getUserId() {
         return userId;
@@ -170,6 +185,16 @@ public class JobCertificate extends BaseEntity
     }
 
     @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @Override
     public String toString() {
         return "JobCertificate{" +
                 "jobId=" + jobId +
@@ -183,6 +208,7 @@ public class JobCertificate extends BaseEntity
                 ", jobIntime=" + jobIntime +
                 ", jobTotalCharge=" + jobTotalCharge +
                 ", jobChargeDetail='" + jobChargeDetail + '\'' +
+                ", remark='" + remark + '\'' +
                 ", userId=" + userId +
                 '}';
     }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('恒驰教育查询系统')"/>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>欢迎来到
+                        <small>恒驰教育查询系统</small>
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>请输入您的证件号码与姓名</p>
+                            <form  method="get" id="form">
+                                <div class="form-group">
+                                    <label>报考类目</label>
+                                    <select  class="form-control m-b" name="eduType">
+                                        <option value="" >所有</option>
+                                        <option value="1" th:selected="${eduType == 1}">成人高考</option>
+                                        <option value="2" th:selected="${eduType ==2}">远程教育</option>
+                                        <option value="3" th:selected="${eduType ==3}">自学考试</option>
+                                        <option value="4" th:selected="${eduType ==4}">职业资格证</option>
+                                        <option value="5" th:selected="${eduType ==5}">中央电中</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>姓名</label>
+                                    <input type="hidden" name="timestamp" th:value="${timestamp}">
+                                    <input type="text" name="userName" placeholder="请输入您的姓名" class="form-control"
+                                           required th:value="${userName}">
+                                </div>
+                                <div class="form-group">
+                                    <label>证件号码</label>
+                                    <input type="text" name="idCard" placeholder="请输入您的身份证" class="form-control"
+                                           required th:value="${idCard}">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-xs pull-right"  id="btnSubmit"type="submit" ><i
+                                            class="fa fa-check"></i>&nbsp;查询
+                                    </button>
+                                </div>
+                                <div th:if="${isEmpty!=0}">
+                                    <div class="form-group" style="margin-top: 108px;">
+                                        <label>性别</label>
+                                        <input type="text" readonly class="form-control" th:value="${@dict.getLabel('sys_user_sex',sex)}">
+                                    </div>
+                                    <div class="form-group" th:if="${eduType!=4}">
+                                        <label>报读学校</label>
+                                        <input type="text" readonly class="form-control" th:value="${school}">
+                                    </div>
+                                    <div class="form-group"  th:if="${eduType!=4}">
+                                        <label>报读专业</label>
+                                        <input type="text" readonly class="form-control" th:value="${major}">
+                                    </div>
+                                    <div class="form-group"  th:if="${eduType!=4}">
+                                        <label>报读层次</label>
+                                        <input type="text" readonly class="form-control" th:value="${level}">
+                                    </div>
+                                    <div class="form-group" th:if="${eduType==1 || eduType==2 }">
+                                        <label>学号</label>
+                                        <input type="text" readonly class="form-control" th:value="${studentNumber}">
+                                    </div>
+                                    <div class="form-group"  th:if="${eduType==1 ||eduType==3 }">
+                                        <label>考生号</label>
+                                        <input type="text" readonly class="form-control"
+                                               th:value="${examStudentNumber}">
+                                    </div>
+                                    <div class="form-group"  th:if="${eduType==4}">
+                                        <label>工种</label>
+                                        <input type="text" readonly class="form-control" th:value="${typeWork}">
+                                    </div>
+                                </div>
+                                <div th:if="${isEmpty==0}" style="margin-top: 108px;text-align: center">
+                                    <img alt="[ 空空如也 ]" th:src="@{/img/nodata.png}" style="width: 120px;height: 120px">
+                                    <h3 class="font-bold" style="margin-top: 10px;">此地无银三百两~</h3>
+                                    <span class="" style="margin-top: 5px;">没有查询到相关信息...</span>
+                                </div>
+                                <span class="glyphicon glyphicon-phone-alt pull-right" aria-hidden="true"
+                                      style="margin-top: 88px;margin-right: 18%;">客服电话:<a class="font-bold"
+                                                                                          href="tel:0731-83862068"
+                                                                                          style="font-size: large">0731-83862068</a></span>
+                                <div style="height: 188px;">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+</body>
+</html>

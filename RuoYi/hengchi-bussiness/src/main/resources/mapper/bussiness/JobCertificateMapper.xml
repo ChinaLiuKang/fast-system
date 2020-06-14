@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="JobCertificate" id="JobCertificateResult">
         <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
         <result property="jobId"    column="job_id"    />
         <result property="jobTeacher"    column="job_teacher"    />
         <result property="jobName"    column="job_name"    />
@@ -23,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectJobCertificateVo">
-        select user_id,job_id, job_teacher, job_name, job_sex, job_nation, job_idnumber, job_outdept, job_typework, job_intime, job_total_charge, job_charge_detail, remark, create_time, update_time from sm_job_certificate
+        select user_id,user_name,job_id, job_teacher, job_name, job_sex, job_nation, job_idnumber, job_outdept, job_typework, job_intime, job_total_charge, job_charge_detail, remark, create_time, update_time from sm_job_certificate
     </sql>
 
     <select id="selectJobCertificateList" parameterType="JobCertificate" resultMap="JobCertificateResult">
@@ -52,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sm_job_certificate
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId !=null">user_id,</if>
+            <if test="userName !=null">user_name,</if>
             <if test="jobId != null ">job_id,</if>
             <if test="jobTeacher != null  and jobTeacher != ''">job_teacher,</if>
             <if test="jobName != null  and jobName != ''">job_name,</if>
@@ -69,6 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
+            <if test="userName !=null">#{userName},</if>
             <if test="jobId != null ">#{jobId},</if>
             <if test="jobTeacher != null  and jobTeacher != ''">#{jobTeacher},</if>
             <if test="jobName != null  and jobName != ''">#{jobName},</if>
@@ -90,6 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update sm_job_certificate
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
             <if test="jobTeacher != null  and jobTeacher != ''">job_teacher = #{jobTeacher},</if>
             <if test="jobName != null  and jobName != ''">job_name = #{jobName},</if>
             <if test="jobSex != null and jobSex!=''">job_sex = #{jobSex},</if>

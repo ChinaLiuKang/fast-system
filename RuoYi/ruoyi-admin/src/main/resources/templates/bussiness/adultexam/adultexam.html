@@ -10,6 +10,13 @@
                 <form id="formId">
                     <div class="select-list">
                         <ul>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('isupdate') == ''}">
+                                <p>操作人：</p>
+                                <select name="userId" th:with="type=${@user.getAllUser()}">
+                                    <option value="">所有</option>
+                                    <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+                                </select>
+                            </li>
                             <li>
                                 <p>招生老师：</p>
                                 <input type="text" name="adultTeacher"/>
@@ -62,7 +69,7 @@
                                 </select>
                             </li>
                             <li>
-                                <p>账户名：</p>
+                                <p>学号：</p>
                                 <input type="text" name="adultAccount"/>
                             </li>
                             <li>
@@ -77,15 +84,15 @@
                                 <p>总加分：</p>
                                 <input type="text" name="adultAddScore"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>收费标准：</p>
                                 <input type="text" name="adultChargeStandard"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>第一年缴费：</p>
                                 <input type="text" name="adultOneyearCharge"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>第二年缴费：</p>
                                 <input type="text" name="adultTwoyearCharge"/>
                             </li>
@@ -122,7 +129,7 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bussiness:adultexam:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:adultexam:import">
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="bussiness:adultexam:import">
                     <i class="fa fa-upload"></i> 导入
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bussiness:adultexam:export">
@@ -146,7 +153,8 @@
         var adultChargeDetailDatas = [[${@dict.getType('sys_edu_charge')}]];
         var adultEnrollDatas = [[${@dict.getType('sys_edu_detail')}]];
         var prefix = ctx + "bussiness/adultexam";
-
+        var hasRole1 = [[${@permission.hasRole('admin')}]];
+        var hasRole2 = [[${@permission.hasRole('showFee')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -157,6 +165,18 @@
                 importUrl: prefix + "/importData",
                 importTemplateUrl: prefix + "/importTemplate",
                 modalName: "成考信息",
+                onLoadSuccess: function () {
+                    if(hasRole2=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'adultChargeStandard');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'adultOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'adultTwoyearCharge');
+                    }
+                    if(hasRole1==""){
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'adultChargeStandard');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'adultOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'adultTwoyearCharge');
+                    }
+                },
                 columns: [{
                     checkbox: true
                 },
@@ -164,6 +184,10 @@
                     field : 'adultId', 
                     title : '主键编号',
                     visible: false
+                },
+                {
+                     field:'userName',
+                     title:'操作人',
                 },
                 {
                     field : 'adultTeacher', 
@@ -222,7 +246,7 @@
                 },
                 {
                     field : 'adultAccount', 
-                    title : '账户名'
+                    title : '学号'
                 },
                 {
                     field : 'adultExamNumber', 

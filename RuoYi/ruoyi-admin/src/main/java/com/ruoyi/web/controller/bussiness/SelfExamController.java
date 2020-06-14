@@ -10,6 +10,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysConfigService;
+import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,27 +19,32 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 自学考试Controller
- * 
+ *
  * @author liukang
  * @date 2019-08-30
  */
 @Controller
 @RequestMapping("/bussiness/selfexam")
-public class SelfExamController extends BaseController
-{
+public class SelfExamController extends BaseController {
     private String prefix = "bussiness/selfexam";
 
     @Autowired
     private ISelfExamService selfExamService;
 
+    @Autowired
+    private ISysConfigService iSysConfigService;
+
+    @Autowired
+    private ISysUserService userService;
+
     @RequiresPermissions("bussiness:selfexam:view")
     @GetMapping()
-    public String selfexam()
-    {
+    public String selfexam() {
         return prefix + "/selfexam";
     }
 
@@ -47,17 +54,25 @@ public class SelfExamController extends BaseController
     @RequiresPermissions("bussiness:selfexam:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(SelfExam selfExam)
-    {
+    public TableDataInfo list(SelfExam selfExam) {
         startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+            Long userId =selfExam.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 selfExam.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if (count > 0) {
+                selfExam.setUserId(null);
+            }
+            if(count>0 && userId!=null){
+                selfExam.setUserId(userId);
             }
         }
         List<SelfExam> list = selfExamService.selectSelfExamList(selfExam);
@@ -70,17 +85,26 @@ public class SelfExamController extends BaseController
     @RequiresPermissions("bussiness:selfexam:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(SelfExam selfExam)
-    {
+    public AjaxResult export(SelfExam selfExam) {
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+            Long userId =selfExam.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 selfExam.setUserId(currentUser.getUserId());
             }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if (count > 0) {
+                selfExam.setUserId(null);
+            }
+            if(count>0 && userId!=null){
+                selfExam.setUserId(userId);
+            }
+
         }
         List<SelfExam> list = selfExamService.selectSelfExamList(selfExam);
         ExcelUtil<SelfExam> util = new ExcelUtil<SelfExam>(SelfExam.class);
@@ -91,8 +115,7 @@ public class SelfExamController extends BaseController
      * 新增自学考试
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -103,17 +126,16 @@ public class SelfExamController extends BaseController
     @Log(title = "自学考试", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(SelfExam selfExam)
-    {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                selfExam.setUserId(currentUser.getUserId());
-            }
+    public AjaxResult addSave(SelfExam selfExam) {
+
+        //设置操作人名称
+        if(selfExam.getUserId() == null){
+            SysUser currentUser = ShiroUtils.getSysUser();
+            selfExam.setUserId(currentUser.getUserId());
+            selfExam.setUserName(currentUser.getUserName());
+        }else{
+            SysUser sysUser = userService.selectUserById(selfExam.getUserId());
+            selfExam.setUserName(sysUser.getUserName());
         }
         return toAjax(selfExamService.insertSelfExam(selfExam));
     }
@@ -122,8 +144,7 @@ public class SelfExamController extends BaseController
      * 修改自学考试
      */
     @GetMapping("/edit/{selfId}")
-    public String edit(@PathVariable("selfId") Long selfId, ModelMap mmap)
-    {
+    public String edit(@PathVariable("selfId") Long selfId, ModelMap mmap) {
         SelfExam selfExam = selfExamService.selectSelfExamById(selfId);
         mmap.put("selfExam", selfExam);
         return prefix + "/edit";
@@ -136,17 +157,11 @@ public class SelfExamController extends BaseController
     @Log(title = "自学考试", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(SelfExam selfExam)
-    {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                selfExam.setUserId(currentUser.getUserId());
-            }
+    public AjaxResult editSave(SelfExam selfExam) {
+        // 修改操作人
+        if(selfExam.getUserId()!=null){
+            SysUser sysUser = userService.selectUserById(selfExam.getUserId());
+            selfExam.setUserName(sysUser.getUserName());
         }
         return toAjax(selfExamService.updateSelfExam(selfExam));
     }
@@ -156,22 +171,21 @@ public class SelfExamController extends BaseController
      */
     @RequiresPermissions("bussiness:selfexam:remove")
     @Log(title = "自学考试", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(selfExamService.deleteSelfExamByIds(ids));
     }
 
     /**
      * 自学考试模板下载
+     *
      * @return
      */
     @RequiresPermissions("bussiness:selfexam:view")
     @GetMapping("/importTemplate")
     @ResponseBody
-    public AjaxResult importTemplate()
-    {
+    public AjaxResult importTemplate() {
         ExcelUtil<SelfExam> util = new ExcelUtil<SelfExam>(SelfExam.class);
         return util.importTemplateExcel("职业资格证");
     }
@@ -180,18 +194,17 @@ public class SelfExamController extends BaseController
     @RequiresPermissions("bussiness:selfexam:import")
     @PostMapping("/importData")
     @ResponseBody
-    public AjaxResult importData(MultipartFile file) throws Exception
-    {
+    public AjaxResult importData(MultipartFile file) throws Exception {
         ExcelUtil<SelfExam> util = new ExcelUtil<SelfExam>(SelfExam.class);
         List<SelfExam> selfExamList = util.importExcel(file.getInputStream());
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                selfExamList.stream().forEach(selfExam -> {selfExam.setUserId(currentUser.getUserId());});
+            if (!currentUser.isAdmin()) {
+                selfExamList.stream().forEach(selfExam -> {
+                    selfExam.setUserId(currentUser.getUserId());
+                });
             }
         }
         String message = selfExamService.importSelfExam(selfExamList);

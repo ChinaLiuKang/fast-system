@@ -10,6 +10,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysConfigService;
+import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,27 +19,32 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 中央电中Controller
- * 
+ *
  * @author liukang
  * @date 2019-08-30
  */
 @Controller
 @RequestMapping("/bussiness/middle")
-public class CenterMiddleController extends BaseController
-{
+public class CenterMiddleController extends BaseController {
     private String prefix = "bussiness/middle";
 
     @Autowired
     private ICenterMiddleService centerMiddleService;
 
+    @Autowired
+    private ISysConfigService iSysConfigService;
+
+    @Autowired
+    private ISysUserService userService;
+
     @RequiresPermissions("bussiness:middle:view")
     @GetMapping()
-    public String middle()
-    {
+    public String middle() {
         return prefix + "/middle";
     }
 
@@ -47,17 +54,25 @@ public class CenterMiddleController extends BaseController
     @RequiresPermissions("bussiness:middle:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(CenterMiddle centerMiddle)
-    {
+    public TableDataInfo list(CenterMiddle centerMiddle) {
         startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+            Long userId = centerMiddle.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 centerMiddle.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if (count > 0) {
+                centerMiddle.setUserId(null);
+            }
+            if(userId!=null && count>0){
+                centerMiddle.setUserId(userId);
             }
         }
         List<CenterMiddle> list = centerMiddleService.selectCenterMiddleList(centerMiddle);
@@ -70,16 +85,24 @@ public class CenterMiddleController extends BaseController
     @RequiresPermissions("bussiness:middle:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(CenterMiddle centerMiddle)
-    {
+    public AjaxResult export(CenterMiddle centerMiddle) {
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+            Long userId = centerMiddle.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 centerMiddle.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if (count > 0) {
+                centerMiddle.setUserId(null);
+            }
+            if(userId!=null && count>0){
+                centerMiddle.setUserId(userId);
             }
         }
         List<CenterMiddle> list = centerMiddleService.selectCenterMiddleList(centerMiddle);
@@ -91,8 +114,7 @@ public class CenterMiddleController extends BaseController
      * 新增中央电中
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -103,17 +125,16 @@ public class CenterMiddleController extends BaseController
     @Log(title = "中央电中", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(CenterMiddle centerMiddle)
-    {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                centerMiddle.setUserId(currentUser.getUserId());
-            }
+    public AjaxResult addSave(CenterMiddle centerMiddle) {
+
+        //设置操作人名称
+        if(centerMiddle.getUserId() == null){
+            SysUser currentUser = ShiroUtils.getSysUser();
+            centerMiddle.setUserId(currentUser.getUserId());
+            centerMiddle.setUserName(currentUser.getUserName());
+        }else{
+            SysUser sysUser = userService.selectUserById(centerMiddle.getUserId());
+            centerMiddle.setUserName(sysUser.getUserName());
         }
         return toAjax(centerMiddleService.insertCenterMiddle(centerMiddle));
     }
@@ -122,8 +143,7 @@ public class CenterMiddleController extends BaseController
      * 修改中央电中
      */
     @GetMapping("/edit/{centerId}")
-    public String edit(@PathVariable("centerId") Long centerId, ModelMap mmap)
-    {
+    public String edit(@PathVariable("centerId") Long centerId, ModelMap mmap) {
         CenterMiddle centerMiddle = centerMiddleService.selectCenterMiddleById(centerId);
         mmap.put("centerMiddle", centerMiddle);
         return prefix + "/edit";
@@ -136,17 +156,11 @@ public class CenterMiddleController extends BaseController
     @Log(title = "中央电中", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(CenterMiddle centerMiddle)
-    {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                centerMiddle.setUserId(currentUser.getUserId());
-            }
+    public AjaxResult editSave(CenterMiddle centerMiddle) {
+        // 修改操作人
+        if(centerMiddle.getUserId()!=null){
+            SysUser sysUser = userService.selectUserById(centerMiddle.getUserId());
+            centerMiddle.setUserName(sysUser.getUserName());
         }
         return toAjax(centerMiddleService.updateCenterMiddle(centerMiddle));
     }
@@ -156,23 +170,22 @@ public class CenterMiddleController extends BaseController
      */
     @RequiresPermissions("bussiness:middle:remove")
     @Log(title = "中央电中", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(centerMiddleService.deleteCenterMiddleByIds(ids));
     }
 
 
     /**
      * 中央电中模板下载
+     *
      * @return
      */
     @RequiresPermissions("bussiness:middle:view")
     @GetMapping("/importTemplate")
     @ResponseBody
-    public AjaxResult importTemplate()
-    {
+    public AjaxResult importTemplate() {
         ExcelUtil<CenterMiddle> util = new ExcelUtil<CenterMiddle>(CenterMiddle.class);
         return util.importTemplateExcel("中央电中");
     }
@@ -181,17 +194,14 @@ public class CenterMiddleController extends BaseController
     @RequiresPermissions("bussiness:middle:import")
     @PostMapping("/importData")
     @ResponseBody
-    public AjaxResult importData(MultipartFile file) throws Exception
-    {
+    public AjaxResult importData(MultipartFile file) throws Exception {
         ExcelUtil<CenterMiddle> util = new ExcelUtil<CenterMiddle>(CenterMiddle.class);
         List<CenterMiddle> userList = util.importExcel(file.getInputStream());
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 userList.stream().forEach(centerMiddle -> centerMiddle.setUserId(currentUser.getUserId()));
             }
         }

@@ -10,6 +10,13 @@
                 <form id="formId">
                     <div class="select-list">
                         <ul>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('isupdate') == ''}">
+                                <p>操作人：</p>
+                                <select name="userId" th:with="type=${@user.getAllUser()}">
+                                    <option value="">所有</option>
+                                    <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+                                </select>
+                            </li>
                             <li>
                                 <p>招生老师：</p>
                                 <input type="text" name="distanceTeacher"/>
@@ -62,15 +69,15 @@
                                 <p>学号：</p>
                                 <input type="text" name="distanceStudentNumber"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>总学费：</p>
                                 <input type="text" name="distanceTotalCharge"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>第一年缴费：</p>
                                 <input type="text" name="distanceOneyearCharge"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>第二年缴费：</p>
                                 <input type="text" name="distanceTwoyearCharge"/>
                             </li>
@@ -107,7 +114,7 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="bussiness:education:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="system:education:import">
+                <a class="btn btn-info" onclick="$.table.importExcel()" shiro:hasPermission="bussiness:education:import">
                     <i class="fa fa-upload"></i> 导入
                 </a>
                 <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="bussiness:education:export">
@@ -130,7 +137,8 @@
         var distanceChargeDetailDatas = [[${@dict.getType('sys_edu_charge')}]];
         var distanceEnrollDatas = [[${@dict.getType('sys_edu_detail')}]];
         var prefix = ctx + "bussiness/education";
-
+        var hasRole1 = [[${@permission.hasRole('admin')}]];
+        var hasRole2 = [[${@permission.hasRole('showFee')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -141,6 +149,18 @@
                 importUrl: prefix + "/importData",
                 importTemplateUrl: prefix + "/importTemplate",
                 modalName: "远程教育",
+                onLoadSuccess: function () {
+                    if(hasRole2=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceTotalCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceTwoyearCharge');
+                    }
+                    if(hasRole1==""){
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'distanceTotalCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceTwoyearCharge');
+                    }
+                },
                 columns: [{
                     checkbox: true
                 },
@@ -149,6 +169,10 @@
                     title : '主键编号',
                     visible: false
                 },
+                    {
+                        field:'userName',
+                        title:'操作人',
+                    },
                 {
                     field : 'distanceTeacher', 
                     title : '招生老师'

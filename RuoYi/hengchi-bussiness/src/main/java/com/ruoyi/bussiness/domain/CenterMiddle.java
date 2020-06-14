@@ -18,6 +18,9 @@ public class CenterMiddle extends BaseEntity
     /** 主键id */
     private Long centerId;
 
+    @Excel(name= "操作人")
+    String userName;
+
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String centerTeacher;
@@ -70,7 +73,29 @@ public class CenterMiddle extends BaseEntity
     @Excel(name = "毕业情况")
     private String centerGraduateDetail;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String remark;
+
     private Long userId;
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Long getUserId() {
         return userId;
@@ -225,6 +250,7 @@ public class CenterMiddle extends BaseEntity
                 ", centerChargeDetail='" + centerChargeDetail + '\'' +
                 ", centerCertificateNumber='" + centerCertificateNumber + '\'' +
                 ", centerGraduateDetail='" + centerGraduateDetail + '\'' +
+                ", remark='" + remark + '\'' +
                 ", userId=" + userId +
                 '}';
     }

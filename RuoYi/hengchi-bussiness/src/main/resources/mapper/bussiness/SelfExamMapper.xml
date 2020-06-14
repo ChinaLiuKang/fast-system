@@ -6,6 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="SelfExam" id="SelfExamResult">
         <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
         <result property="selfId"    column="self_id"    />
         <result property="selfTeacher"    column="self_teacher"    />
         <result property="selfName"    column="self_name"    />
@@ -27,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSelfExamVo">
-        select user_id,self_id, self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
+        select user_id,user_name,self_id, self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
     </sql>
 
     <select id="selectSelfExamList" parameterType="SelfExam" resultMap="SelfExamResult">
@@ -60,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         insert into sm_self_exam
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId !=null">user_id,</if>
+            <if test="userName !=null">user_name,</if>
             <if test="selfId != null ">self_id,</if>
             <if test="selfTeacher != null  and selfTeacher != ''">self_teacher,</if>
             <if test="selfName != null  and selfName != ''">self_name,</if>
@@ -81,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
+            <if test="userName !=null">#{userName},</if>
             <if test="selfId != null ">#{selfId},</if>
             <if test="selfTeacher != null  and selfTeacher != ''">#{selfTeacher},</if>
             <if test="selfName != null  and selfName != ''">#{selfName},</if>
@@ -106,6 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update sm_self_exam
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
             <if test="selfTeacher != null  and selfTeacher != ''">self_teacher = #{selfTeacher},</if>
             <if test="selfName != null  and selfName != ''">self_name = #{selfName},</if>
             <if test="selfSex != null and selfSex != ''">self_sex = #{selfSex},</if>

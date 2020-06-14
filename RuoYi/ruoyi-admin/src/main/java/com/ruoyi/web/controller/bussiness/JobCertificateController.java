@@ -10,6 +10,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysConfigService;
+import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,27 +19,32 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 职业资格证Controller
- * 
+ *
  * @author liukang
  * @date 2019-08-30
  */
 @Controller
 @RequestMapping("/bussiness/certificate")
-public class JobCertificateController extends BaseController
-{
+public class JobCertificateController extends BaseController {
     private String prefix = "bussiness/certificate";
 
     @Autowired
     private IJobCertificateService jobCertificateService;
 
+    @Autowired
+    private ISysConfigService iSysConfigService;
+
+    @Autowired
+    private ISysUserService userService;
+
     @RequiresPermissions("bussiness:certificate:view")
     @GetMapping()
-    public String certificate()
-    {
+    public String certificate() {
         return prefix + "/certificate";
     }
 
@@ -47,17 +54,25 @@ public class JobCertificateController extends BaseController
     @RequiresPermissions("bussiness:certificate:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(JobCertificate jobCertificate)
-    {
+    public TableDataInfo list(JobCertificate jobCertificate) {
         startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+            Long userId = jobCertificate.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 jobCertificate.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if (count > 0) {
+                jobCertificate.setUserId(null);
+            }
+            if(userId!=null && count>0){
+                jobCertificate.setUserId(userId);
             }
         }
         List<JobCertificate> list = jobCertificateService.selectJobCertificateList(jobCertificate);
@@ -70,16 +85,24 @@ public class JobCertificateController extends BaseController
     @RequiresPermissions("bussiness:certificate:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(JobCertificate jobCertificate)
-    {
+    public AjaxResult export(JobCertificate jobCertificate) {
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
+            Long userId = jobCertificate.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 jobCertificate.setUserId(currentUser.getUserId());
+            }
+            //统计该用户的角色是否有包含所有数据的角色
+            long count = currentUser.getRoles().stream().
+                    filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
+                    .count();
+            if (count > 0) {
+                jobCertificate.setUserId(null);
+            }
+            if(userId!=null && count>0){
+                jobCertificate.setUserId(userId);
             }
         }
         List<JobCertificate> list = jobCertificateService.selectJobCertificateList(jobCertificate);
@@ -91,8 +114,7 @@ public class JobCertificateController extends BaseController
      * 新增职业资格证
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -103,17 +125,16 @@ public class JobCertificateController extends BaseController
     @Log(title = "职业资格证", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(JobCertificate jobCertificate)
-    {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                jobCertificate.setUserId(currentUser.getUserId());
-            }
+    public AjaxResult addSave(JobCertificate jobCertificate) {
+
+        //设置操作人名称
+        if(jobCertificate.getUserId() == null){
+            SysUser currentUser = ShiroUtils.getSysUser();
+            jobCertificate.setUserId(currentUser.getUserId());
+            jobCertificate.setUserName(currentUser.getUserName());
+        }else{
+            SysUser sysUser = userService.selectUserById(jobCertificate.getUserId());
+            jobCertificate.setUserName(sysUser.getUserName());
         }
         return toAjax(jobCertificateService.insertJobCertificate(jobCertificate));
     }
@@ -122,8 +143,7 @@ public class JobCertificateController extends BaseController
      * 修改职业资格证
      */
     @GetMapping("/edit/{jobId}")
-    public String edit(@PathVariable("jobId") Long jobId, ModelMap mmap)
-    {
+    public String edit(@PathVariable("jobId") Long jobId, ModelMap mmap) {
         JobCertificate jobCertificate = jobCertificateService.selectJobCertificateById(jobId);
         mmap.put("jobCertificate", jobCertificate);
         return prefix + "/edit";
@@ -136,17 +156,11 @@ public class JobCertificateController extends BaseController
     @Log(title = "职业资格证", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(JobCertificate jobCertificate)
-    {
-        // 获取当前的用户
-        SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
-            // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                jobCertificate.setUserId(currentUser.getUserId());
-            }
+    public AjaxResult editSave(JobCertificate jobCertificate) {
+        // 修改操作人
+        if(jobCertificate.getUserId()!=null){
+            SysUser sysUser = userService.selectUserById(jobCertificate.getUserId());
+            jobCertificate.setUserName(sysUser.getUserName());
         }
         return toAjax(jobCertificateService.updateJobCertificate(jobCertificate));
     }
@@ -156,22 +170,21 @@ public class JobCertificateController extends BaseController
      */
     @RequiresPermissions("bussiness:certificate:remove")
     @Log(title = "职业资格证", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(jobCertificateService.deleteJobCertificateByIds(ids));
     }
 
     /**
      * 职业资格证模板下载
+     *
      * @return
      */
     @RequiresPermissions("bussiness:certificate:view")
     @GetMapping("/importTemplate")
     @ResponseBody
-    public AjaxResult importTemplate()
-    {
+    public AjaxResult importTemplate() {
         ExcelUtil<JobCertificate> util = new ExcelUtil<JobCertificate>(JobCertificate.class);
         return util.importTemplateExcel("职业资格证");
     }
@@ -180,18 +193,17 @@ public class JobCertificateController extends BaseController
     @RequiresPermissions("bussiness:certificate:import")
     @PostMapping("/importData")
     @ResponseBody
-    public AjaxResult importData(MultipartFile file) throws Exception
-    {
+    public AjaxResult importData(MultipartFile file) throws Exception {
         ExcelUtil<JobCertificate> util = new ExcelUtil<JobCertificate>(JobCertificate.class);
         List<JobCertificate> jobCertificateList = util.importExcel(file.getInputStream());
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                jobCertificateList.stream().forEach(jobCertificate -> {jobCertificate.setUserId(currentUser.getUserId());});
+            if (!currentUser.isAdmin()) {
+                jobCertificateList.stream().forEach(jobCertificate -> {
+                    jobCertificate.setUserId(currentUser.getUserId());
+                });
             }
         }
 
