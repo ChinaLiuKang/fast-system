@@ -55,7 +55,7 @@ public class JobCertificateController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(JobCertificate jobCertificate) {
-        startPage();
+
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null) {
@@ -75,6 +75,7 @@ public class JobCertificateController extends BaseController {
                 jobCertificate.setUserId(userId);
             }
         }
+        startPage();
         List<JobCertificate> list = jobCertificateService.selectJobCertificateList(jobCertificate);
         return getDataTable(list);
     }

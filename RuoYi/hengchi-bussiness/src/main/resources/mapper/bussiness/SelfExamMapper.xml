@@ -50,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="selfTwoyearCharge != null "> and self_twoyear_charge = #{selfTwoyearCharge}</if>
             <if test="selfChargeDetail != null  and selfChargeDetail != ''"> and self_charge_detail = #{selfChargeDetail}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectSelfExamById" parameterType="Long" resultMap="SelfExamResult">
@@ -110,21 +111,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
-            <if test="selfTeacher != null  and selfTeacher != ''">self_teacher = #{selfTeacher},</if>
-            <if test="selfName != null  and selfName != ''">self_name = #{selfName},</if>
-            <if test="selfSex != null and selfSex != ''">self_sex = #{selfSex},</if>
-            <if test="selfNation != null  and selfNation != ''">self_nation = #{selfNation},</if>
-            <if test="selfIdnumber != null  and selfIdnumber != ''">self_idnumber = #{selfIdnumber},</if>
-            <if test="selfLevel != null  and selfLevel != ''">self_level = #{selfLevel},</if>
-            <if test="selfType != null  and selfType != ''">self_type = #{selfType},</if>
-            <if test="selfSchool != null  and selfSchool != ''">self_school = #{selfSchool},</if>
-            <if test="selfMajor != null  and selfMajor != ''">self_major = #{selfMajor},</if>
-            <if test="selfStudentNumber != null  and selfStudentNumber != ''">self_student_number = #{selfStudentNumber},</if>
+            <if test="selfTeacher != null">self_teacher = #{selfTeacher},</if>
+            <if test="selfName != null">self_name = #{selfName},</if>
+            <if test="selfSex != null">self_sex = #{selfSex},</if>
+            <if test="selfNation != null">self_nation = #{selfNation},</if>
+            <if test="selfIdnumber != null">self_idnumber = #{selfIdnumber},</if>
+            <if test="selfLevel != null">self_level = #{selfLevel},</if>
+            <if test="selfType != null">self_type = #{selfType},</if>
+            <if test="selfSchool != null">self_school = #{selfSchool},</if>
+            <if test="selfMajor != null">self_major = #{selfMajor},</if>
+            <if test="selfStudentNumber != null">self_student_number = #{selfStudentNumber},</if>
             <if test="selfTotalCharge != null ">self_total_charge = #{selfTotalCharge},</if>
             <if test="selfOneyearCharge != null ">self_oneyear_charge = #{selfOneyearCharge},</if>
             <if test="selfTwoyearCharge != null ">self_twoyear_charge = #{selfTwoyearCharge},</if>
-            <if test="selfChargeDetail != null  and selfChargeDetail != ''">self_charge_detail = #{selfChargeDetail},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="selfChargeDetail != null">self_charge_detail = #{selfChargeDetail},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>

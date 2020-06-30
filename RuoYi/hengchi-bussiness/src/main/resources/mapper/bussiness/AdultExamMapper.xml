@@ -60,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="adultEnroll != null  and adultEnroll != ''"> and adult_enroll = #{adultEnroll}</if>
             <if test="userId != null ">and user_id = #{userId}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectAdultExamById" parameterType="Long" resultMap="AdultExamResult">
@@ -130,26 +131,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
-            <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher = #{adultTeacher},</if>
-            <if test="adultName != null  and adultName != ''">adult_name = #{adultName},</if>
-            <if test="adultSex != null and adultSex !=''">adult_sex = #{adultSex},</if>
-            <if test="adultNation != null  and adultNation != ''">adult_nation = #{adultNation},</if>
-            <if test="adultIdnumber != null  and adultIdnumber != ''">adult_idnumber = #{adultIdnumber},</if>
-            <if test="adultLevel != null  and adultLevel != ''">adult_level = #{adultLevel},</if>
-            <if test="adultType != null  and adultType != ''">adult_type = #{adultType},</if>
-            <if test="adultSchool != null  and adultSchool != ''">adult_school = #{adultSchool},</if>
-            <if test="adultMajor != null  and adultMajor != ''">adult_major = #{adultMajor},</if>
-            <if test="adultGrade != null  and adultGrade != ''">adult_grade = #{adultGrade},</if>
-            <if test="adultAccount != null  and adultAccount != ''">adult_account = #{adultAccount},</if>
-            <if test="adultExamNumber != null  and adultExamNumber != ''">adult_exam_number = #{adultExamNumber},</if>
-            <if test="adultStudentNumber != null  and adultStudentNumber != ''">adult_student_number = #{adultStudentNumber},</if>
-            <if test="adultAddScore != null ">adult_add_score = #{adultAddScore},</if>
-            <if test="adultChargeStandard != null ">adult_charge_standard = #{adultChargeStandard},</if>
-            <if test="adultOneyearCharge != null ">adult_oneyear_charge = #{adultOneyearCharge},</if>
-            <if test="adultTwoyearCharge != null ">adult_twoyear_charge = #{adultTwoyearCharge},</if>
-            <if test="adultChargeDetail != null  and adultChargeDetail != ''">adult_charge_detail = #{adultChargeDetail},</if>
-            <if test="adultEnroll != null  and adultEnroll != ''">adult_enroll = #{adultEnroll},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="adultTeacher != null  ">adult_teacher = #{adultTeacher},</if>
+            <if test="adultName != null  ">adult_name = #{adultName},</if>
+            <if test="adultSex != null ">adult_sex = #{adultSex},</if>
+            <if test="adultNation != null  ">adult_nation = #{adultNation},</if>
+            <if test="adultIdnumber != null">adult_idnumber = #{adultIdnumber},</if>
+            <if test="adultLevel != null">adult_level = #{adultLevel},</if>
+            <if test="adultType != null">adult_type = #{adultType},</if>
+            <if test="adultSchool != null">adult_school = #{adultSchool},</if>
+            <if test="adultMajor != null">adult_major = #{adultMajor},</if>
+            <if test="adultGrade != null">adult_grade = #{adultGrade},</if>
+            <if test="adultAccount != null">adult_account = #{adultAccount},</if>
+            <if test="adultExamNumber != null">adult_exam_number = #{adultExamNumber},</if>
+            <if test="adultStudentNumber != null">adult_student_number = #{adultStudentNumber},</if>
+            <if test="adultAddScore != null">adult_add_score = #{adultAddScore},</if>
+            <if test="adultChargeStandard != null">adult_charge_standard = #{adultChargeStandard},</if>
+            <if test="adultOneyearCharge != null">adult_oneyear_charge = #{adultOneyearCharge},</if>
+            <if test="adultTwoyearCharge != null">adult_twoyear_charge = #{adultTwoyearCharge},</if>
+            <if test="adultChargeDetail != null">adult_charge_detail = #{adultChargeDetail},</if>
+            <if test="adultEnroll != null">adult_enroll = #{adultEnroll},</if>
+            <if test="remark != null ">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>

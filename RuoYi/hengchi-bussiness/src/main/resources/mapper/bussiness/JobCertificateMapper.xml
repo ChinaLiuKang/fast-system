@@ -42,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jobTotalCharge != null "> and job_total_charge = #{jobTotalCharge}</if>
             <if test="jobChargeDetail != null  and jobChargeDetail != ''"> and job_charge_detail = #{jobChargeDetail}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectJobCertificateById" parameterType="Long" resultMap="JobCertificateResult">
@@ -94,17 +95,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
-            <if test="jobTeacher != null  and jobTeacher != ''">job_teacher = #{jobTeacher},</if>
-            <if test="jobName != null  and jobName != ''">job_name = #{jobName},</if>
-            <if test="jobSex != null and jobSex!=''">job_sex = #{jobSex},</if>
-            <if test="jobNation != null  and jobNation != ''">job_nation = #{jobNation},</if>
-            <if test="jobIdnumber != null  and jobIdnumber != ''">job_idnumber = #{jobIdnumber},</if>
-            <if test="jobOutdept != null  and jobOutdept != ''">job_outdept = #{jobOutdept},</if>
-            <if test="jobTypework != null  and jobTypework != ''">job_typework = #{jobTypework},</if>
+            <if test="jobTeacher != null">job_teacher = #{jobTeacher},</if>
+            <if test="jobName != null">job_name = #{jobName},</if>
+            <if test="jobSex != null">job_sex = #{jobSex},</if>
+            <if test="jobNation != null">job_nation = #{jobNation},</if>
+            <if test="jobIdnumber != null">job_idnumber = #{jobIdnumber},</if>
+            <if test="jobOutdept != null">job_outdept = #{jobOutdept},</if>
+            <if test="jobTypework != null">job_typework = #{jobTypework},</if>
             <if test="jobIntime != null ">job_intime = #{jobIntime},</if>
             <if test="jobTotalCharge != null ">job_total_charge = #{jobTotalCharge},</if>
-            <if test="jobChargeDetail != null  and jobChargeDetail != ''">job_charge_detail = #{jobChargeDetail},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="jobChargeDetail != null ">job_charge_detail = #{jobChargeDetail},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>

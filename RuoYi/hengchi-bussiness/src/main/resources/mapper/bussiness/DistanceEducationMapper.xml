@@ -54,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="distanceChargeDetail != null  and distanceChargeDetail != ''"> and distance_charge_detail = #{distanceChargeDetail}</if>
             <if test="distanceEnroll != null  and distanceEnroll != ''"> and distance_enroll = #{distanceEnroll}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectDistanceEducationById" parameterType="Long" resultMap="DistanceEducationResult">
@@ -118,23 +119,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
-            <if test="distanceTeacher != null  and distanceTeacher != ''">distance_teacher = #{distanceTeacher},</if>
-            <if test="distancePoints != null  and distancePoints != ''">distance_points = #{distancePoints},</if>
-            <if test="distanceName != null  and distanceName != ''">distance_name = #{distanceName},</if>
-            <if test="distanceSex != null and distanceSex !=''">distance_sex = #{distanceSex},</if>
-            <if test="distanceNation != null  and distanceNation != ''">distance_nation = #{distanceNation},</if>
-            <if test="distanceIdnumber != null  and distanceIdnumber != ''">distance_idnumber = #{distanceIdnumber},</if>
-            <if test="distanceLevel != null  and distanceLevel != ''">distance_level = #{distanceLevel},</if>
-            <if test="distanceSchool != null  and distanceSchool != ''">distance_school = #{distanceSchool},</if>
-            <if test="distanceMajor != null  and distanceMajor != ''">distance_major = #{distanceMajor},</if>
-            <if test="distancePeriods != null  and distancePeriods != ''">distance_periods = #{distancePeriods},</if>
-            <if test="distanceStudentNumber != null  and distanceStudentNumber != ''">distance_student_number = #{distanceStudentNumber},</if>
+            <if test="distanceTeacher != null">distance_teacher = #{distanceTeacher},</if>
+            <if test="distancePoints != null">distance_points = #{distancePoints},</if>
+            <if test="distanceName != null">distance_name = #{distanceName},</if>
+            <if test="distanceSex != null">distance_sex = #{distanceSex},</if>
+            <if test="distanceNation != null">distance_nation = #{distanceNation},</if>
+            <if test="distanceIdnumber != null">distance_idnumber = #{distanceIdnumber},</if>
+            <if test="distanceLevel != null">distance_level = #{distanceLevel},</if>
+            <if test="distanceSchool != null">distance_school = #{distanceSchool},</if>
+            <if test="distanceMajor != null">distance_major = #{distanceMajor},</if>
+            <if test="distancePeriods != null">distance_periods = #{distancePeriods},</if>
+            <if test="distanceStudentNumber != null">distance_student_number = #{distanceStudentNumber},</if>
             <if test="distanceTotalCharge != null ">distance_total_charge = #{distanceTotalCharge},</if>
             <if test="distanceOneyearCharge != null ">distance_oneyear_charge = #{distanceOneyearCharge},</if>
             <if test="distanceTwoyearCharge != null ">distance_twoyear_charge = #{distanceTwoyearCharge},</if>
-            <if test="distanceChargeDetail != null  and distanceChargeDetail != ''">distance_charge_detail = #{distanceChargeDetail},</if>
-            <if test="distanceEnroll != null  and distanceEnroll != ''">distance_enroll = #{distanceEnroll},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="distanceChargeDetail != null">distance_charge_detail = #{distanceChargeDetail},</if>
+            <if test="distanceEnroll != null">distance_enroll = #{distanceEnroll},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>

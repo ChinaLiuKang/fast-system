@@ -56,7 +56,6 @@ public class DistanceEducationController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(DistanceEducation distanceEducation) {
-        startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null) {
@@ -77,6 +76,7 @@ public class DistanceEducationController extends BaseController {
             }
 
         }
+        startPage();
         List<DistanceEducation> list = distanceEducationService.selectDistanceEducationList(distanceEducation);
         return getDataTable(list);
     }

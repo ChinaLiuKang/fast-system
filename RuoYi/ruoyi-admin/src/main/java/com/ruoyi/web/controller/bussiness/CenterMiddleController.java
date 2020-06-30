@@ -55,7 +55,6 @@ public class CenterMiddleController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(CenterMiddle centerMiddle) {
-        startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null) {
@@ -75,6 +74,7 @@ public class CenterMiddleController extends BaseController {
                 centerMiddle.setUserId(userId);
             }
         }
+        startPage();
         List<CenterMiddle> list = centerMiddleService.selectCenterMiddleList(centerMiddle);
         return getDataTable(list);
     }

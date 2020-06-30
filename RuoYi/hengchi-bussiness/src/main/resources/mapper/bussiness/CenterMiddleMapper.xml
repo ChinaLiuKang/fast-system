@@ -48,6 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="centerCertificateNumber != null  and centerCertificateNumber != ''"> and center_certificate_number = #{centerCertificateNumber}</if>
             <if test="centerGraduateDetail != null  and centerGraduateDetail != ''"> and center_graduate_detail = #{centerGraduateDetail}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectCenterMiddleById" parameterType="Long" resultMap="CenterMiddleResult">
@@ -106,20 +107,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
-            <if test="centerTeacher != null  and centerTeacher != ''">center_teacher = #{centerTeacher},</if>
-            <if test="centerName != null  and centerName != ''">center_name = #{centerName},</if>
-            <if test="centerSex != null and centerSex !=''">center_sex = #{centerSex},</if>
-            <if test="centerNation != null  and centerNation != ''">center_nation = #{centerNation},</if>
-            <if test="centerIdnumber != null  and centerIdnumber != ''">center_idnumber = #{centerIdnumber},</if>
-            <if test="centerLevel != null  and centerLevel != ''">center_level = #{centerLevel},</if>
-            <if test="centerSchool != null  and centerSchool != ''">center_school = #{centerSchool},</if>
-            <if test="centerMajor != null  and centerMajor != ''">center_major = #{centerMajor},</if>
-            <if test="centerTime != null  and centerTime != ''">center_time = #{centerTime},</if>
+            <if test="centerTeacher != null">center_teacher = #{centerTeacher},</if>
+            <if test="centerName != null">center_name = #{centerName},</if>
+            <if test="centerSex != null">center_sex = #{centerSex},</if>
+            <if test="centerNation != null">center_nation = #{centerNation},</if>
+            <if test="centerIdnumber != null">center_idnumber = #{centerIdnumber},</if>
+            <if test="centerLevel != null">center_level = #{centerLevel},</if>
+            <if test="centerSchool != null">center_school = #{centerSchool},</if>
+            <if test="centerMajor != null">center_major = #{centerMajor},</if>
+            <if test="centerTime != null">center_time = #{centerTime},</if>
             <if test="centerTotalCharge != null ">center_total_charge = #{centerTotalCharge},</if>
-            <if test="centerChargeDetail != null  and centerChargeDetail != ''">center_charge_detail = #{centerChargeDetail},</if>
-            <if test="centerCertificateNumber != null  and centerCertificateNumber != ''">center_certificate_number = #{centerCertificateNumber},</if>
-            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">center_graduate_detail = #{centerGraduateDetail},</if>
-            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="centerChargeDetail != null">center_charge_detail = #{centerChargeDetail},</if>
+            <if test="centerCertificateNumber != null">center_certificate_number = #{centerCertificateNumber},</if>
+            <if test="centerGraduateDetail != null">center_graduate_detail = #{centerGraduateDetail},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
         </trim>

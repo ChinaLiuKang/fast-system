@@ -55,7 +55,6 @@ public class SelfExamController extends BaseController {
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(SelfExam selfExam) {
-        startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null) {
@@ -75,6 +74,7 @@ public class SelfExamController extends BaseController {
                 selfExam.setUserId(userId);
             }
         }
+        startPage();
         List<SelfExam> list = selfExamService.selectSelfExamList(selfExam);
         return getDataTable(list);
     }

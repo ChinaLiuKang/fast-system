@@ -58,7 +58,6 @@ public class AdultExamController extends BaseController
     @ResponseBody
     public TableDataInfo list(AdultExam adultExam)
     {
-        startPage();
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
         if (currentUser != null)
@@ -80,6 +79,7 @@ public class AdultExamController extends BaseController
                 adultExam.setUserId(userId);
             }
         }
+        startPage();
         List<AdultExam> list = adultExamService.selectAdultExamList(adultExam);
         return getDataTable(list);
     }
