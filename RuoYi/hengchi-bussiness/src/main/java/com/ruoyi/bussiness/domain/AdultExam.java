@@ -21,6 +21,9 @@ public class AdultExam extends BaseEntity
     /** 主键编号 */
     private Long adultId;
 
+    @Excel(name="函授站")
+    private String adultCorrespondence;
+
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String adultTeacher;
@@ -308,6 +311,14 @@ public class AdultExam extends BaseEntity
     public String getAdultEnroll() 
     {
         return adultEnroll;
+    }
+
+    public String getAdultCorrespondence() {
+        return adultCorrespondence;
+    }
+
+    public void setAdultCorrespondence(String adultCorrespondence) {
+        this.adultCorrespondence = adultCorrespondence;
     }
 
     @Override

@@ -7,6 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap type="AdultExam" id="AdultExamResult">
         <result property="userId" column="user_id" />
         <result property="adultId"    column="adult_id"    />
+        <result property="adultCorrespondence"    column="adult_correspondence"    />
         <result property="adultTeacher"    column="adult_teacher"    />
         <result property="adultName"    column="adult_name"    />
         <result property="adultSex"    column="adult_sex"    />
@@ -33,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAdultExamVo">
-        select user_id,user_name,adult_id, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
+        select user_id,user_name,adult_id,adult_correspondence, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
     </sql>
 
     <select id="selectAdultExamList" parameterType="AdultExam" resultMap="AdultExamResult">
@@ -59,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="adultChargeDetail != null  and adultChargeDetail != ''"> and adult_charge_detail = #{adultChargeDetail}</if>
             <if test="adultEnroll != null  and adultEnroll != ''"> and adult_enroll = #{adultEnroll}</if>
             <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="adultCorrespondence != null and adultCorrespondence != ''">and adult_correspondence = #{adultCorrespondence}</if>
         </where>
         order by create_time desc
     </select>
@@ -74,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId !=null">user_id,</if>
             <if test="userName !=null">user_name,</if>
             <if test="adultId != null ">adult_id,</if>
+            <if test="adultCorrespondence != null ">adult_correspondence,</if>
             <if test="adultTeacher != null  and adultTeacher != ''">adult_teacher,</if>
             <if test="adultName != null  and adultName != ''">adult_name,</if>
             <if test="adultSex != null and adultSex !=''">adult_sex,</if>
@@ -101,6 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null ">#{userId},</if>
             <if test="userName !=null">#{userName},</if>
             <if test="adultId != null ">#{adultId},</if>
+            <if test="adultCorrespondence != null ">#{adultCorrespondence},</if>
             <if test="adultTeacher != null  and adultTeacher != ''">#{adultTeacher},</if>
             <if test="adultName != null  and adultName != ''">#{adultName},</if>
             <if test="adultSex != null and adultSex !=''">#{adultSex},</if>
@@ -153,6 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null ">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="adultCorrespondence != null ">adult_correspondence = #{adultCorrespondence},</if>
         </trim>
         where adult_id = #{adultId}
     </update>
