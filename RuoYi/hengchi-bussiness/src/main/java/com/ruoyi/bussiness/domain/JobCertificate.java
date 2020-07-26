@@ -22,6 +22,9 @@ public class JobCertificate extends BaseEntity
     @Excel(name= "操作人")
     String userName;
 
+    @Excel(name="函授站")
+    private String jobCorrespondence;
+
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String jobTeacher;
@@ -192,6 +195,14 @@ public class JobCertificate extends BaseEntity
     @Override
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getJobCorrespondence() {
+        return jobCorrespondence;
+    }
+
+    public void setJobCorrespondence(String jobCorrespondence) {
+        this.jobCorrespondence = jobCorrespondence;
     }
 
     @Override

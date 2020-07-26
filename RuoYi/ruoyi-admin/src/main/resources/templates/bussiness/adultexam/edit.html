@@ -11,6 +11,7 @@
                 <label class="col-sm-3 control-label">操作人：</label>
                 <div class="col-sm-8">
                     <select name="userId" class="form-control m-b" th:with="type=${@user.getAllUser()}">
+                        <option value="-">所有</option>
                         <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}" th:field="*{userId}"></option>
                     </select>
                 </div>
@@ -19,6 +20,7 @@
                 <label class="col-sm-3 control-label">函授站：</label>
                 <div class="col-sm-8">
                     <select name="adultCorrespondence" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_correspondence')}">
+                        <option value="-">所有</option>
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{adultCorrespondence}"></option>
                     </select>
                 </div>

@@ -22,6 +22,14 @@
                                 <input type="text" name="jobTeacher"/>
                             </li>
                             <li>
+                                <p>函授站：</p>
+                                <select name="jobCorrespondence" th:with="type=${@dict.getType('sys_edu_correspondence')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                            <li>
                                 <p>姓名：</p>
                                 <input type="text" name="jobName"/>
                             </li>
@@ -134,6 +142,10 @@
                     {
                         field:'userName',
                         title:'操作人',
+                    },
+                    {
+                        field:'jobCorrespondence',
+                        title:'函授站',
                     },
                 {
                     field : 'jobTeacher', 

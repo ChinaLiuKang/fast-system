@@ -10,6 +10,7 @@
                 <label class="col-sm-3 control-label">操作人：</label>
                 <div class="col-sm-8">
                     <select name="userId" class="form-control m-b" th:with="type=${@user.getAllUser()}">
+                        <option value="-">所有</option>
                         <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
                     </select>
                 </div>
