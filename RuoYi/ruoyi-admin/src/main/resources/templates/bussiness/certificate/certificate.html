@@ -22,13 +22,16 @@
                                 <input type="text" name="jobTeacher"/>
                             </li>
                             <li>
-                                <p>函授站：</p>
+                                <p>合作站：</p>
                                 <select name="jobCorrespondence" th:with="type=${@dict.getType('sys_edu_correspondence')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showcost') == ''}">
+                                <p>合作费用：</p>
+                                <input type="number" name="collaborationCost" />
+                            </li>
                             <li>
                                 <p>姓名：</p>
                                 <input type="text" name="jobName"/>
@@ -73,6 +76,13 @@
                                 </select>
                             </li>
                             <li>
+                                <p>毕业情况：</p>
+                                <select name="centerGraduateDetail" th:with="type=${@dict.getType('sys_edu_grade')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
@@ -111,8 +121,10 @@
         var jobTypeworkDatas = [[${@dict.getType('sys_edu_work')}]];
         var jobChargeDetailDatas = [[${@dict.getType('sys_edu_charge')}]];
         var prefix = ctx + "bussiness/certificate";
+        var centerGraduateDetailDatas = [[${@dict.getType('sys_edu_grade')}]];
         var hasRole1 = [[${@permission.hasRole('admin')}]];
         var hasRole2 = [[${@permission.hasRole('showFee')}]];
+        var hasRole3 = [[${@permission.hasRole('showcost')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -127,8 +139,12 @@
                     if(hasRole2=="hidden"){
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'jobTotalCharge');
                     }
+                    if(hasRole3=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'collaborationCost');
+                    }
                     if(hasRole1==""){
                         $('#bootstrap-table').bootstrapTable('showColumn', 'jobTotalCharge');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'collaborationCost');
                     }
                 },
                 columns: [{
@@ -145,7 +161,11 @@
                     },
                     {
                         field:'jobCorrespondence',
-                        title:'函授站',
+                        title:'合作站',
+                    },
+                    {
+                        field : 'collaborationCost',
+                        title : '合作费用'
                     },
                 {
                     field : 'jobTeacher', 
@@ -196,6 +216,13 @@
                        return $.table.selectDictLabel(jobChargeDetailDatas, value);
                     }
                 },
+                    {
+                        field : 'centerGraduateDetail',
+                        title : '毕业情况',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(centerGraduateDetailDatas, value);
+                        }
+                    },
                 {
                     field : 'remark', 
                     title : '备注信息'

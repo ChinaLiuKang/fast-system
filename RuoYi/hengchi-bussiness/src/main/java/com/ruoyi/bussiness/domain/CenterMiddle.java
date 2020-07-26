@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 中央电中对象 sm_center_middle
  * 
@@ -20,6 +22,12 @@ public class CenterMiddle extends BaseEntity
 
     @Excel(name= "操作人")
     String userName;
+
+    @Excel(name="合作站")
+    private String collaborationStation;
+
+    @Excel(name="合作费用")
+    private BigDecimal collaborationCost;
 
     /** 招生老师 */
     @Excel(name = "招生老师")
@@ -78,6 +86,22 @@ public class CenterMiddle extends BaseEntity
     private String remark;
 
     private Long userId;
+
+    public String getCollaborationStation() {
+        return collaborationStation;
+    }
+
+    public void setCollaborationStation(String collaborationStation) {
+        this.collaborationStation = collaborationStation;
+    }
+
+    public BigDecimal getCollaborationCost() {
+        return collaborationCost;
+    }
+
+    public void setCollaborationCost(BigDecimal collaborationCost) {
+        this.collaborationCost = collaborationCost;
+    }
 
     @Override
     public String getRemark() {

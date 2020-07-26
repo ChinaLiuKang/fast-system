@@ -22,6 +22,17 @@
                                 <input type="text" name="distanceTeacher"/>
                             </li>
                             <li>
+                                <p>合作站：</p>
+                                <select name="collaborationStation" th:with="type=${@dict.getType('sys_edu_correspondence')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showcost') == ''}">
+                                <p>合作费用：</p>
+                                <input type="number" name="collaborationCost" />
+                            </li>
+                            <li>
                                 <p>函授点：</p>
                                 <input type="text" name="distancePoints"/>
                             </li>
@@ -65,6 +76,10 @@
                                 <p>学号：</p>
                                 <input type="text" name="distanceStudentNumber"/>
                             </li>
+                            <li>
+                                <p>批次：</p>
+                                <input type="text" name="batch"/>
+                            </li>
                             <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>总学费：</p>
                                 <input type="text" name="distanceTotalCharge"/>
@@ -87,6 +102,13 @@
                             <li>
                                 <p>录取情况：</p>
                                 <select name="distanceEnroll" th:with="type=${@dict.getType('sys_edu_detail')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>毕业情况：</p>
+                                <select name="centerGraduateDetail" th:with="type=${@dict.getType('sys_edu_grade')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -135,6 +157,8 @@
         var prefix = ctx + "bussiness/education";
         var hasRole1 = [[${@permission.hasRole('admin')}]];
         var hasRole2 = [[${@permission.hasRole('showFee')}]];
+        var hasRole3 = [[${@permission.hasRole('showcost')}]];
+        var centerGraduateDetailDatas = [[${@dict.getType('sys_edu_grade')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -151,10 +175,14 @@
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceOneyearCharge');
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceTwoyearCharge');
                     }
+                    if(hasRole3=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'collaborationCost');
+                    }
                     if(hasRole1==""){
                         $('#bootstrap-table').bootstrapTable('showColumn', 'distanceTotalCharge');
-                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceOneyearCharge');
-                        $('#bootstrap-table').bootstrapTable('hideColumn', 'distanceTwoyearCharge');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'distanceOneyearCharge');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'distanceTwoyearCharge');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'collaborationCost');
                     }
                 },
                 columns: [{
@@ -168,6 +196,14 @@
                     {
                         field:'userName',
                         title:'操作人',
+                    },
+                    {
+                        field:'collaborationStation',
+                        title:'合作站',
+                    },
+                    {
+                        field : 'collaborationCost',
+                        title : '合作费用'
                     },
                 {
                     field : 'distanceTeacher', 
@@ -225,6 +261,10 @@
                     field : 'distanceStudentNumber', 
                     title : '学号'
                 },
+                    {
+                        field : 'batch',
+                        title : '批次'
+                    },
                 {
                     field : 'distanceTotalCharge', 
                     title : '总学费'
@@ -251,6 +291,13 @@
                        return $.table.selectDictLabel(distanceEnrollDatas, value);
                     }
                 },
+                    {
+                        field : 'centerGraduateDetail',
+                        title : '毕业情况',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(centerGraduateDetailDatas, value);
+                        }
+                    },
                 {
                     field : 'remark', 
                     title : '备注信息'

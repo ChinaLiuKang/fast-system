@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.bussiness.mapper.CountryUniversityMapper">
+    
+    <resultMap type="CountryUniversity" id="CountryUniversityResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="collaborationStation"    column="collaboration_station"    />
+        <result property="collaborationCost"    column="collaboration_cost"    />
+        <result property="teacher"    column="teacher"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="nation"    column="nation"    />
+        <result property="idnumber"    column="idnumber"    />
+        <result property="level"    column="level"    />
+        <result property="school"    column="school"    />
+        <result property="major"    column="major"    />
+        <result property="batch"    column="batch"    />
+        <result property="totalCharge"    column="total_charge"    />
+        <result property="oneyearCharge"    column="oneyear_charge"    />
+        <result property="twoyearCharge"    column="twoyear_charge"    />
+        <result property="chargeDetail"    column="charge_detail"    />
+        <result property="graduateDetail"    column="graduate_detail"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectCountryUniversityVo">
+        select id, user_id, user_name, collaboration_station, collaboration_cost, teacher, name, sex, nation, idnumber, level, school, major, batch, total_charge, oneyear_charge, twoyear_charge, charge_detail, graduate_detail, remark, create_time, update_time from sm_country_university
+    </sql>
+
+    <select id="selectCountryUniversityList" parameterType="CountryUniversity" resultMap="CountryUniversityResult">
+        <include refid="selectCountryUniversityVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="collaborationStation != null  and collaborationStation != ''"> and collaboration_station = #{collaborationStation}</if>
+            <if test="collaborationCost != null "> and collaboration_cost = #{collaborationCost}</if>
+            <if test="teacher != null  and teacher != ''"> and teacher = #{teacher}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="idnumber != null  and idnumber != ''"> and idnumber = #{idnumber}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="school != null  and school != ''"> and school = #{school}</if>
+            <if test="major != null  and major != ''"> and major = #{major}</if>
+            <if test="batch != null  and batch != ''"> and batch = #{batch}</if>
+            <if test="totalCharge != null "> and total_charge = #{totalCharge}</if>
+            <if test="oneyearCharge != null "> and oneyear_charge = #{oneyearCharge}</if>
+            <if test="twoyearCharge != null "> and twoyear_charge = #{twoyearCharge}</if>
+            <if test="chargeDetail != null  and chargeDetail != ''"> and charge_detail = #{chargeDetail}</if>
+            <if test="graduateDetail != null  and graduateDetail != ''"> and graduate_detail = #{graduateDetail}</if>
+        </where>
+    </select>
+    
+    <select id="selectCountryUniversityById" parameterType="Long" resultMap="CountryUniversityResult">
+        <include refid="selectCountryUniversityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCountryUniversity" parameterType="CountryUniversity" useGeneratedKeys="true" keyProperty="id">
+        insert into sm_country_university
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="collaborationStation != null ">collaboration_station,</if>
+            <if test="collaborationCost != null ">collaboration_cost,</if>
+            <if test="teacher != null  and teacher != ''">teacher,</if>
+            <if test="name != null  and name != ''">name,</if>
+            <if test="sex != null  and sex != ''">sex,</if>
+            <if test="nation != null  and nation != ''">nation,</if>
+            <if test="idnumber != null  and idnumber != ''">idnumber,</if>
+            <if test="level != null  and level != ''">level,</if>
+            <if test="school != null  and school != ''">school,</if>
+            <if test="major != null  and major != ''">major,</if>
+            <if test="batch != null  and batch != ''">batch,</if>
+            <if test="totalCharge != null ">total_charge,</if>
+            <if test="oneyearCharge != null ">oneyear_charge,</if>
+            <if test="twoyearCharge != null ">twoyear_charge,</if>
+            <if test="chargeDetail != null  and chargeDetail != ''">charge_detail,</if>
+            <if test="graduateDetail != null  and graduateDetail != ''">graduate_detail,</if>
+            <if test="remark != null  and remark != ''">remark,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="collaborationStation != null  and collaborationStation != ''">#{collaborationStation},</if>
+            <if test="collaborationCost != null ">#{collaborationCost},</if>
+            <if test="teacher != null  and teacher != ''">#{teacher},</if>
+            <if test="name != null  and name != ''">#{name},</if>
+            <if test="sex != null  and sex != ''">#{sex},</if>
+            <if test="nation != null  and nation != ''">#{nation},</if>
+            <if test="idnumber != null  and idnumber != ''">#{idnumber},</if>
+            <if test="level != null  and level != ''">#{level},</if>
+            <if test="school != null  and school != ''">#{school},</if>
+            <if test="major != null  and major != ''">#{major},</if>
+            <if test="batch != null  and batch != ''">#{batch},</if>
+            <if test="totalCharge != null ">#{totalCharge},</if>
+            <if test="oneyearCharge != null ">#{oneyearCharge},</if>
+            <if test="twoyearCharge != null ">#{twoyearCharge},</if>
+            <if test="chargeDetail != null  and chargeDetail != ''">#{chargeDetail},</if>
+            <if test="graduateDetail != null  and graduateDetail != ''">#{graduateDetail},</if>
+            <if test="remark != null  and remark != ''">#{remark},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCountryUniversity" parameterType="CountryUniversity">
+        update sm_country_university
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="collaborationStation != null">collaboration_station = #{collaborationStation},</if>
+            <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
+            <if test="teacher != null  and teacher != ''">teacher = #{teacher},</if>
+            <if test="name != null  and name != ''">name = #{name},</if>
+            <if test="sex != null  and sex != ''">sex = #{sex},</if>
+            <if test="nation != null  and nation != ''">nation = #{nation},</if>
+            <if test="idnumber != null  and idnumber != ''">idnumber = #{idnumber},</if>
+            <if test="level != null  and level != ''">level = #{level},</if>
+            <if test="school != null  and school != ''">school = #{school},</if>
+            <if test="major != null  and major != ''">major = #{major},</if>
+            <if test="batch != null  and batch != ''">batch = #{batch},</if>
+            <if test="totalCharge != null ">total_charge = #{totalCharge},</if>
+            <if test="oneyearCharge != null ">oneyear_charge = #{oneyearCharge},</if>
+            <if test="twoyearCharge != null ">twoyear_charge = #{twoyearCharge},</if>
+            <if test="chargeDetail != null  and chargeDetail != ''">charge_detail = #{chargeDetail},</if>
+            <if test="graduateDetail != null  and graduateDetail != ''">graduate_detail = #{graduateDetail},</if>
+            <if test="remark != null  and remark != ''">remark = #{remark},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCountryUniversityById" parameterType="Long">
+        delete from sm_country_university where id = #{id}
+    </delete>
+
+    <delete id="deleteCountryUniversityByIds" parameterType="String">
+        delete from sm_country_university where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

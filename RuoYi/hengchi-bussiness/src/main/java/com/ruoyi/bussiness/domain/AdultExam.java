@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 成考信息对象 sm_adult_exam
  * 
@@ -21,9 +23,11 @@ public class AdultExam extends BaseEntity
     /** 主键编号 */
     private Long adultId;
 
-    @Excel(name="函授站")
+    @Excel(name="合作站")
     private String adultCorrespondence;
 
+    @Excel(name="合作费用")
+    private BigDecimal collaborationCost;
     /** 招生老师 */
     @Excel(name = "招生老师")
     private String adultTeacher;
@@ -105,6 +109,14 @@ public class AdultExam extends BaseEntity
     private String remark;
 
     private Long userId;
+
+    public BigDecimal getCollaborationCost() {
+        return collaborationCost;
+    }
+
+    public void setCollaborationCost(BigDecimal collaborationCost) {
+        this.collaborationCost = collaborationCost;
+    }
 
     public String getUserName() {
         return userName;

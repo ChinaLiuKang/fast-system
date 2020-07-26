@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 远程教育对象 sm_distance_education
  * 
@@ -20,6 +22,12 @@ public class DistanceEducation extends BaseEntity
 
     @Excel(name= "操作人")
     String userName;
+
+    @Excel(name="合作站")
+    private String collaborationStation;
+
+    @Excel(name="合作费用")
+    private BigDecimal collaborationCost;
 
     /** 招生老师 */
     @Excel(name = "招生老师")
@@ -57,6 +65,10 @@ public class DistanceEducation extends BaseEntity
     @Excel(name = "报读专业")
     private String distanceMajor;
 
+    /** 批次 */
+    @Excel(name = "批次")
+    private String batch;
+
     /** 期数 */
     @Excel(name = "期数")
     private String distancePeriods;
@@ -85,11 +97,47 @@ public class DistanceEducation extends BaseEntity
     @Excel(name = "录取情况")
     private String distanceEnroll;
 
+    /** 毕业情况 */
+    @Excel(name = "毕业情况")
+    private String centerGraduateDetail;
     /** 备注 */
     @Excel(name = "备注")
     private String remark;
 
     private Long userId;
+
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
+    public String getCenterGraduateDetail() {
+        return centerGraduateDetail;
+    }
+
+    public void setCenterGraduateDetail(String centerGraduateDetail) {
+        this.centerGraduateDetail = centerGraduateDetail;
+    }
+
+    public String getCollaborationStation() {
+        return collaborationStation;
+    }
+
+    public void setCollaborationStation(String collaborationStation) {
+        this.collaborationStation = collaborationStation;
+    }
+
+    public BigDecimal getCollaborationCost() {
+        return collaborationCost;
+    }
+
+    public void setCollaborationCost(BigDecimal collaborationCost) {
+        this.collaborationCost = collaborationCost;
+    }
 
     public String getUserName() {
         return userName;

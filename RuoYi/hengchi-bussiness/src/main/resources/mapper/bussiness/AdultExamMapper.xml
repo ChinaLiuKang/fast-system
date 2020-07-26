@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId" column="user_id" />
         <result property="adultId"    column="adult_id"    />
         <result property="adultCorrespondence"    column="adult_correspondence"    />
+        <result property="collaborationCost"    column="collaboration_cost"    />
         <result property="adultTeacher"    column="adult_teacher"    />
         <result property="adultName"    column="adult_name"    />
         <result property="adultSex"    column="adult_sex"    />
@@ -34,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectAdultExamVo">
-        select user_id,user_name,adult_id,adult_correspondence, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
+        select user_id,user_name,adult_id,adult_correspondence,collaboration_cost, adult_teacher, adult_name, adult_sex, adult_nation, adult_idnumber, adult_level, adult_type, adult_school, adult_major, adult_grade, adult_account, adult_exam_number, adult_student_number, adult_add_score, adult_charge_standard, adult_oneyear_charge, adult_twoyear_charge, adult_charge_detail, adult_enroll, remark, create_time, update_time from sm_adult_exam
     </sql>
 
     <select id="selectAdultExamList" parameterType="AdultExam" resultMap="AdultExamResult">
@@ -61,6 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="adultEnroll != null  and adultEnroll != ''"> and adult_enroll = #{adultEnroll}</if>
             <if test="userId != null ">and user_id = #{userId}</if>
             <if test="adultCorrespondence != null and adultCorrespondence != ''">and adult_correspondence = #{adultCorrespondence}</if>
+            <if test="collaborationCost != null and collaborationCost != ''">and collaboration_cost = #{collaborationCost}</if>
         </where>
         order by create_time desc
     </select>
@@ -99,6 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateTime != null ">update_time,</if>
+            <if test="collaborationCost != null ">collaboration_cost,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null ">#{userId},</if>
@@ -127,6 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateTime != null ">#{updateTime},</if>
+            <if test="collaborationCost != null ">#{collaborationCost},</if>
          </trim>
     </insert>
 
@@ -158,6 +162,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="adultCorrespondence != null ">adult_correspondence = #{adultCorrespondence},</if>
+            <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
         </trim>
         where adult_id = #{adultId}
     </update>

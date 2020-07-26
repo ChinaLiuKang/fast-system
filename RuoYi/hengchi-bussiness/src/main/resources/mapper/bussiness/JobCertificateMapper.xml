@@ -22,10 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="collaborationCost"    column="collaboration_cost"    />
+        <result property="centerGraduateDetail"    column="center_graduate_detail"    />
     </resultMap>
 
     <sql id="selectJobCertificateVo">
-        select user_id,user_name,job_id,job_correspondence, job_teacher, job_name, job_sex, job_nation, job_idnumber, job_outdept, job_typework, job_intime, job_total_charge, job_charge_detail, remark, create_time, update_time from sm_job_certificate
+        select user_id,user_name,job_id,job_correspondence,center_graduate_detail,collaboration_cost, job_teacher, job_name, job_sex, job_nation, job_idnumber, job_outdept, job_typework, job_intime, job_total_charge, job_charge_detail, remark, create_time, update_time from sm_job_certificate
     </sql>
 
     <select id="selectJobCertificateList" parameterType="JobCertificate" resultMap="JobCertificateResult">
@@ -43,7 +45,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="jobTotalCharge != null "> and job_total_charge = #{jobTotalCharge}</if>
             <if test="jobChargeDetail != null  and jobChargeDetail != ''"> and job_charge_detail = #{jobChargeDetail}</if>
             <if test="jobCorrespondence != null  and jobCorrespondence != ''"> and job_correspondence = #{jobCorrespondence}</if>
-
+            <if test="collaborationCost != null  and collaborationCost != ''"> and collaboration_cost = #{collaborationCost}</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''"> and center_graduate_detail = #{centerGraduateDetail}</if>
         </where>
         order by create_time desc
     </select>
@@ -73,6 +76,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time,</if>
             <if test="updateTime != null ">update_time,</if>
             <if test="jobCorrespondence != null ">job_correspondence,</if>
+            <if test="collaborationCost != null ">collaboration_cost,</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">center_graduate_detail,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
@@ -92,6 +97,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="jobCorrespondence != null ">#{jobCorrespondence},</if>
+            <if test="collaborationCost != null ">#{collaborationCost},</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">#{centerGraduateDetail},</if>
          </trim>
     </insert>
 
@@ -114,6 +121,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="jobCorrespondence != null ">job_correspondence = #{jobCorrespondence},</if>
+            <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
+            <if test="centerGraduateDetail != null">center_graduate_detail = #{centerGraduateDetail},</if>
         </trim>
         where job_id = #{jobId}
     </update>

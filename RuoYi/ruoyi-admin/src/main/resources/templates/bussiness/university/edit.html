@@ -1,146 +1,150 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" >
 <head>
-    <th:block th:include="include :: header('新增中央电中')" />
+    <th:block th:include="include :: header('修改国家开放大学')" />
 </head>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-middle-add">
+        <form class="form-horizontal m" id="form-university-edit" th:object="${countryUniversity}">
+            <input name="id" th:field="*{id}" type="hidden">
             <div class="form-group" th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('isupdate') == ''}">
                 <label class="col-sm-3 control-label">操作人：</label>
                 <div class="col-sm-8">
                     <select name="userId" class="form-control m-b" th:with="type=${@user.getAllUser()}">
-                        <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}"></option>
+                        <option th:each="user : ${type}" th:text="${user.userName}" th:value="${user.userId}" th:field="*{userId}"></option>
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">合作站：</label>
                 <div class="col-sm-8">
                     <select name="collaborationStation" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_correspondence')}">
-                        <option value="-">所有</option>
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{collaborationStation}"></option>
                     </select>
                 </div>
             </div>
             <div th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showcost') == ''}">
-            <div class="form-group">
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">合作费用：</label>
                 <div class="col-sm-8">
-                    <input name="collaborationCost" class="form-control" type="number">
+                    <input name="collaborationCost" th:field="*{collaborationCost}" class="form-control" type="text">
                 </div>
             </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">招生老师：</label>
                 <div class="col-sm-8">
-                    <input name="centerTeacher" class="form-control" type="text">
+                    <input name="teacher" class="form-control" type="text">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group">    
                 <label class="col-sm-3 control-label">姓名：</label>
                 <div class="col-sm-8">
-                    <input name="centerName" class="form-control" type="text">
+                    <input name="name" th:field="*{name}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">性别：</label>
                 <div class="col-sm-8">
-                    <select name="centerSex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    <select name="sex" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{sex}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">民族：</label>
                 <div class="col-sm-8">
-                    <input name="centerNation" class="form-control" type="text">
+                    <input name="nation" th:field="*{nation}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">身份证号码：</label>
                 <div class="col-sm-8">
-                    <input name="centerIdnumber" class="form-control" type="text">
+                    <input name="idnumber" th:field="*{idnumber}" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">层次：</label>
                 <div class="col-sm-8">
-                    <select name="centerLevel" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_level')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    <select name="level" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_level')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{level}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">报读学校：</label>
                 <div class="col-sm-8">
-                    <select name="centerSchool" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_school')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    <select name="school" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_school')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{school}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">报读专业：</label>
                 <div class="col-sm-8">
-                    <select name="centerMajor" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_major')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    <select name="major" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_major')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{major}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">报名时间：</label>
+                <label class="col-sm-3 control-label">批次：</label>
                 <div class="col-sm-8">
-                    <input name="centerTime" class="form-control" type="text">
+                    <input name="batch" th:field="*{batch}" class="form-control" type="text">
                 </div>
             </div>
-            <div th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
             <div class="form-group">    
                 <label class="col-sm-3 control-label">总费用：</label>
                 <div class="col-sm-8">
-                    <input name="centerTotalCharge" class="form-control" type="text">
+                    <input name="totalCharge" th:field="*{totalCharge}" class="form-control" type="text">
                 </div>
             </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">第一年费用：</label>
+                <div class="col-sm-8">
+                    <input name="oneyearCharge" th:field="*{oneyearCharge}" class="form-control" type="text">
+                </div>
             </div>
             <div class="form-group">    
-                <label class="col-sm-3 control-label">缴费详情：</label>
+                <label class="col-sm-3 control-label">第二年费用：</label>
                 <div class="col-sm-8">
-                    <select name="centerChargeDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_charge')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    <input name="twoyearCharge" th:field="*{twoyearCharge}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">缴费情况：</label>
+                <div class="col-sm-8">
+                    <select name="chargeDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_charge')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{chargeDetail}"></option>
                     </select>
-                </div>
-            </div>
-            <div class="form-group">    
-                <label class="col-sm-3 control-label">证书编号：</label>
-                <div class="col-sm-8">
-                    <input name="centerCertificateNumber" class="form-control" type="text">
                 </div>
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">毕业情况：</label>
                 <div class="col-sm-8">
-                    <select name="centerGraduateDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_grade')}">
-                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    <select name="graduateDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_grade')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{graduateDetail}"></option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">备注信息：</label>
                 <div class="col-sm-8">
-                    <textarea name="remark" class="form-control"></textarea>
+                    <textarea name="remark" class="form-control" th:field="*{remark}"></textarea>
                 </div>
             </div>
         </form>
     </div>
     <th:block th:include="include :: footer" />
     <script type="text/javascript">
-        var prefix = ctx + "bussiness/middle"
-        $("#form-middle-add").validate({
+        var prefix = ctx + "bussiness/university";
+        $("#form-university-edit").validate({
             focusCleanup: true
         });
 
         function submitHandler() {
             if ($.validate.form()) {
-                $.operate.save(prefix + "/add", $('#form-middle-add').serialize());
+                $.operate.save(prefix + "/edit", $('#form-university-edit').serialize());
             }
         }
     </script>

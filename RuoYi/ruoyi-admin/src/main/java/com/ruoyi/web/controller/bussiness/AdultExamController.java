@@ -19,19 +19,19 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * 成考信息Controller
- * 
+ *
  * @author liukang
  * @date 2019-08-30
  */
 @Controller
 @RequestMapping("/bussiness/adultexam")
-public class AdultExamController extends BaseController
-{
+public class AdultExamController extends BaseController {
     private String prefix = "bussiness/adultexam";
 
     @Autowired
@@ -45,8 +45,7 @@ public class AdultExamController extends BaseController
 
     @RequiresPermissions("bussiness:adultexam:view")
     @GetMapping()
-    public String adultexam()
-    {
+    public String adultexam() {
         return prefix + "/adultexam";
     }
 
@@ -56,26 +55,23 @@ public class AdultExamController extends BaseController
     @RequiresPermissions("bussiness:adultexam:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(AdultExam adultExam)
-    {
+    public TableDataInfo list(AdultExam adultExam) {
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             Long userId = adultExam.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 adultExam.setUserId(currentUser.getUserId());
             }
             //统计该用户的角色是否有包含所有数据的角色
             long count = currentUser.getRoles().stream().
                     filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
                     .count();
-            if(count>0){
+            if (count > 0) {
                 adultExam.setUserId(null);
             }
-            if(userId!=null && count>0){
+            if (userId != null && count > 0) {
                 adultExam.setUserId(userId);
             }
         }
@@ -90,43 +86,61 @@ public class AdultExamController extends BaseController
     @RequiresPermissions("bussiness:adultexam:export")
     @PostMapping("/export")
     @ResponseBody
-    public AjaxResult export(AdultExam adultExam)
-    {
+    public AjaxResult export(AdultExam adultExam) {
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             Long userId = adultExam.getUserId();
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
+            if (!currentUser.isAdmin()) {
                 adultExam.setUserId(currentUser.getUserId());
             }
             //统计该用户的角色是否有包含所有数据的角色
             long count = currentUser.getRoles().stream().
                     filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("alldata.roleId")))
                     .count();
-            if(count>0){
+            if (count > 0) {
                 adultExam.setUserId(null);
             }
-            if(userId!=null && count>0){
+            if (userId != null && count > 0) {
                 adultExam.setUserId(userId);
             }
         }
         List<AdultExam> list = adultExamService.selectAdultExamList(adultExam);
+
+        //根据权限过滤数据
+        //合作费用过滤
+        long showcost = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showcost")))
+                .count();
+
+        long showFee = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showFee")))
+                .count();
+
+        list.stream().forEach(e -> {
+            if (showcost == 0 && !currentUser.isAdmin()) {
+                e.setCollaborationCost(new BigDecimal(0));
+            }
+            if (showFee == 0 && !currentUser.isAdmin()) {
+                e.setAdultChargeStandard(0.0);
+                e.setAdultOneyearCharge(0.0);
+                e.setAdultTwoyearCharge(0L);
+            }
+        });
         ExcelUtil<AdultExam> util = new ExcelUtil<AdultExam>(AdultExam.class);
         return util.exportExcel(list, "成考信息");
     }
 
     /**
      * 成考信息模板下载
+     *
      * @return
      */
     @RequiresPermissions("bussiness:adultexam:view")
     @GetMapping("/importTemplate")
     @ResponseBody
-    public AjaxResult importTemplate()
-    {
+    public AjaxResult importTemplate() {
         ExcelUtil<AdultExam> util = new ExcelUtil<AdultExam>(AdultExam.class);
         return util.importTemplateExcel("成考信息");
     }
@@ -135,18 +149,17 @@ public class AdultExamController extends BaseController
     @RequiresPermissions("bussiness:adultexam:import")
     @PostMapping("/importData")
     @ResponseBody
-    public AjaxResult importData(MultipartFile file) throws Exception
-    {
+    public AjaxResult importData(MultipartFile file) throws Exception {
         ExcelUtil<AdultExam> util = new ExcelUtil<AdultExam>(AdultExam.class);
         List<AdultExam> userList = util.importExcel(file.getInputStream());
         // 获取当前的用户
         SysUser currentUser = ShiroUtils.getSysUser();
-        if (currentUser != null)
-        {
+        if (currentUser != null) {
             // 如果不是超级管理员
-            if (!currentUser.isAdmin())
-            {
-                userList.stream().forEach(e->{e.setUserId(currentUser.getUserId());});
+            if (!currentUser.isAdmin()) {
+                userList.stream().forEach(e -> {
+                    e.setUserId(currentUser.getUserId());
+                });
             }
         }
         String message = adultExamService.importAdultExam(userList);
@@ -157,8 +170,7 @@ public class AdultExamController extends BaseController
      * 新增成考信息
      */
     @GetMapping("/add")
-    public String add()
-    {
+    public String add() {
         return prefix + "/add";
     }
 
@@ -169,14 +181,13 @@ public class AdultExamController extends BaseController
     @Log(title = "成考信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(AdultExam adultExam)
-    {
+    public AjaxResult addSave(AdultExam adultExam) {
         //设置操作人名称
-        if(adultExam.getUserId() == null){
+        if (adultExam.getUserId() == null) {
             SysUser currentUser = ShiroUtils.getSysUser();
             adultExam.setUserId(currentUser.getUserId());
             adultExam.setUserName(currentUser.getUserName());
-        }else{
+        } else {
             //没有设置操作人取当前人
             SysUser sysUser = userService.selectUserById(adultExam.getUserId());
             adultExam.setUserName(sysUser.getUserName());
@@ -188,8 +199,7 @@ public class AdultExamController extends BaseController
      * 修改成考信息
      */
     @GetMapping("/edit/{adultId}")
-    public String edit(@PathVariable("adultId") Long adultId, ModelMap mmap)
-    {
+    public String edit(@PathVariable("adultId") Long adultId, ModelMap mmap) {
         AdultExam adultExam = adultExamService.selectAdultExamById(adultId);
         mmap.put("adultExam", adultExam);
         return prefix + "/edit";
@@ -202,10 +212,9 @@ public class AdultExamController extends BaseController
     @Log(title = "成考信息", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(AdultExam adultExam)
-    {
+    public AjaxResult editSave(AdultExam adultExam) {
         // 修改操作人
-        if(adultExam.getUserId()!=null){
+        if (adultExam.getUserId() != null) {
             SysUser sysUser = userService.selectUserById(adultExam.getUserId());
             adultExam.setUserName(sysUser.getUserName());
         }
@@ -217,10 +226,9 @@ public class AdultExamController extends BaseController
      */
     @RequiresPermissions("bussiness:adultexam:remove")
     @Log(title = "成考信息", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @PostMapping("/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
-    {
+    public AjaxResult remove(String ids) {
         return toAjax(adultExamService.deleteAdultExamByIds(ids));
     }
 }

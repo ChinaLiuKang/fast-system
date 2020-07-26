@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="DistanceEducation" id="DistanceEducationResult">
         <result property="userId" column="user_id"/>
-        <result property="useName" column="user_name"/>
+        <result property="userName" column="user_name"/>
         <result property="distanceId"    column="distance_id"    />
         <result property="distanceTeacher"    column="distance_teacher"    />
         <result property="distancePoints"    column="distance_points"    />
@@ -27,10 +27,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="collaborationStation"    column="collaboration_station"    />
+        <result property="collaborationCost"    column="collaboration_cost"    />
+        <result property="centerGraduateDetail"    column="center_graduate_detail"    />
+        <result property="batch"    column="batch"    />
     </resultMap>
 
     <sql id="selectDistanceEducationVo">
-        select user_id,user_name,distance_id, distance_teacher, distance_points, distance_name, distance_sex, distance_nation, distance_idnumber, distance_level, distance_school, distance_major, distance_periods, distance_student_number, distance_total_charge, distance_oneyear_charge, distance_twoyear_charge, distance_charge_detail, distance_enroll, remark, create_time, update_time from sm_distance_education
+        select user_id,user_name,distance_id,collaboration_station,batch,collaboration_cost,center_graduate_detail, distance_teacher, distance_points, distance_name, distance_sex, distance_nation, distance_idnumber, distance_level, distance_school, distance_major, distance_periods, distance_student_number, distance_total_charge, distance_oneyear_charge, distance_twoyear_charge, distance_charge_detail, distance_enroll, remark, create_time, update_time from sm_distance_education
     </sql>
 
     <select id="selectDistanceEducationList" parameterType="DistanceEducation" resultMap="DistanceEducationResult">
@@ -53,6 +57,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="distanceTwoyearCharge != null "> and distance_twoyear_charge = #{distanceTwoyearCharge}</if>
             <if test="distanceChargeDetail != null  and distanceChargeDetail != ''"> and distance_charge_detail = #{distanceChargeDetail}</if>
             <if test="distanceEnroll != null  and distanceEnroll != ''"> and distance_enroll = #{distanceEnroll}</if>
+            <if test="collaborationStation != null  and collaborationStation != ''"> and collaboration_station = #{collaborationStation}</if>
+            <if test="collaborationCost != null  and collaborationCost != ''"> and collaboration_cost = #{collaborationCost}</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''"> and center_graduate_detail = #{centerGraduateDetail}</if>
+            <if test="batch != null  and batch != ''"> and batch = #{batch}</if>
         </where>
         order by create_time desc
     </select>
@@ -87,6 +95,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateTime != null ">update_time,</if>
+            <if test="collaborationStation != null ">collaboration_station,</if>
+            <if test="collaborationCost != null ">collaboration_cost,</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">center_graduate_detail,</if>
+            <if test="batch != null  and batch != ''">batch,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
@@ -111,6 +123,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateTime != null ">#{updateTime},</if>
+            <if test="collaborationStation != null ">#{collaborationStation},</if>
+            <if test="collaborationCost != null ">#{collaborationCost},</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">#{centerGraduateDetail},</if>
+            <if test="batch != null  and batch != ''">#{batch},</if>
          </trim>
     </insert>
 
@@ -138,6 +154,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="collaborationStation != null ">collaboration_station = #{collaborationStation},</if>
+            <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
+            <if test="centerGraduateDetail != null">center_graduate_detail = #{centerGraduateDetail},</if>
+            <if test="batch != null  and batch != ''">batch = #{batch},</if>
         </trim>
         where distance_id = #{distanceId}
     </update>

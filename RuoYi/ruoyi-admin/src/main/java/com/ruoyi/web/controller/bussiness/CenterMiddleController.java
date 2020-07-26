@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -106,6 +107,24 @@ public class CenterMiddleController extends BaseController {
             }
         }
         List<CenterMiddle> list = centerMiddleService.selectCenterMiddleList(centerMiddle);
+        //根据权限过滤数据
+        //合作费用过滤
+        long showcost = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showcost")))
+                .count();
+
+        long showFee = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showFee")))
+                .count();
+
+        list.stream().forEach(e -> {
+            if (showcost == 0 && !currentUser.isAdmin()) {
+                e.setCollaborationCost(new BigDecimal(0));
+            }
+            if (showFee == 0 && !currentUser.isAdmin()) {
+                e.setCenterTotalCharge(0.0);
+            }
+        });
         ExcelUtil<CenterMiddle> util = new ExcelUtil<CenterMiddle>(CenterMiddle.class);
         return util.exportExcel(list, "中央电中");
     }

@@ -25,10 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="collaborationStation"    column="collaboration_station"    />
+        <result property="collaborationCost"    column="collaboration_cost"    />
     </resultMap>
 
     <sql id="selectSelfExamVo">
-        select user_id,user_name,self_id, self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
+        select user_id,user_name,self_id, collaboration_station,collaboration_cost,self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
     </sql>
 
     <select id="selectSelfExamList" parameterType="SelfExam" resultMap="SelfExamResult">
@@ -49,6 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="selfOneyearCharge != null "> and self_oneyear_charge = #{selfOneyearCharge}</if>
             <if test="selfTwoyearCharge != null "> and self_twoyear_charge = #{selfTwoyearCharge}</if>
             <if test="selfChargeDetail != null  and selfChargeDetail != ''"> and self_charge_detail = #{selfChargeDetail}</if>
+            <if test="collaborationStation != null  and collaborationStation != ''"> and collaboration_station = #{collaborationStation}</if>
+            <if test="collaborationCost != null  and collaborationCost != ''"> and collaboration_cost = #{collaborationCost}</if>
         </where>
         order by create_time desc
     </select>
@@ -81,6 +85,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateTime != null ">update_time,</if>
+            <if test="collaborationStation != null ">collaboration_station,</if>
+            <if test="collaborationCost != null ">collaboration_cost,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
@@ -103,6 +109,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateTime != null ">#{updateTime},</if>
+            <if test="collaborationStation != null ">#{collaborationStation},</if>
+            <if test="collaborationCost != null ">#{collaborationCost},</if>
          </trim>
     </insert>
 
@@ -128,6 +136,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="collaborationStation != null ">collaboration_station = #{collaborationStation},</if>
+            <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
         </trim>
         where self_id = #{selfId}
     </update>

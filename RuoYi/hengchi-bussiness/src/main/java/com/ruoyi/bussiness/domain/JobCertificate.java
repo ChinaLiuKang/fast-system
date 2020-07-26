@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,8 +24,11 @@ public class JobCertificate extends BaseEntity
     @Excel(name= "操作人")
     String userName;
 
-    @Excel(name="函授站")
+    @Excel(name="合作站")
     private String jobCorrespondence;
+
+    @Excel(name="合作费用")
+    private BigDecimal collaborationCost;
 
     /** 招生老师 */
     @Excel(name = "招生老师")
@@ -65,11 +70,30 @@ public class JobCertificate extends BaseEntity
     @Excel(name = "缴费情况")
     private String jobChargeDetail;
 
+    /** 毕业情况 */
+    @Excel(name = "毕业情况")
+    private String centerGraduateDetail;
     /** 备注 */
     @Excel(name = "备注")
     private String remark;
 
     private Long userId;
+
+    public String getCenterGraduateDetail() {
+        return centerGraduateDetail;
+    }
+
+    public void setCenterGraduateDetail(String centerGraduateDetail) {
+        this.centerGraduateDetail = centerGraduateDetail;
+    }
+
+    public BigDecimal getCollaborationCost() {
+        return collaborationCost;
+    }
+
+    public void setCollaborationCost(BigDecimal collaborationCost) {
+        this.collaborationCost = collaborationCost;
+    }
 
     public String getUserName() {
         return userName;

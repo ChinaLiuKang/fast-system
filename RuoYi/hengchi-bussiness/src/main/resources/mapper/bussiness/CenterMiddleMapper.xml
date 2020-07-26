@@ -24,10 +24,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="collaborationStation"    column="collaboration_station"    />
+        <result property="collaborationCost"    column="collaboration_cost"    />
     </resultMap>
 
     <sql id="selectCenterMiddleVo">
-        select user_id,user_name,center_id, center_teacher, center_name, center_sex, center_nation, center_idnumber, center_level, center_school, center_major, center_time, center_total_charge, center_charge_detail, center_certificate_number, center_graduate_detail, remark, create_time, update_time from sm_center_middle
+        select user_id,user_name,center_id,collaboration_station,collaboration_cost, center_teacher, center_name, center_sex, center_nation, center_idnumber, center_level, center_school, center_major, center_time, center_total_charge, center_charge_detail, center_certificate_number, center_graduate_detail, remark, create_time, update_time from sm_center_middle
     </sql>
 
     <select id="selectCenterMiddleList" parameterType="CenterMiddle" resultMap="CenterMiddleResult">
@@ -47,6 +49,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="centerChargeDetail != null  and centerChargeDetail != ''"> and center_charge_detail = #{centerChargeDetail}</if>
             <if test="centerCertificateNumber != null  and centerCertificateNumber != ''"> and center_certificate_number = #{centerCertificateNumber}</if>
             <if test="centerGraduateDetail != null  and centerGraduateDetail != ''"> and center_graduate_detail = #{centerGraduateDetail}</if>
+            <if test="collaborationStation != null  and collaborationStation != ''"> and collaboration_station = #{collaborationStation}</if>
+            <if test="collaborationCost != null  and collaborationCost != ''"> and collaboration_cost = #{collaborationCost}</if>
         </where>
         order by create_time desc
     </select>
@@ -78,6 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">remark,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="updateTime != null ">update_time,</if>
+            <if test="collaborationStation != null ">collaboration_station,</if>
+            <if test="collaborationCost != null ">collaboration_cost,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
@@ -99,6 +105,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null  and remark != ''">#{remark},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="updateTime != null ">#{updateTime},</if>
+            <if test="collaborationStation != null ">#{collaborationStation},</if>
+            <if test="collaborationCost != null ">#{collaborationCost},</if>
          </trim>
     </insert>
 
@@ -123,6 +131,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remark != null">remark = #{remark},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="collaborationStation != null ">collaboration_station = #{collaborationStation},</if>
+            <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
         </trim>
         where center_id = #{centerId}
     </update>

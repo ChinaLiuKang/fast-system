@@ -22,11 +22,15 @@
                                 <input type="text" name="adultTeacher"/>
                             </li>
                             <li>
-                                <p>函授站：</p>
+                                <p>合作站：</p>
                                 <select name="adultCorrespondence" th:with="type=${@dict.getType('sys_edu_correspondence')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
+                            </li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showcost') == ''}">
+                                <p>合作费用：</p>
+                                <input type="number" name="collaborationCost" />
                             </li>
                             <li>
                                 <p>姓名：</p>
@@ -154,6 +158,7 @@
         var prefix = ctx + "bussiness/adultexam";
         var hasRole1 = [[${@permission.hasRole('admin')}]];
         var hasRole2 = [[${@permission.hasRole('showFee')}]];
+        var hasRole3 = [[${@permission.hasRole('showcost')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -170,10 +175,14 @@
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'adultOneyearCharge');
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'adultTwoyearCharge');
                     }
+                    if(hasRole3=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'collaborationCost');
+                    }
                     if(hasRole1==""){
                         $('#bootstrap-table').bootstrapTable('showColumn', 'adultChargeStandard');
                         $('#bootstrap-table').bootstrapTable('showColumn', 'adultOneyearCharge');
                         $('#bootstrap-table').bootstrapTable('showColumn', 'adultTwoyearCharge');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'collaborationCost');
                     }
                 },
                 columns: [{
@@ -190,7 +199,11 @@
                 },
                     {
                         field:'adultCorrespondence',
-                        title:'函授站',
+                        title:'合作站',
+                    },
+                    {
+                        field : 'collaborationCost',
+                        title : '合作费用'
                     },
                 {
                     field : 'adultTeacher', 
