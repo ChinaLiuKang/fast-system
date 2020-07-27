@@ -27,10 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="collaborationStation"    column="collaboration_station"    />
         <result property="collaborationCost"    column="collaboration_cost"    />
+        <result property="centerGraduateDetail"    column="center_graduate_detail"    />
+        <result property="batch"    column="batch"    />
     </resultMap>
 
     <sql id="selectSelfExamVo">
-        select user_id,user_name,self_id, collaboration_station,collaboration_cost,self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
+        select user_id,user_name,self_id,collaboration_station,batch, collaboration_station,collaboration_cost,self_teacher, self_name, self_sex, self_nation, self_idnumber, self_level, self_type, self_school, self_major, self_student_number, self_total_charge, self_oneyear_charge, self_twoyear_charge, self_charge_detail, remark, create_time, update_time from sm_self_exam
     </sql>
 
     <select id="selectSelfExamList" parameterType="SelfExam" resultMap="SelfExamResult">
@@ -53,6 +55,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="selfChargeDetail != null  and selfChargeDetail != ''"> and self_charge_detail = #{selfChargeDetail}</if>
             <if test="collaborationStation != null  and collaborationStation != ''"> and collaboration_station = #{collaborationStation}</if>
             <if test="collaborationCost != null  and collaborationCost != ''"> and collaboration_cost = #{collaborationCost}</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''"> and center_graduate_detail = #{centerGraduateDetail}</if>
+            <if test="batch != null  and batch != ''"> and batch = #{batch}</if>
         </where>
         order by create_time desc
     </select>
@@ -87,6 +91,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time,</if>
             <if test="collaborationStation != null ">collaboration_station,</if>
             <if test="collaborationCost != null ">collaboration_cost,</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">center_graduate_detail,</if>
+            <if test="batch != null  and batch != ''">batch,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">#{userId},</if>
@@ -111,6 +117,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">#{updateTime},</if>
             <if test="collaborationStation != null ">#{collaborationStation},</if>
             <if test="collaborationCost != null ">#{collaborationCost},</if>
+            <if test="centerGraduateDetail != null  and centerGraduateDetail != ''">#{centerGraduateDetail},</if>
+            <if test="batch != null  and batch != ''">#{batch},</if>
          </trim>
     </insert>
 
@@ -138,6 +146,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null ">update_time = #{updateTime},</if>
             <if test="collaborationStation != null ">collaboration_station = #{collaborationStation},</if>
             <if test="collaborationCost != null ">collaboration_cost = #{collaborationCost},</if>
+            <if test="centerGraduateDetail != null">center_graduate_detail = #{centerGraduateDetail},</if>
+            <if test="batch != null  and batch != ''">batch = #{batch},</if>
         </trim>
         where self_id = #{selfId}
     </update>

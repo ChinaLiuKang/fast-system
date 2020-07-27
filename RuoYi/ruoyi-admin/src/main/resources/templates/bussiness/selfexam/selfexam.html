@@ -79,6 +79,10 @@
                                 <p>考生号：</p>
                                 <input type="text" name="selfStudentNumber"/>
                             </li>
+                            <li>
+                                <p>批次：</p>
+                                <input type="text" name="batch"/>
+                            </li>
                             <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
                                 <p>总费用：</p>
                                 <input type="text" name="selfTotalCharge"/>
@@ -94,6 +98,13 @@
                             <li>
                                 <p>缴费情况：</p>
                                 <select name="selfChargeDetail" th:with="type=${@dict.getType('sys_edu_charge')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                <p>毕业情况：</p>
+                                <select name="centerGraduateDetail" th:with="type=${@dict.getType('sys_edu_grade')}">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -143,6 +154,7 @@
         var hasRole1 = [[${@permission.hasRole('admin')}]];
         var hasRole2 = [[${@permission.hasRole('showFee')}]];
         var hasRole3 = [[${@permission.hasRole('showcost')}]];
+        var centerGraduateDetailDatas = [[${@dict.getType('sys_edu_grade')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -244,6 +256,10 @@
                     field : 'selfStudentNumber', 
                     title : '考生号'
                 },
+                    {
+                        field : 'batch',
+                        title : '批次'
+                    },
                 {
                     field : 'selfTotalCharge', 
                     title : '总费用'
@@ -263,6 +279,13 @@
                        return $.table.selectDictLabel(selfChargeDetailDatas, value);
                     }
                 },
+                    {
+                        field : 'centerGraduateDetail',
+                        title : '毕业情况',
+                        formatter: function(value, row, index) {
+                            return $.table.selectDictLabel(centerGraduateDetailDatas, value);
+                        }
+                    },
                 {
                     field : 'remark', 
                     title : '备注信息'

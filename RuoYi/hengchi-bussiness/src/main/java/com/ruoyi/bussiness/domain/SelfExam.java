@@ -65,6 +65,10 @@ public class SelfExam extends BaseEntity
     @Excel(name = "报读专业")
     private String selfMajor;
 
+    /** 批次 */
+    @Excel(name = "批次")
+    private String batch;
+
     /** 考生号 */
     @Excel(name = "考生号")
     private String selfStudentNumber;
@@ -85,11 +89,31 @@ public class SelfExam extends BaseEntity
     @Excel(name = "缴费情况")
     private String selfChargeDetail;
 
+    /** 毕业情况 */
+    @Excel(name = "毕业情况")
+    private String centerGraduateDetail;
+
     /** 备注 */
     @Excel(name = "备注")
     private String remark;
 
     private Long userId;
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
+    public String getCenterGraduateDetail() {
+        return centerGraduateDetail;
+    }
+
+    public void setCenterGraduateDetail(String centerGraduateDetail) {
+        this.centerGraduateDetail = centerGraduateDetail;
+    }
 
     public String getUserName() {
         return userName;

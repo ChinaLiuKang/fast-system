@@ -101,6 +101,12 @@
                     <input name="selfStudentNumber" class="form-control" type="text">
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">批次：</label>
+                <div class="col-sm-8">
+                    <input name="batch" class="form-control" type="text">
+                </div>
+            </div>
             <div th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showFee') == ''}">
             <div class="form-group">
                 <label class="col-sm-3 control-label">总费用：</label>
@@ -120,11 +126,20 @@
                     <input name="selfTwoyearCharge" class="form-control" type="text">
                 </div>
             </div>
+
             </div>
             <div class="form-group">    
                 <label class="col-sm-3 control-label">缴费情况：</label>
                 <div class="col-sm-8">
                     <select name="selfChargeDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_charge')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">毕业情况：</label>
+                <div class="col-sm-8">
+                    <select name="centerGraduateDetail" class="form-control m-b" th:with="type=${@dict.getType('sys_edu_grade')}">
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                     </select>
                 </div>

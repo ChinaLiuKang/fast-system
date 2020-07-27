@@ -33,10 +33,6 @@ public class DistanceEducation extends BaseEntity
     @Excel(name = "招生老师")
     private String distanceTeacher;
 
-    /** 函授点 */
-    @Excel(name = "函授点")
-    private String distancePoints;
-
     /** 姓名 */
     @Excel(name = "姓名")
     private String distanceName;
@@ -68,10 +64,6 @@ public class DistanceEducation extends BaseEntity
     /** 批次 */
     @Excel(name = "批次")
     private String batch;
-
-    /** 期数 */
-    @Excel(name = "期数")
-    private String distancePeriods;
 
     /** 学号 */
     @Excel(name = "学号")
@@ -183,15 +175,7 @@ public class DistanceEducation extends BaseEntity
     {
         return distanceTeacher;
     }
-    public void setDistancePoints(String distancePoints) 
-    {
-        this.distancePoints = distancePoints;
-    }
 
-    public String getDistancePoints() 
-    {
-        return distancePoints;
-    }
     public void setDistanceName(String distanceName) 
     {
         this.distanceName = distanceName;
@@ -255,15 +239,7 @@ public class DistanceEducation extends BaseEntity
     {
         return distanceMajor;
     }
-    public void setDistancePeriods(String distancePeriods) 
-    {
-        this.distancePeriods = distancePeriods;
-    }
 
-    public String getDistancePeriods() 
-    {
-        return distancePeriods;
-    }
     public void setDistanceStudentNumber(String distanceStudentNumber) 
     {
         this.distanceStudentNumber = distanceStudentNumber;
@@ -324,7 +300,6 @@ public class DistanceEducation extends BaseEntity
         return "DistanceEducation{" +
                 "distanceId=" + distanceId +
                 ", distanceTeacher='" + distanceTeacher + '\'' +
-                ", distancePoints='" + distancePoints + '\'' +
                 ", distanceName='" + distanceName + '\'' +
                 ", distanceSex='" + distanceSex + '\'' +
                 ", distanceNation='" + distanceNation + '\'' +
@@ -332,7 +307,6 @@ public class DistanceEducation extends BaseEntity
                 ", distanceLevel='" + distanceLevel + '\'' +
                 ", distanceSchool='" + distanceSchool + '\'' +
                 ", distanceMajor='" + distanceMajor + '\'' +
-                ", distancePeriods='" + distancePeriods + '\'' +
                 ", distanceStudentNumber='" + distanceStudentNumber + '\'' +
                 ", distanceTotalCharge=" + distanceTotalCharge +
                 ", distanceOneyearCharge=" + distanceOneyearCharge +

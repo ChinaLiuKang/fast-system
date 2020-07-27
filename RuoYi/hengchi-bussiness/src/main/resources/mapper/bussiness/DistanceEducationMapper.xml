@@ -9,7 +9,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userName" column="user_name"/>
         <result property="distanceId"    column="distance_id"    />
         <result property="distanceTeacher"    column="distance_teacher"    />
-        <result property="distancePoints"    column="distance_points"    />
         <result property="distanceName"    column="distance_name"    />
         <result property="distanceSex"    column="distance_sex"    />
         <result property="distanceNation"    column="distance_nation"    />
@@ -17,7 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="distanceLevel"    column="distance_level"    />
         <result property="distanceSchool"    column="distance_school"    />
         <result property="distanceMajor"    column="distance_major"    />
-        <result property="distancePeriods"    column="distance_periods"    />
         <result property="distanceStudentNumber"    column="distance_student_number"    />
         <result property="distanceTotalCharge"    column="distance_total_charge"    />
         <result property="distanceOneyearCharge"    column="distance_oneyear_charge"    />
@@ -34,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectDistanceEducationVo">
-        select user_id,user_name,distance_id,collaboration_station,batch,collaboration_cost,center_graduate_detail, distance_teacher, distance_points, distance_name, distance_sex, distance_nation, distance_idnumber, distance_level, distance_school, distance_major, distance_periods, distance_student_number, distance_total_charge, distance_oneyear_charge, distance_twoyear_charge, distance_charge_detail, distance_enroll, remark, create_time, update_time from sm_distance_education
+        select user_id,user_name,distance_id,collaboration_station,batch,collaboration_cost,center_graduate_detail, distance_teacher, distance_name, distance_sex, distance_nation, distance_idnumber, distance_level, distance_school, distance_major, distance_student_number, distance_total_charge, distance_oneyear_charge, distance_twoyear_charge, distance_charge_detail, distance_enroll, remark, create_time, update_time from sm_distance_education
     </sql>
 
     <select id="selectDistanceEducationList" parameterType="DistanceEducation" resultMap="DistanceEducationResult">
@@ -42,7 +40,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="distanceTeacher != null  and distanceTeacher != ''"> and distance_teacher = #{distanceTeacher}</if>
-            <if test="distancePoints != null  and distancePoints != ''"> and distance_points = #{distancePoints}</if>
             <if test="distanceName != null  and distanceName != ''"> and distance_name like concat('%', #{distanceName}, '%')</if>
             <if test="distanceSex != null and distanceSex !='' "> and distance_sex = #{distanceSex}</if>
             <if test="distanceNation != null  and distanceNation != ''"> and distance_nation = #{distanceNation}</if>
@@ -50,7 +47,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="distanceLevel != null  and distanceLevel != ''"> and distance_level = #{distanceLevel}</if>
             <if test="distanceSchool != null  and distanceSchool != ''"> and distance_school = #{distanceSchool}</if>
             <if test="distanceMajor != null  and distanceMajor != ''"> and distance_major = #{distanceMajor}</if>
-            <if test="distancePeriods != null  and distancePeriods != ''"> and distance_periods = #{distancePeriods}</if>
             <if test="distanceStudentNumber != null  and distanceStudentNumber != ''"> and distance_student_number = #{distanceStudentNumber}</if>
             <if test="distanceTotalCharge != null "> and distance_total_charge = #{distanceTotalCharge}</if>
             <if test="distanceOneyearCharge != null "> and distance_oneyear_charge = #{distanceOneyearCharge}</if>
@@ -77,7 +73,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName !=null">user_name,</if>
             <if test="distanceId != null ">distance_id,</if>
             <if test="distanceTeacher != null  and distanceTeacher != ''">distance_teacher,</if>
-            <if test="distancePoints != null  and distancePoints != ''">distance_points,</if>
             <if test="distanceName != null  and distanceName != ''">distance_name,</if>
             <if test="distanceSex != null and distanceSex !=''">distance_sex,</if>
             <if test="distanceNation != null  and distanceNation != ''">distance_nation,</if>
@@ -85,7 +80,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="distanceLevel != null  and distanceLevel != ''">distance_level,</if>
             <if test="distanceSchool != null  and distanceSchool != ''">distance_school,</if>
             <if test="distanceMajor != null  and distanceMajor != ''">distance_major,</if>
-            <if test="distancePeriods != null  and distancePeriods != ''">distance_periods,</if>
             <if test="distanceStudentNumber != null  and distanceStudentNumber != ''">distance_student_number,</if>
             <if test="distanceTotalCharge != null ">distance_total_charge,</if>
             <if test="distanceOneyearCharge != null ">distance_oneyear_charge,</if>
@@ -105,7 +99,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName !=null">#{userName},</if>
             <if test="distanceId != null ">#{distanceId},</if>
             <if test="distanceTeacher != null  and distanceTeacher != ''">#{distanceTeacher},</if>
-            <if test="distancePoints != null  and distancePoints != ''">#{distancePoints},</if>
             <if test="distanceName != null  and distanceName != ''">#{distanceName},</if>
             <if test="distanceSex != null and distanceSex !=''">#{distanceSex},</if>
             <if test="distanceNation != null  and distanceNation != ''">#{distanceNation},</if>
@@ -113,7 +106,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="distanceLevel != null  and distanceLevel != ''">#{distanceLevel},</if>
             <if test="distanceSchool != null  and distanceSchool != ''">#{distanceSchool},</if>
             <if test="distanceMajor != null  and distanceMajor != ''">#{distanceMajor},</if>
-            <if test="distancePeriods != null  and distancePeriods != ''">#{distancePeriods},</if>
             <if test="distanceStudentNumber != null  and distanceStudentNumber != ''">#{distanceStudentNumber},</if>
             <if test="distanceTotalCharge != null ">#{distanceTotalCharge},</if>
             <if test="distanceOneyearCharge != null ">#{distanceOneyearCharge},</if>
@@ -136,7 +128,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userId != null">user_id = #{userId},</if>
             <if test="userName != null">user_name = #{userName},</if>
             <if test="distanceTeacher != null">distance_teacher = #{distanceTeacher},</if>
-            <if test="distancePoints != null">distance_points = #{distancePoints},</if>
             <if test="distanceName != null">distance_name = #{distanceName},</if>
             <if test="distanceSex != null">distance_sex = #{distanceSex},</if>
             <if test="distanceNation != null">distance_nation = #{distanceNation},</if>
@@ -144,7 +135,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="distanceLevel != null">distance_level = #{distanceLevel},</if>
             <if test="distanceSchool != null">distance_school = #{distanceSchool},</if>
             <if test="distanceMajor != null">distance_major = #{distanceMajor},</if>
-            <if test="distancePeriods != null">distance_periods = #{distancePeriods},</if>
             <if test="distanceStudentNumber != null">distance_student_number = #{distanceStudentNumber},</if>
             <if test="distanceTotalCharge != null ">distance_total_charge = #{distanceTotalCharge},</if>
             <if test="distanceOneyearCharge != null ">distance_oneyear_charge = #{distanceOneyearCharge},</if>
