@@ -21,7 +21,7 @@
                                 <p>招生老师：</p>
                                 <input type="text" name="centerTeacher"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showCollaborate') == ''}">
                                 <p>合作站：</p>
                                 <select name="collaborationStation" th:with="type=${@dict.getType('sys_edu_correspondence')}">
                                     <option value="">所有</option>
@@ -139,6 +139,7 @@
         var hasRole1 = [[${@permission.hasRole('admin')}]];
         var hasRole2 = [[${@permission.hasRole('showFee')}]];
         var hasRole3 = [[${@permission.hasRole('showcost')}]];
+        var hasRole4 = [[${@permission.hasRole('showCollaborate')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -156,9 +157,13 @@
                     if(hasRole3=="hidden"){
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'collaborationCost');
                     }
+                    if(hasRole4=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'collaborationStation');
+                    }
                     if(hasRole1==""){
                         $('#bootstrap-table').bootstrapTable('showColumn', 'centerTotalCharge');
                         $('#bootstrap-table').bootstrapTable('showColumn', 'collaborationCost');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'collaborationStation');
                     }
                 },
                 columns: [{

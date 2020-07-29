@@ -2,6 +2,7 @@
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <th:block th:include="include :: header('职业资格证列表')" />
+    <th:block th:include="include :: bootstrap-select-css" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -21,9 +22,9 @@
                                 <p>招生老师：</p>
                                 <input type="text" name="jobTeacher"/>
                             </li>
-                            <li>
+                            <li th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showCollaborate') == ''}">
                                 <p>合作站：</p>
-                                <select name="jobCorrespondence" th:with="type=${@dict.getType('sys_edu_correspondence')}">
+                                <select name="jobCorrespondence"   th:with="type=${@dict.getType('sys_edu_correspondence')} ">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -51,9 +52,9 @@
                                 <p>出证部门：</p>
                                 <input type="text" name="jobOutdept"/>
                             </li>
-                            <li>
+                            <li class="select-selectpicker">
                                 <p>工种：</p>
-                                <select name="jobTypework" th:with="type=${@dict.getType('sys_edu_work')}">
+                                <select  name="jobTypework"  id="jobTypework"  th:with="type=${@dict.getType('sys_edu_work')}" class="selectpicker" data-none-selected-text="请选择"  data-live-search="true">
                                     <option value="">所有</option>
                                     <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                                 </select>
@@ -84,7 +85,7 @@
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="resetPre()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
                         </ul>
                     </div>
@@ -114,6 +115,7 @@
         </div>
     </div>
     <th:block th:include="include :: footer" />
+     <th:block th:include="include :: bootstrap-select-js" />
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('bussiness:certificate:edit')}]];
         var removeFlag = [[${@permission.hasPermi('bussiness:certificate:remove')}]];
@@ -125,6 +127,7 @@
         var hasRole1 = [[${@permission.hasRole('admin')}]];
         var hasRole2 = [[${@permission.hasRole('showFee')}]];
         var hasRole3 = [[${@permission.hasRole('showcost')}]];
+        var hasRole4 = [[${@permission.hasRole('showCollaborate')}]];
         $(function() {
             var options = {
                 url: prefix + "/list",
@@ -142,9 +145,13 @@
                     if(hasRole3=="hidden"){
                         $('#bootstrap-table').bootstrapTable('hideColumn', 'collaborationCost');
                     }
+                    if(hasRole4=="hidden"){
+                        $('#bootstrap-table').bootstrapTable('hideColumn', 'jobCorrespondence');
+                    }
                     if(hasRole1==""){
                         $('#bootstrap-table').bootstrapTable('showColumn', 'jobTotalCharge');
                         $('#bootstrap-table').bootstrapTable('showColumn', 'collaborationCost');
+                        $('#bootstrap-table').bootstrapTable('showColumn', 'jobCorrespondence');
                     }
                 },
                 columns: [{
@@ -240,6 +247,11 @@
             };
             $.table.init(options);
         });
+
+        function resetPre() {
+            $.form.reset();
+            $("#jobTypework").selectpicker('refresh');
+        }
     </script>
 </body>
 <!-- 导入区域 -->

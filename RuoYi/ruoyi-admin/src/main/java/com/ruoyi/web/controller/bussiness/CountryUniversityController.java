@@ -120,6 +120,10 @@ public class CountryUniversityController extends BaseController
                 filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showFee")))
                 .count();
 
+        long showCollaborate = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showCollaborate")))
+                .count();
+
         list.stream().forEach(e -> {
             if (showcost == 0 && !currentUser.isAdmin()) {
                 e.setCollaborationCost(0.0);
@@ -128,6 +132,9 @@ public class CountryUniversityController extends BaseController
                 e.setTotalCharge(0.0);
                 e.setOneyearCharge(0.0);
                 e.setTwoyearCharge(0.0);
+            }
+            if (showCollaborate == 0 && !currentUser.isAdmin()) {
+                e.setCollaborationStation("");
             }
         });
         ExcelUtil<CountryUniversity> util = new ExcelUtil<CountryUniversity>(CountryUniversity.class);

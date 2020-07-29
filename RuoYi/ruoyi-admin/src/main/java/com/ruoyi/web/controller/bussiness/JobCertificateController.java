@@ -119,12 +119,19 @@ public class JobCertificateController extends BaseController {
                 filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showFee")))
                 .count();
 
+        long showCollaborate = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showCollaborate")))
+                .count();
+
         list.stream().forEach(e -> {
             if (showcost == 0 && !currentUser.isAdmin()) {
                 e.setCollaborationCost(new BigDecimal(0));
             }
             if (showFee == 0 && !currentUser.isAdmin()) {
                 e.setJobTotalCharge(0.0);
+            }
+            if (showCollaborate == 0 && !currentUser.isAdmin()) {
+                e.setJobCorrespondence("");
             }
         });
         ExcelUtil<JobCertificate> util = new ExcelUtil<JobCertificate>(JobCertificate.class);

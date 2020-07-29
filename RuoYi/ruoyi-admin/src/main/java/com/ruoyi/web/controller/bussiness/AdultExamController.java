@@ -118,6 +118,10 @@ public class AdultExamController extends BaseController {
                 filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showFee")))
                 .count();
 
+        long showCollaborate = currentUser.getRoles().stream().
+                filter(e -> e.getRoleId().toString().equals(iSysConfigService.selectConfigByKey("showCollaborate")))
+                .count();
+
         list.stream().forEach(e -> {
             if (showcost == 0 && !currentUser.isAdmin()) {
                 e.setCollaborationCost(new BigDecimal(0));
@@ -126,6 +130,9 @@ public class AdultExamController extends BaseController {
                 e.setAdultChargeStandard(0.0);
                 e.setAdultOneyearCharge(0.0);
                 e.setAdultTwoyearCharge(0L);
+            }
+            if (showCollaborate == 0 && !currentUser.isAdmin()) {
+                e.setAdultCorrespondence("");
             }
         });
         ExcelUtil<AdultExam> util = new ExcelUtil<AdultExam>(AdultExam.class);

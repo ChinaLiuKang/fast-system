@@ -14,6 +14,7 @@
                     </select>
                 </div>
             </div>
+            <div th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showCollaborate') == ''}">
             <div class="form-group">
                 <label class="col-sm-3 control-label">合作站：</label>
                 <div class="col-sm-8">
@@ -22,6 +23,7 @@
                         <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
                     </select>
                 </div>
+            </div>
             </div>
             <div th:if="${@permission.hasRole('admin') == '' || @permission.hasRole('showcost') == ''}">
             <div class="form-group">
