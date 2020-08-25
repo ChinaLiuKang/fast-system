@@ -215,7 +215,7 @@ public class DistanceEducationController extends BaseController {
     @GetMapping("/importTemplate")
     @ResponseBody
     public AjaxResult importTemplate() {
-        ExcelUtil<CenterMiddle> util = new ExcelUtil<CenterMiddle>(CenterMiddle.class);
+        ExcelUtil<DistanceEducation> util = new ExcelUtil<DistanceEducation>(DistanceEducation.class);
         return util.importTemplateExcel("远程教育");
     }
 
