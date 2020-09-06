@@ -35,11 +35,11 @@ public class JobCertificate extends BaseEntity
     private String jobTeacher;
 
     /** 姓名 */
-    @Excel(name = "性别", readConverterExp = "0=男,1=女,2=未知")
+    @Excel(name = "姓名")
     private String jobName;
 
     /** 性别 */
-    @Excel(name = "性别")
+    @Excel(name = "性别", readConverterExp = "0=男,1=女,2=未知")
     private String jobSex;
 
     /** 民族 */
